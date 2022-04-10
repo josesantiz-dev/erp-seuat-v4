@@ -44,9 +44,9 @@
             }
             return $requestRVOES;
         }
-        public function selectPlanteles(){
+        public function selectPlanteles(string $nomConexion){
             $sql = "SELECT id,abreviacion_plantel,nombre_plantel,municipio FROM t_planteles WHERE estatus = 1";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         public function selectPlanEstudiosbyPlantel(int $idPlantel){

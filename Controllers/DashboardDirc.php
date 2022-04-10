@@ -1,5 +1,8 @@
 <?php
 	class DashboardDirc extends Controllers{
+		private $idUser;
+		private $nomConexion;
+		//private $rol;
 		public function __construct()
 		{
 			parent::__construct();
@@ -9,6 +12,9 @@
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			//$this->rol = $_SESSION['claveRol'];
 		}
 		public function DashboardDirc(){
 			$data['page_id'] = 2;
@@ -16,7 +22,7 @@
 			$data['page_title'] = "Página Dashboard";
 			$data['page_name'] = "Página Dashboard";
 			$data['page_functions_js'] = "functions_dashboard_dirc.js";
-			$data['planteles'] = $this->model->selectPlanteles();
+			$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
 			$this->views->getView($this,"dashboarddirc",$data);
 		}
 		public function getTotalesCard($plantel){

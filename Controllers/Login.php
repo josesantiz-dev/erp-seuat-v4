@@ -23,12 +23,14 @@
       public function loginUser(){
          //dep($_POST);
          if($_POST){
-            if (empty($_POST['txtNickname']) || empty($_POST['txtPassword'])) {
+            if (empty($_POST['txtNickname']) || empty($_POST['txtPassword']) || empty($_POST['selectPlantel'])) {
                $arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
             }else {
                $strUsuario = strtolower(strClean($_POST['txtNickname']));
                $strPassword = hash("SHA256", $_POST['txtPassword']);
-               $requestUser = $this->model->loginUser($strUsuario, $strPassword);
+               $strConexion = $_POST['selectPlantel'];
+
+               $requestUser = $this->model->loginUser($strUsuario, $strPassword, $strConexion);
                if (empty($requestUser)) {
                   $arrResponse = array('estatus' => false, 'msg' => 'El usuario o la contraseña es incorrecto.');
                }else {
@@ -36,7 +38,14 @@
                    if($arrData['estatus'] == 1){
                         $_SESSION['idUser'] = $arrData['id'];
                         $_SESSION['login'] = true;
-                        $_SESSION['nom_user'] =  $this->model->selectDateUser($arrData['id']);
+                        $_SESSION['nomConexion'] = $strConexion;
+                        $arrDatosUser =  $this->model->selectDateUser($arrData['id'],$strConexion);
+                        $_SESSION['idPersona'] = $arrData['id'];
+                        $_SESSION['nomPersona'] = $arrDatosUser['nombre_persona'].' '.$arrDatosUser['ap_paterno'].' '.$arrDatosUser['ap_materno'];
+                        $_SESSION['plantel'] = conexiones[$strConexion]['NAME'];
+                        //$_SESSION['claveRol'] = $arrData['cve_rol'];
+                        //$_SESSION['idRol'] = $arrData['id_rol'];
+                        //$_SESSION['nombreRol'] = $arrData['nombre_rol'];
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');

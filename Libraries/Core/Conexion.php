@@ -1,21 +1,21 @@
 <?php
 class Conexion{
 	private $conect;
-
 	public function __construct(){
-		$connectionString = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=".DB_CHARSET;
-		try{
-			$this->conect = new PDO($connectionString, DB_USER, DB_PASSWORD);
-			$this->conect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		    //echo "conexión exitosa";
-		}catch(PDOException $e){
-			$this->conect = 'Error de conexión';
-		    echo "ERROR: " . $e->getMessage();
-		}
+        foreach (conexiones as $key => $conexion) {
+            try{
+                $this->conect[$key] = new PDO("mysql:host=".$conexion['DB_HOST'].";dbname=".$conexion['DB_NAME'].";charset=".$conexion['DB_CHARSET'],$conexion['DB_USER'],$conexion['DB_PASSWORD']);
+                $this->conect[$key]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }catch (PDOException $e){
+                $this->conect[$key] = 'Error de conexión';
+                echo "ERROR: " . $e->getMessage();
+  
+            }
+        }
 	}
 
-	public function conect(){
-		return $this->conect;
+	public function conect($bd){
+		return $this->conect[$bd];
 	}
 }
 

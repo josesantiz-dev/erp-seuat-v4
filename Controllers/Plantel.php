@@ -1,15 +1,21 @@
 <?php
 
 	class Plantel extends Controllers{
+		private $idUser;
+		private $nomConexion;
+		private $rol;
 		public function __construct()
 		{
 			parent::__construct();
 			session_start();
-			if(empty($_SESSION['login']))
-			{
-				header('Location: '.base_url().'/login');
-				die();
-			}
+		    if(empty($_SESSION['login']))
+		    {
+			    header('Location: '.base_url().'/login');
+			    die();
+		    }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
 		}
 
 		//Funcion para la Vista de Planteles
@@ -21,14 +27,14 @@
 			$data['page_name'] = "plantel";
 			$data['page_content'] = "";
 			$data['page_functions_js'] = "functions_planteles.js";
-			$data['lista_categorias'] = $this->model->selectCategorias(); //Traer lista de Categorias
-			$data['lista_estados'] = $this->model->selectEstados(); //Traer lista de Estados
+			$data['lista_categorias'] = $this->model->selectCategorias($this->nomConexion); //Traer lista de Categorias
+			$data['lista_estados'] = $this->model->selectEstados($this->nomConexion); //Traer lista de Estados
 			$this->views->getView($this,"plantel",$data);
 		}
 
 		//Funcion para traer Lista de Planteles
 		public function getPlanteles(){
-			$arrData = $this->model->selectPlanteles();
+			$arrData = $this->model->selectPlanteles($this->nomConexion);
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
 				$arrData[$i]['options'] = '<div class="text-center">
@@ -52,21 +58,21 @@
 		
 		//Funcion para obtener Datos de un Plantel
 		public function getPlantel(int $idPlantel){
-			$arrData = $this->model->selectPlantel($idPlantel);
+			$arrData = $this->model->selectPlantel($idPlantel, $this->nomConexion);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 		//Funcion para traer Lista de Municipios
 		public function getMunicipios(){
 			$idEstado = $_GET['idestado'];
-			$arrData = $this->model->selectMunicipios($idEstado);
+			$arrData = $this->model->selectMunicipios($idEstado, $this->nomConexion);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
 		//Funcion para traer Lista de Localidades
 		public function getLocalidades(){
 			$idMunicipio = $_GET['idmunicipio'];
-			$arrData = $this->model->selectLocalidades($idMunicipio);
+			$arrData = $this->model->selectLocalidades($idMunicipio, $this->nomConexion);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -84,7 +90,7 @@
 			}
 			
 			if($idPlantelEdit != 0 ){
-				$arrData = $this->model->updatePlantel($idPlantelEdit,$data,$files);
+				$arrData = $this->model->updatePlantel($idPlantelEdit,$data,$files, $this->nomConexion);
 				if($arrData['estatus'] != TRUE){
 					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
 				}else{
@@ -92,9 +98,13 @@
 				}
 			}
 			if($idPlantelNuevo == 1){
-				$arrData = $this->model->insertPlantel($data,$files);
+				$arrData = $this->model->insertPlantel($data,$files, $this->nomConexion);
 			    if($arrData['estatus'] != TRUE){
-			        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+			        if($arrData['imagen'] == false){
+						$arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen.');
+					}else{
+						$arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+					}
 			    }else{
 			    $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La Clave del centro de trabajo ya existe'); 
                 }
@@ -107,14 +117,14 @@
 		public function delPlantel(){
 			if($_POST){
 					$intIdPlantel = intval($_POST['idPlantel']);
-					$requestTablaRef = $this->model->getTablasRef();
+					$requestTablaRef = $this->model->getTablasRef($this->nomConexion);
 					if(count($requestTablaRef)>0){
 						$requestStatus = 0;
 						foreach ($requestTablaRef as $key => $tabla) {
 							$nombreTabla = $tabla['tablas'];
-							$existColumn = $this->model->selectColumn($nombreTabla);
+							$existColumn = $this->model->selectColumn($nombreTabla, $this->nomConexion);
 							if($existColumn){
-								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlantel);
+								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlantel, $this->nomConexion);
 								if($requestEstatusRegistro){
 									$requestStatus += count($requestEstatusRegistro);
 								}else{
@@ -123,7 +133,7 @@
 							}
 						}
 						if($requestStatus == 0){
-							$requestDelete = $this->model->deletePlantel($intIdPlantel);
+							$requestDelete = $this->model->deletePlantel($intIdPlantel, $this->nomConexion);
 							if($requestDelete == 'ok'){
 								$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
 							}else if($requestDelete == 'exist'){
@@ -135,7 +145,7 @@
 							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay plan de estudios activos relacionados a este plantel.');
 						}
 					}else{
-						$requestDelete = $this->model->deletePlantel($intIdPlantel);
+						$requestDelete = $this->model->deletePlantel($intIdPlantel, $this->nomConexion);
 						if($requestDelete == 'ok'){
 							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el Plantel.');
 						}else if($requestDelete == 'exist'){
@@ -150,7 +160,7 @@
 		}
 
 		public function getListEstados(){
-			$arrResponse = $this->model->selectEstados();
+			$arrResponse = $this->model->selectEstados($this->nomConexion);
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}

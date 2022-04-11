@@ -1,28 +1,35 @@
 <?php
     class Materias extends Controllers{
-        public function __construct(){
-            parent::__construct();
-            session_start();
+        private $idUser;
+		private $nomConexion;
+		private $rol;
+		public function __construct()
+		{
+			parent::__construct();
+			session_start();
 		    if(empty($_SESSION['login']))
 		    {
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
-        }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
+		}
 
         public function materias(){
             $data['page_id'] = 9;
             $data['page_tag'] = "Materias";
             $data['page_title'] = "Materias";
             $data['page_content'] = "";
-            $data['grados'] = $this->model->selectGrados();
-            $data['plantel'] = $this->model->selectPlanteles();
-            $data['clasificacion_materia'] = $this->model->selectClasificacion();
+            $data['grados'] = $this->model->selectGrados($this->nomConexion);
+            $data['plantel'] = $this->model->selectPlanteles($this->nomConexion);
+            $data['clasificacion_materia'] = $this->model->selectClasificacion($this->nomConexion);
             $data['page_functions_js'] = "functions_materias.js";
             $this->views->getView($this,"materias",$data);
         }
         public function getMaterias(){
-            $arrData = $this->model->selectMaterias();
+            $arrData = $this->model->selectMaterias($this->nomConexion);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -59,7 +66,7 @@
                 $intIdMateriaEdit = intval($_POST['idEdit']);
             }
             if($intIdMateriaNueva == 1){
-                $arrData = $this->model->insertMateria($data);
+                $arrData = $this->model->insertMateria($data, $this->nomConexion);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -67,7 +74,7 @@
                 }
             }
             if($intIdMateriaEdit !=0){
-                $arrData = $this->model->updateMateria($intIdMateriaEdit,$data);
+                $arrData = $this->model->updateMateria($intIdMateriaEdit,$data, $this->nomConexion);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -80,7 +87,7 @@
         }
 
         public function getMateria(int $idMateria){
-            $arrData = $this->model->selectMateria($idMateria);
+            $arrData = $this->model->selectMateria($idMateria, $this->nomConexion);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -89,12 +96,12 @@
         
         public function getPlanEstudiosNuevo(){
             $id = $_GET['id'];
-            $arrData = $this->model->selectPlanEstudiosNuevo($id);
+            $arrData = $this->model->selectPlanEstudiosNuevo($id, $this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getPlanEstudios(){
-            $arrData = $this->model->selectPlanEstudios();
+            $arrData = $this->model->selectPlanEstudios($this->nomConexion);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -102,7 +109,7 @@
         }
 
         public function getGrados(){
-            $arrData = $this->model->selectGrados();
+            $arrData = $this->model->selectGrados($this->nomConexion);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -113,7 +120,7 @@
 		public function delMateria(){
 			if($_POST){
 				$intIdMateria = intval($_POST['idMateria']);
-				$requestDelete = $this->model->deleteMateria($intIdMateria);
+				$requestDelete = $this->model->deleteMateria($intIdMateria, $this->nomConexion);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la materia.');
 				}else{

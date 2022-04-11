@@ -1,14 +1,20 @@
 <?php
 	class CategoriaCarrera extends Controllers{
+		private $idUser;
+		private $nomConexion;
+		private $rol;
 		public function __construct()
 		{
 			parent::__construct();
 			session_start();
-			if(empty($_SESSION['login']))
-			{
-				header('Location: '.base_url().'/login');
-				die();
-			}
+		    if(empty($_SESSION['login']))
+		    {
+			    header('Location: '.base_url().'/login');
+			    die();
+		    }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
 		}
 		//Funcion para la Vista de Carreras
 		public function categoriacarrera()
@@ -23,7 +29,7 @@
 		}
 		//Funcion para lista de Categorias Carreras
 		public function getCategoriasCarreras(){
-			$arrData = $this->model->selectCategoriasCarreras();
+			$arrData = $this->model->selectCategoriasCarreras($this->nomConexion);
 			for ($i=0; $i < count($arrData); $i++) {
 				$arrData[$i]['numeracion'] = $i+1;
 				if($arrData[$i]['estatus'] == 1)
@@ -62,7 +68,7 @@
 			}
 			
 			if($idCategoriaCarreraEdit != 0 ){
-				$arrData = $this->model->updateCategoriaCarrera($idCategoriaCarreraEdit,$data);
+				$arrData = $this->model->updateCategoriaCarrera($idCategoriaCarreraEdit,$data, $this->nomConexion);
 				if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -70,7 +76,7 @@
                 }
 			}
 			if($idCategoriaCarreraNuevo == 1){
-				$arrData = $this->model->insertCategoriaCarrera($data);
+				$arrData = $this->model->insertCategoriaCarrera($data, $this->nomConexion);
 				if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -82,7 +88,7 @@
 		}
 		public function getCategoriaCarrera(int $idCategoriaCarrera){
 			$idCategoriaCarrera = $idCategoriaCarrera;
-			$arrData = $this->model->selectCategoriaCarrera($idCategoriaCarrera);
+			$arrData = $this->model->selectCategoriaCarrera($idCategoriaCarrera, $this->nomConexion);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -91,7 +97,7 @@
 		public function delCategoriaCarrera(){
 			if($_POST){
 				$intIdCategoria = intval($_POST['idCategoriaCarrera']);
-				$requestDelete = $this->model->deleteCategoriaCarrera($intIdCategoria);
+				$requestDelete = $this->model->deleteCategoriaCarrera($intIdCategoria,$this->nomConexion);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la categoria.');
 				}else{

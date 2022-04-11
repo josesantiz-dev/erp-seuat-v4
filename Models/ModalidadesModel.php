@@ -3,58 +3,58 @@
         public function __construct(){
             parent::__construct();
         }
-        public function selectModalidades(){
+        public function selectModalidades(string $nomConexion){
             $sql = "SELECT *FROM t_modalidades WHERE estatus !=0 ORDER BY id DESC";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
 
-        public function insertModalidad($data){
+        public function insertModalidad($data, string $nomConexion){
             $idUser = $_SESSION['idUser'];
             $nombreModalidad = $data['txtModalidadNueva'];
-            $request;
+            $request = [];
             //$estatus = $data['listEstatusNueva'];
             $sqlExist = "SELECT *FROM t_modalidades WHERE nombre_modalidad = '$nombreModalidad'";
-            $requestExist = $this->select($sqlExist);
+            $requestExist = $this->select($sqlExist, $nomConexion);
             if($requestExist){
                 $request['estatus'] = TRUE;
             }else{
                 $sqlNew = "INSERT INTO t_modalidades(nombre_modalidad,estatus,fecha_creacion,fecha_actualizacion,id_usuario_creacion,id_usuario_actualizacion) 
                 VALUES (?,?,NOW(),NOW(),?,?)";
-                $requestNew = $this->insert($sqlNew,array($nombreModalidad,1,$idUser,$idUser));   
+                $requestNew = $this->insert($sqlNew,$nomConexion,array($nombreModalidad,1,$idUser,$idUser));   
                 $request['estatus'] = FALSE;
             }
             return $request;
         }
-        public function selectModalidad(int $idModalidad){
+        public function selectModalidad(int $idModalidad, string $nomConexion){
             $sql = "SELECT *FROM t_modalidades WHERE id = $idModalidad LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
-        public function updateModalidad(int $intIdModalidadEdit,$data){
+        public function updateModalidad(int $intIdModalidadEdit,$data, string $nomConexion){
             $idUser = $_SESSION['idUser'];
             $idModalidad = $intIdModalidadEdit;
             $nombreModalidad = $data['txtModalidadEdit'];
             $estatus = $data['listEstatusEdit'];
-            $request;
+            $request = [];
             $sqlExist = "SELECT *FROM t_modalidades WHERE nombre_modalidad = '$nombreModalidad' AND id != $idModalidad";
-            $requestExist = $this->select($sqlExist);
+            $requestExist = $this->select($sqlExist, $nomConexion);
             if($requestExist){
                 $request['estatus'] = TRUE;
             }else{
                 $sqlUpdate = "UPDATE t_modalidades SET nombre_modalidad = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idModalidad";
-                $requestUpdate = $this->update($sqlUpdate,array($nombreModalidad,$estatus,$idUser,$idUser));
+                $requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombreModalidad,$estatus,$idUser,$idUser));
                 $request['estatus'] = FALSE;
             }
             return $request;
         }
-        public function deleteModalidad(int $intIdModalidad){
+        public function deleteModalidad(int $intIdModalidad, string $nomConexion){
             $sql = "SELECT * FROM t_modalidades WHERE id = $intIdModalidad";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			if($request){
 				$sql = "UPDATE t_modalidades SET estatus = ? WHERE id = $intIdModalidad";
 				$arrData = array(0);
-				$request = $this->update($sql,$arrData);
+				$request = $this->update($sql,$nomConexion,$arrData);
 				if($request){
 					$request = 'ok';	
 				}else{

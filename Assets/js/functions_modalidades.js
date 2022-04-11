@@ -56,7 +56,6 @@ formModalidad.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
             if(objData.estatus){
                 formModalidad.reset();
                 swal.fire("Modalidades",objData.msg,"success").then((result) =>{

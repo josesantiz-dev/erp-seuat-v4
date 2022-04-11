@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var formPlantel = document.querySelector("#formNuevoPlantel");
     formPlantel.onsubmit = function(e){
         e.preventDefault();
+        let documento = document.querySelector('#formNuevoPlantel').querySelectorAll('[input]');
         document.querySelector("#idPlantelNuevo").value = 1;
         var strNombrePlantel = document.querySelector('#txtNombrePlantelNuevo').value;
         var strAbreviacionPlantel = document.querySelector('#txtAbreviacionPlantelNuevo').value;
@@ -69,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function(){
         var strDomicilio = document.querySelector('#txtDomicilioNuevo').value;
         var strColonia = document.querySelector('#txtColoniaNuevo').value;
         var intCodigoPostal = document.querySelector('#txtCodigoPostalNuevo').value;
+
+        
 
         if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || 
             strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 

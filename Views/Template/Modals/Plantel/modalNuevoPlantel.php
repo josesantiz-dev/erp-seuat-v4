@@ -26,11 +26,11 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label>Nombre del plantel</label>
-                                            <input type="text" id="txtNombrePlantelNuevo" name="txtNombrePlantelNuevo" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100" required>
+                                            <input type="text" id="txtNombrePlantelNuevo" name="txtNombrePlantelNuevo" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Abreviación del plantel</label>
-                                            <input type="text" id="txtAbreviacionPlantelNuevo" name="txtAbreviacionPlantelNuevo" class="form-control form-control-sm" placeholder="EJ: IESAZTECA" maxlength="10" required>
+                                            <input type="text" id="txtAbreviacionPlantelNuevo" name="txtAbreviacionPlantelNuevo" class="form-control form-control-sm" placeholder="EJ: IESAZTECA" maxlength="10">
                                         </div>
                                     </div>
                                 </div>
@@ -38,11 +38,11 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label>Nombre del sistema</label>
-                                            <input type="text" id="txtNombreSistemaNuevo" name="txtNombreSistemaNuevo" class="form-control form-control-sm" placeholder="EJ: Universidad Particular Azteca en Oaxaca" maxlength="100" requires>
+                                            <input type="text" id="txtNombreSistemaNuevo" name="txtNombreSistemaNuevo" class="form-control form-control-sm" placeholder="EJ: Universidad Particular Azteca en Oaxaca" maxlength="100">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Abreviación del sistema</label>
-                                            <input type="text" id="txtAbreviacionSistemaNuevo" name="txtAbreviacionSistemaNuevo" class="form-control form-control-sm" placeholder="EJ: UPAO" maxlength="10" requires>
+                                            <input type="text" id="txtAbreviacionSistemaNuevo" name="txtAbreviacionSistemaNuevo" class="form-control form-control-sm" placeholder="EJ: UPAO" maxlength="10">
                                         </div>
                                     </div>
                                 </div>
@@ -50,15 +50,15 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Régimen</label>
-                                            <input type="text" id="txtRegimenNuevo" name="txtRegimenNuevo" class="form-control form-control-sm" placeholder="EJ: Particular" maxlength="30" required>
+                                            <input type="text" id="txtRegimenNuevo" name="txtRegimenNuevo" class="form-control form-control-sm" placeholder="EJ: Particular" maxlength="30">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Clave del centro de trabajo</label>
-                                            <input type="text" id="txtClaveCentroTrabajoNuevo" name="txtClaveCentroTrabajoNuevo" class="form-control form-control-sm" placeholder="Clave del centro de trabajo" maxlength="15" required>
+                                            <input type="text" id="txtClaveCentroTrabajoNuevo" name="txtClaveCentroTrabajoNuevo" class="form-control form-control-sm" placeholder="Clave del centro de trabajo" maxlength="15">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Servicio</label>
-                                            <input type="text" id="txtServicioNuevo" name="txtServicioNuevo" class="form-control form-control-sm" placeholder="EJ: Educativo" maxlength="50" required>
+                                            <input type="text" id="txtServicioNuevo" name="txtServicioNuevo" class="form-control form-control-sm" placeholder="EJ: Educativo" maxlength="50">
                                         </div>
                                         <!--<div class="form-group col-md-4">
                                             <label>Acuerdo de incorporación</label>
@@ -66,7 +66,7 @@
                                         </div>-->
                                         <div class="form-group col-md-8">
                                             <label>Categoría</label>
-                                            <input type="text" id="txtCategoriaNuevo" name="txtCategoriaNuevo" class="form-control form-control-sm" placeholder="EJ: Incorporado a Secretaría de Educación del Estado de Chiapas" maxlength="70" required>
+                                            <input type="text" id="txtCategoriaNuevo" name="txtCategoriaNuevo" class="form-control form-control-sm" placeholder="EJ: Incorporado a Secretaría de Educación del Estado de Chiapas" maxlength="70">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Zona escolar</label>
@@ -90,7 +90,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Estado</label>
-                                            <select class="form-control form-control-sm" id="listEstadoNuevo" name="listEstadoNuevo" onchange="estadoSeleccionado(value)" required>
+                                            <select class="form-control form-control-sm" id="listEstadoNuevo" name="listEstadoNuevo" onchange="estadoSeleccionado(value)">
                                                 <option value="" >Selecciona un Estado</option>
                                                 <?php 
                                                     foreach ($data['lista_estados'] as $value) {
@@ -104,35 +104,35 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Municipio</label>
-                                            <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)" required>
+                                            <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)">
                                                 <option value="">Selecciona un Municipio</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Localidad</label>
-                                            <select class="form-control form-control-sm" id="listLocalidadNuevo" name="listLocalidadNuevo" required>
+                                            <select class="form-control form-control-sm" id="listLocalidadNuevo" name="listLocalidadNuevo">
                                                 <option value="">Selecciona una Localidad</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label>Colonia</label>
-                                            <input type="text" id="txtColoniaNuevo" name="txtColoniaNuevo" class="form-control form-control-sm" placeholder="Colonia" maxlength="70" required>
+                                            <input type="text" id="txtColoniaNuevo" name="txtColoniaNuevo" class="form-control form-control-sm" placeholder="Colonia" maxlength="70">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Codigo postal</label>
-                                            <input type="text" id="txtCodigoPostalNuevo" onkeypress="return validarNumeroInput(event)" name="txtCodigoPostalNuevo" class="form-control form-control-sm" placeholder="Código postal" maxlength="6" required>
+                                            <input type="text" id="txtCodigoPostalNuevo" onkeypress="return validarNumeroInput(event)" name="txtCodigoPostalNuevo" class="form-control form-control-sm" placeholder="Código postal" maxlength="6">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Latitud</label>
-                                            <input type="text" id="txtLatitudNuevo"  name="txtLatitudNuevo" class="form-control form-control-sm" placeholder="Latitud" maxlength="40" required>
+                                            <input type="text" id="txtLatitudNuevo"  name="txtLatitudNuevo" class="form-control form-control-sm" placeholder="Latitud" maxlength="40">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Longitud</label>
-                                            <input type="text" id="txtLongitudNuevo"  name="txtLongitudNuevo" class="form-control form-control-sm" placeholder="Longitud" maxlength="40" required>
+                                            <input type="text" id="txtLongitudNuevo"  name="txtLongitudNuevo" class="form-control form-control-sm" placeholder="Longitud" maxlength="40">
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label>Domicilio</label>
-                                            <textarea class="form-control form-control-sm" id="txtDomicilioNuevo" name="txtDomicilioNuevo" rows="2" placeholder="Domicilio" maxlength="200" required></textarea>
+                                            <textarea class="form-control form-control-sm" id="txtDomicilioNuevo" name="txtDomicilioNuevo" rows="2" placeholder="Domicilio" maxlength="200"></textarea>
                                         </div>
                                     </div>               
                                 </div>
@@ -153,7 +153,7 @@
                                                         <img src="<?php echo media();?>/images/img/logo-empty.png" id="profileDisplayPlantel" style="max-width:200px;">
                                                     </span>
                                                     <input type="file" name="profileImagePlantel" onChange="displayImagePlantel(this)" id="profileImagePlantel" class="form-control" style="display: none;"
-                                                        accept=".png,.jpg,.jpeg,.svg" required>
+                                                        accept=".png,.jpg,.jpeg,.svg">
                                                 </div>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@
                                                         <img src="<?php echo media();?>/images/img/logo-empty.png" id="profileDisplaySistema" style="max-width:200px;">
                                                     </span>
                                                     <input type="file" name="profileImageSistema" onChange="displayImageSistema(this)" id="profileImageSistema" class="form-control" style="display: none;"
-                                                    accept=".png,.jpg,.jpeg,.svg" required>
+                                                    accept=".png,.jpg,.jpeg,.svg">
                                                 </div>
                                             </div> 
                                         </div>

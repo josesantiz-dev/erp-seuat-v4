@@ -24,15 +24,15 @@
                                     <div class="row">
                                             <div class="form-group col-md-8">
                                                 <label>Nombre</label>
-                                                <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="EJ: Licenciatura en Trabajo Social" maxlength="150" required>
+                                                <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="EJ: Licenciatura en Trabajo Social" maxlength="150" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Nombre corto</label>
-                                                <input type="text" id="txtNombrecortoNuevo" name="txtNombrecortoNuevo" class="form-control form-control-sm" placeholder="EJ: LTS" maxlength="7" required>
+                                                <input type="text" id="txtNombrecortoNuevo" name="txtNombrecortoNuevo" class="form-control form-control-sm" placeholder="EJ: LTS" maxlength="7" >
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <label>Plantel</label>
-                                                <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo"  >
                                                     <option value="">Selecciona un Plantel</option>
                                                     <?php foreach ($data['planteles'] as $value) {
                                                         ?>
@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Nivel educativo</label>
-                                                <select class="form-control form-control-sm" id="listNivelEdNuevo" name="listNivelEdNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listNivelEdNuevo" name="listNivelEdNuevo"  >
                                                     <option value="">Selecciona un Nivel Educativo</option>
                                                     <?php foreach ($data['niveles_educativos'] as $value) {
                                                         ?>
@@ -54,7 +54,7 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Categoría</label>
-                                                <select class="form-control form-control-sm" id="listCategoriaNuevo" name="listCategoriaNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listCategoriaNuevo" name="listCategoriaNuevo"  >
                                                     <option value="">Selecciona una Categoria</option>
                                                     <?php foreach ($data['categorias'] as $value) {
                                                         ?>
@@ -66,27 +66,27 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Duración</label>
-                                                <input type="text" id="txtDuracionNuevo" name="txtDuracionNuevo" class="form-control form-control-sm" placeholder="EJ: 2 años(6 cuatrimestres)" maxlength="100" required>
+                                                <input type="text" id="txtDuracionNuevo" name="txtDuracionNuevo" class="form-control form-control-sm" placeholder="EJ: 2 años(6 cuatrimestres)" maxlength="100" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Materias totales</label>
-                                                <input type="text" id="txtMatTotalesNuevo" onkeypress="return validarNumeroInput(event)" name="txtMatTotalesNuevo" class="form-control form-control-sm" placeholder="Materias totales" maxlength="2" required>
+                                                <input type="text" id="txtMatTotalesNuevo" onkeypress="return validarNumeroInput(event)" name="txtMatTotalesNuevo" class="form-control form-control-sm" placeholder="Materias totales" maxlength="2" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Total horas</label>
-                                                <input type="text" id="txtTotalHrsNuevo" onkeypress="return validarNumeroInput(event)" name="txtTotalHrsNuevo" class="form-control form-control-sm" placeholder="Total de horas" maxlength="4" required>
+                                                <input type="text" id="txtTotalHrsNuevo" onkeypress="return validarNumeroInput(event)" name="txtTotalHrsNuevo" class="form-control form-control-sm" placeholder="Total de horas" maxlength="4" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Calificacion mínima</label>
-                                                <input type="text" id="txtCalMinNuevo" onkeypress="return validarNumeroInput(event)" name="txtCalMinNuevo" class="form-control form-control-sm" placeholder="Calificación mínima" maxlength="1" required>
+                                                <input type="text" id="txtCalMinNuevo" onkeypress="return validarNumeroInput(event)" name="txtCalMinNuevo" class="form-control form-control-sm" placeholder="Calificación mínima" maxlength="1" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Total créditos</label>
-                                                <input type="text" id="listTotalCreditosNuevo" onkeypress="return validarNumeroInput(event)" name="listTotalCreditosNuevo" class="form-control form-control-sm" placeholder="Total de créditos" maxlength="3" required>
+                                                <input type="text" id="listTotalCreditosNuevo" onkeypress="return validarNumeroInput(event)" name="listTotalCreditosNuevo" class="form-control form-control-sm" placeholder="Total de créditos" maxlength="3" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Modalidad</label>
-                                                <select class="form-control form-control-sm" id="listModalidadNuevo" name="listModalidadNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listModalidadNuevo" name="listModalidadNuevo"  >
                                                     <option value="">Selecciona una Modalidad</option>
                                                     <?php foreach ($data['modalidad'] as $value) {
                                                         ?>
@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Plan</label>
-                                                <select class="form-control form-control-sm" id="listPlanNuevo" name="listPlanNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listPlanNuevo" name="listPlanNuevo"  >
                                                     <option value="">Selecciona un Plan</option>
                                                     <?php foreach ($data['plan'] as $value) {
                                                         ?>
@@ -117,7 +117,7 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Tipo RVOE</label>
-                                                <select class="form-control form-control-sm" id="listTipoRvoeNuevo" name="listTipoRvoeNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listTipoRvoeNuevo" name="listTipoRvoeNuevo"  >
                                                 <option value="">Selecciona un Status</option>
                                                 <option value="0">Estatal</option>
                                                 <option value="1">Federal</option>
@@ -125,23 +125,23 @@
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>RVOE</label>
-                                                <input type="text" id="txtRvoeNuevo" name="txtRvoeNuevo" class="form-control form-control-sm" placeholder="RVOE" maxlength="25" required>
+                                                <input type="text" id="txtRvoeNuevo" name="txtRvoeNuevo" class="form-control form-control-sm" placeholder="RVOE" maxlength="25" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Fecha vigencia</label>
-                                                <input type="text" id="txtFechaVigenciaNuevo" name="txtFechaVigenciaNuevo" class="form-control form-control-sm"  placeholder="Fecha vigencia" maxlength="20" required>
+                                                <input type="text" id="txtFechaVigenciaNuevo" name="txtFechaVigenciaNuevo" class="form-control form-control-sm"  placeholder="Fecha vigencia" maxlength="20" >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Fecha de otorgamiento</label>
-                                                <input type="date" id="txtFechaOtorgamientoNuevo" name="txtFechaOtorgamientoNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  required>
+                                                <input type="date" id="txtFechaOtorgamientoNuevo" name="txtFechaOtorgamientoNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Fecha actualización</label>
-                                                <input type="date" id="txtFechaActualizacionNuevo" name="txtFechaActualizacionNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  required>
+                                                <input type="date" id="txtFechaActualizacionNuevo" name="txtFechaActualizacionNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  >
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label>Turno</label>
-                                                <select class="form-control form-control-sm" id="listTunoRvoeNuevo" name="listTunoRvoeNuevo"  required>
+                                                <select class="form-control form-control-sm" id="listTunoRvoeNuevo" name="listTunoRvoeNuevo"  >
                                                 <option value="">Selecciona un turno</option>
                                                 <option value="matutino">Matutino</option>
                                                 <option value="vespertino">Vespertino</option>
@@ -175,15 +175,15 @@
                                 <div class="tab">
                                     <div class="form-group">
                                         <label>Perfil de ingreso</label>
-                                        <textarea type="text" id="txtPerfilIngresoNuevo" name="txtPerfilIngresoNuevo" class="form-control form-control-sm" placeholder="Perfíl de ingreso" rows="3" required></textarea>
+                                        <textarea type="text" id="txtPerfilIngresoNuevo" name="txtPerfilIngresoNuevo" class="form-control form-control-sm" placeholder="Perfíl de ingreso" rows="3" ></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Perfil de egreso</label>
-                                        <textarea type="text" id="txtPerfilEgresoNuevo" name="txtPerfilEgresoNuevo" class="form-control form-control-sm" placeholder="Perfíl de egreso" rows="3" required></textarea>
+                                        <textarea type="text" id="txtPerfilEgresoNuevo" name="txtPerfilEgresoNuevo" class="form-control form-control-sm" placeholder="Perfíl de egreso" rows="3" ></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Campo laboral</label>
-                                        <textarea type="text" id="txtCampoLaboralNuevo" name="txtCampoLaboralNuevo" class="form-control form-control-sm" placeholder="Campo laboral" rows="3" required></textarea>
+                                        <textarea type="text" id="txtCampoLaboralNuevo" name="txtCampoLaboralNuevo" class="form-control form-control-sm" placeholder="Campo laboral" rows="3" ></textarea>
                                     </div>
                                 </div>       
                         </div>

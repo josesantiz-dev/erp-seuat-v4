@@ -7,45 +7,45 @@
 		}
 
 		//Funcion para consultar lista de Categorias
-		public function selectCategorias(){
+		public function selectCategorias(string $nomConexion){
 			$sql = "SELECT *FROM t_categoria_carreras";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			return $request;
 		}
 		//Funcion para consultar lista de Planteles
-        public function selectPlanteles(){
+        public function selectPlanteles(string $nomConexion){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1 ORDER BY id DESC";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
 
 		//Funcion para consultar Datos de un Plantel por ID
-		public function selectPlantel(int $idPlantel){
+		public function selectPlantel(int $idPlantel, string $nomConexion){
 			$sql = "SELECT *FROM t_planteles WHERE id = $idPlantel";
-			$request = $this->select($sql);
+			$request = $this->select($sql, $nomConexion);
 			return $request;
 		}
 
 		//Funcion para consultar Lista de Estados de Mexico
-		public function selectEstados(){
+		public function selectEstados(string $nomConexion){
 			$sql = "SELECT id,nombre FROM t_estados";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			return $request;
 		}
 		//Funcion para consultar Lista de Municipios por ID de Estado
-		public function selectMunicipios($data){
+		public function selectMunicipios($data, string $nomConexion){
 			$sql = "SELECT id,nombre FROM t_municipios WHERE id_estados = $data";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			return $request;
 		}
 		//Funcion para consultar Lista de Localidades por ID de Municipio
-		public function selectLocalidades($data){
+		public function selectLocalidades($data, string $nomConexion){
 			$sql = "SELECT *FROM t_localidades WHERE id_municipio = $data";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			return $request;
 		}
 		//Funcion para Insertar Nuevo Plantel
-		public function insertPlantel($data,$files){
+		public function insertPlantel($data,$files, string $nomConexion){
 			$idUser = $_SESSION['idUser'];
             $nombrePlantel = $data['txtNombrePlantelNuevo'];
             $abreviacionPlantel = $data['txtAbreviacionPlantelNuevo'];
@@ -70,11 +70,11 @@
 			$cveInstitucionDGP = $data['txtClaveInstitucionDGPNuevo'];
 
 			$sqlNomEstado = "SELECT nombre FROM t_estados WHERE id = $idEstado LIMIT 1";
-			$requestNomEstado = $this->select($sqlNomEstado);
+			$requestNomEstado = $this->select($sqlNomEstado, $nomConexion);
 			$sqlNomMunicipio = "SELECT nombre FROM t_municipios WHERE id = $idMunicipio LIMIT 1";
-			$requestNomMunicipio = $this->select($sqlNomMunicipio);
+			$requestNomMunicipio = $this->select($sqlNomMunicipio, $nomConexion);
 			$sqlNomLocalidad = "SELECT nombre FROM t_localidades WHERE id = $idLocalidad LIMIT 1";
-			$requestNomLocalidad = $this->select($sqlNomLocalidad);
+			$requestNomLocalidad = $this->select($sqlNomLocalidad, $nomConexion);
 
 
             $nombreImagenPlantel = time().'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
@@ -82,11 +82,12 @@
             $direccionLogos = 'Assets/images/logos/';
 			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
 			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
-			$request;
+			$request = [];
 			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo'";
-			$requestExist = $this->select($sqlExist);
+			$requestExist = $this->select($sqlExist, $nomConexion);
 			if($requestExist){
 				$request['estatus'] = TRUE;
+				$request['imagen'] = null;
 			}else{
 				if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile) && 
 					move_uploaded_file($files["profileImageSistema"]["tmp_name"],$nombreImagenSistemaFile)){
@@ -95,16 +96,20 @@
 					logo_plantel, logo_sistema, cedula_funcionamiento, cve_institucion_dgp, estatus,
 					fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,
                     	?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?)";
-			    	$requestNew = $this->insert($sqlNew,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+			    	$requestNew = $this->insert($sqlNew,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
                         $claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
                         $nombreImagenPlantel,$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
-            	}
-				$request['estatus'] = FALSE;
+						$request['estatus'] = FALSE;
+						$request['imagen'] = true;
+            	}else{
+					$request['estatus'] = FALSE;
+					$request['imagen'] = false;
+				}
 			}
 			return $request;
 		}
 		//Funcion para Actualizar un Plantel
-		public function updatePlantel($idPlantelEdit,$data,$files){
+		public function updatePlantel($idPlantelEdit,$data,$files, string $nomConexion){
 			$idUser = $_SESSION['idUser'];
 			$nombrePlantel = $data['txtNombrePlantelEdit'];
             $abreviacionPlantel = $data['txtAbreviacionPlantelEdit'];
@@ -130,11 +135,11 @@
 
         
 			$sqlNomEstado = "SELECT nombre FROM t_estados WHERE id = $idEstado LIMIT 1";
-			$requestNomEstado = $this->select($sqlNomEstado);
+			$requestNomEstado = $this->select($sqlNomEstado, $nomConexion);
 			$sqlNomMunicipio = "SELECT nombre FROM t_municipios WHERE id = $idMunicipio LIMIT 1";
-			$requestNomMunicipio = $this->select($sqlNomMunicipio);
+			$requestNomMunicipio = $this->select($sqlNomMunicipio, $nomConexion);
 			$sqlNomLocalidad = "SELECT nombre FROM t_localidades WHERE id = $idLocalidad LIMIT 1";
-			$requestNomLocalidad = $this->select($sqlNomLocalidad);
+			$requestNomLocalidad = $this->select($sqlNomLocalidad, $nomConexion);
 
             $nombreImagenPlantel = time() .'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
 			$nombreImagenSistema = time() .'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION);
@@ -142,11 +147,12 @@
 			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
 			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
 
-			$request;
+			$request = [];
 			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo' AND id != $idPlantelEdit";
-			$requestExist = $this->select($sqlExist);
+			$requestExist = $this->select($sqlExist, $nomConexion);
 			if($requestExist){
 				$request['estatus'] = TRUE;
+				
 			}else{
 				if($files["profileImagePlantel"]["name"] == "" || $files["profileImageSistema"]["name"] == ""){
 					if($files["profileImagePlantel"]["name"] != ""){
@@ -154,7 +160,7 @@
 							$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
 						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
 						logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
 								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
 								$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
 						}
@@ -163,7 +169,7 @@
 							$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
 						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
 						logo_sistema = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-						$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
 								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
 								$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
 						}
@@ -171,7 +177,7 @@
 						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
 					cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?, longitud = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,
 					estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
-					$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+					$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
 							$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,$cedulaFuncionamiento,$cveInstitucionDGP,
 							1,$idUser,$idUser));
 					}
@@ -180,8 +186,8 @@
 					move_uploaded_file($files["profileImageSistema"]["tmp_name"],$nombreImagenSistemaFile)){
 						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,nombre_sistema = ?,abreviacion_sistema = ?,regimen = ?,servicio = ?,categoria = ?,
 						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?, longitud = ?,logo_plantel = ?,
-						logo_sistema=?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantel";
-						$requestUpdate = $this->update($sqlUpdate,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+						logo_sistema=?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_creacion = ?,id_usuario_actualizacion = ? WHERE id = $idPlantelEdit";
+						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
 								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
 								$nombreImagenPlantel,$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
 					}
@@ -190,13 +196,13 @@
 			}
 			return $request;  	
 		}
-		public function deletePlantel(int $idPlantel){
+		public function deletePlantel(int $idPlantel, string $nomConexion){
 			$sql = "SELECT * FROM t_planteles WHERE id = $idPlantel";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			if($request){
 				$sql = "UPDATE t_planteles SET estatus = ? WHERE id = $idPlantel";
 				$arrData = array(0);
-				$request = $this->update($sql,$arrData);
+				$request = $this->update($sql,$nomConexion,$arrData);
 				if($request){
 					$request = 'ok';	
 				}else{
@@ -205,21 +211,21 @@
 			}
 		return $request;	
 		}
-		public function getTablasRef(){
+		public function getTablasRef(string $nomConexion){
 			$sqlTablasRef = "SELECT TABLE_NAME AS tablas FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE REFERENCED_TABLE_NAME = 't_planteles'";
-			$requestTablasRef = $this->select_all($sqlTablasRef);
+			$requestTablasRef = $this->select_all($sqlTablasRef, $nomConexion);
 			return $requestTablasRef;
 		}
-		public function estatusRegistroTabla(string $nombreTabla,int $idPlantel){
+		public function estatusRegistroTabla(string $nombreTabla,int $idPlantel, string $nomConexion){
 			$sqlEstatusRegistro = "SELECT * FROM t_planteles
 			RIGHT JOIN $nombreTabla ON $nombreTabla.id_plantel = t_planteles.id
 			WHERE t_planteles.id = $idPlantel AND  $nombreTabla.estatus != 0";
-			$requestEstatusRegistro = $this->select_all($sqlEstatusRegistro);
+			$requestEstatusRegistro = $this->select_all($sqlEstatusRegistro, $nomConexion);
 			return $requestEstatusRegistro;
 		}
-		public function selectColumn(string $nombreTabla){
+		public function selectColumn(string $nombreTabla, string $nomConexion){
             $sql = "SHOW COLUMNS FROM $nombreTabla LIKE 'estatus'";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
 	}

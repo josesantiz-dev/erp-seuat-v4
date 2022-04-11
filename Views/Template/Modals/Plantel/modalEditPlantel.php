@@ -26,11 +26,11 @@
                                     <div class="row">
                                         <div class="form-group col-md-9">
                                             <label>Nombre del plantel</label>
-                                            <input type="text" id="txtNombrePlantelEdit" name="txtNombrePlantelEdit" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100" required>
+                                            <input type="text" id="txtNombrePlantelEdit" name="txtNombrePlantelEdit" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100" >
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Abreviación del plantel</label>
-                                            <input type="text" id="txtAbreviacionPlantelEdit" name="txtAbreviacionPlantelEdit" class="form-control form-control-sm" placeholder="EJ: IESAZTECA" maxlength="10" required>
+                                            <input type="text" id="txtAbreviacionPlantelEdit" name="txtAbreviacionPlantelEdit" class="form-control form-control-sm" placeholder="EJ: IESAZTECA" maxlength="10" >
                                         </div>
                                     </div>
                                 </div>
@@ -38,11 +38,11 @@
                                     <div class="row">
                                         <div class="form-group col-md-8">
                                             <label>Nombre del sistema</label>
-                                            <input type="text" id="txtNombreSistemaEdit" name="txtNombreSistemaEdit" class="form-control form-control-sm" placeholder="EJ: Universidad Particular Azteca en Oaxaca" maxlength="100" required>
+                                            <input type="text" id="txtNombreSistemaEdit" name="txtNombreSistemaEdit" class="form-control form-control-sm" placeholder="EJ: Universidad Particular Azteca en Oaxaca" maxlength="100" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Abreviación del sistema</label>
-                                            <input type="text" id="txtAbreviacionSistemaEdit" name="txtAbreviacionSistemaEdit" class="form-control form-control-sm" placeholder="EJ: UPAO" maxlength="10" required>
+                                            <input type="text" id="txtAbreviacionSistemaEdit" name="txtAbreviacionSistemaEdit" class="form-control form-control-sm" placeholder="EJ: UPAO" maxlength="10" >
                                         </div>
                                     </div>
                                 </div>
@@ -50,23 +50,23 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Régimen</label>
-                                            <input type="text" id="txtRegimenEdit" name="txtRegimenEdit" class="form-control form-control-sm" placeholder="EJ: Particula" maxlength="30" required>
+                                            <input type="text" id="txtRegimenEdit" name="txtRegimenEdit" class="form-control form-control-sm" placeholder="EJ: Particula" maxlength="30" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Clave del centro de trabajo</label>
-                                            <input type="text" id="txtClaveCentroTrabajoEdit" name="txtClaveCentroTrabajoEdit" class="form-control form-control-sm" placeholder="Clave del centro de trabajo" maxlength="15" required>
+                                            <input type="text" id="txtClaveCentroTrabajoEdit" name="txtClaveCentroTrabajoEdit" class="form-control form-control-sm" placeholder="Clave del centro de trabajo" maxlength="15" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Servicio</label>
-                                            <input type="text" id="txtServicioEdit" name="txtServicioEdit" class="form-control form-control-sm" placeholder="EJ: Educativo" maxlength="50" required>
+                                            <input type="text" id="txtServicioEdit" name="txtServicioEdit" class="form-control form-control-sm" placeholder="EJ: Educativo" maxlength="50" >
                                         </div>
                                         <!--<div class="form-group col-md-4">
                                             <label>Acuerdo de incorporación</label>
-                                            <input type="text" id="txtAcuerdoIncorporacionEdit"  name="txtAcuerdoIncorporacionEdit" class="form-control form-control-sm" placeholder="EJ: PSU-21/2022" maxlength="15" required>
+                                            <input type="text" id="txtAcuerdoIncorporacionEdit"  name="txtAcuerdoIncorporacionEdit" class="form-control form-control-sm" placeholder="EJ: PSU-21/2022" maxlength="15" >
                                         </div>-->
                                         <div class="form-group col-md-8">
                                             <label>Categoría</label>
-                                            <input type="text" id="txtCategoriaEdit" name="txtCategoriaEdit" class="form-control form-control-sm" placeholder="EJ: Incorporado a Secretaría de Educación del Estado de Chiapas" maxlength="70" required>
+                                            <input type="text" id="txtCategoriaEdit" name="txtCategoriaEdit" class="form-control form-control-sm" placeholder="EJ: Incorporado a Secretaría de Educación del Estado de Chiapas" maxlength="70" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Zona escolar</label>
@@ -90,41 +90,41 @@
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label>Estado</label>
-                                            <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" required>
+                                            <select class="form-control form-control-sm" id="listEstadoEdit" name="listEstadoEdit" onchange="estadoSeleccionadoEdit(value)" >
                                                 <option value="" >Selecciona un Estado</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Municipio</label>
-                                            <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" required>
+                                            <select class="form-control form-control-sm" id="listMunicipioEdit" name="listMunicipioEdit" onchange="municipioSeleccionadoEdit(value)" >
                                                 <option value="">Selecciona un Municipio</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Localidad</label>
-                                            <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" required>
+                                            <select class="form-control form-control-sm" id="listLocalidadEdit" name="listLocalidadEdit" >
                                                 <option value="">Selecciona una Localidad</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-8">
                                             <label>Colonia</label>
-                                            <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia" maxlength="70" required>
+                                            <input type="text" id="txtColoniaEdit" name="txtColoniaEdit" class="form-control form-control-sm" placeholder="Colonia" maxlength="70" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Codigo postal</label>
-                                            <input type="text" id="txtCodigoPostalEdit" onkeypress="return validarNumeroInput(event)" name="txtCodigoPostalEdit" class="form-control form-control-sm" placeholder="Código postal" maxlength="6" required>
+                                            <input type="text" id="txtCodigoPostalEdit" onkeypress="return validarNumeroInput(event)" name="txtCodigoPostalEdit" class="form-control form-control-sm" placeholder="Código postal" maxlength="6" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Latitud</label>
-                                            <input type="text" id="txtLatitudEdit" name="txtLatitudEdit" class="form-control form-control-sm" placeholder="Latitud" maxlength="40" required>
+                                            <input type="text" id="txtLatitudEdit" name="txtLatitudEdit" class="form-control form-control-sm" placeholder="Latitud" maxlength="40" >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Longitud</label>
-                                            <input type="text" id="txtLongitudEdit" name="txtLongitudEdit" class="form-control form-control-sm" placeholder="Longitud" maxlength="40" required>
+                                            <input type="text" id="txtLongitudEdit" name="txtLongitudEdit" class="form-control form-control-sm" placeholder="Longitud" maxlength="40" >
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label>Domicilio</label>
-                                            <textarea class="form-control form-control-sm" id="txtDomicilioEdit" name="txtDomicilioEdit" rows="2" placeholder="Domicilio" maxlength="200" required></textarea>
+                                            <textarea class="form-control form-control-sm" id="txtDomicilioEdit" name="txtDomicilioEdit" rows="2" placeholder="Domicilio" maxlength="200" ></textarea>
                                         </div>
                                     </div>               
                                 </div>

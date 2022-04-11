@@ -18,7 +18,7 @@
 			$this->rol = $_SESSION['claveRol'];
 		}
 
-		//Funcion para la Vista de Planteles
+		//Funcion para la Vista de PlantelesnomConexion
 		public function Plantel()
 		{
 			$data['page_id'] = 4;

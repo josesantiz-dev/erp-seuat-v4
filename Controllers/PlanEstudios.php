@@ -115,14 +115,16 @@
 						$requestStatus = 0;
 						foreach ($requestTablaRef as $key => $tabla) {
 							$nombreTabla = $tabla['tablas'];
-							$existColumn = $this->model->selectColumn($nombreTabla, $this->nomConexion);
-							if($existColumn){
-								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlanEstudio, $this->nomConexion);
-								if($requestEstatusRegistro){
-									$requestStatus += count($requestEstatusRegistro);
-								}else{
-									$requestStatus += 0;
-								}	
+							if($nombreTabla != 't_plan_x_clasificacion'){
+								$existColumn = $this->model->selectColumn($nombreTabla, $this->nomConexion);
+								if($existColumn){
+									$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlanEstudio, $this->nomConexion);
+									if($requestEstatusRegistro){
+										$requestStatus += count($requestEstatusRegistro);
+									}else{
+										$requestStatus += 0;
+									}	
+								}
 							}
 						}
 						if($requestStatus == 0){
@@ -135,7 +137,7 @@
 								$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el plan de estudios.');
 							}
 						}else{
-							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay materias activas relacionados a este plan de estudios.');
+							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay registros activos relacionados a este plan de estudios.');
 						}
 					}else{
 						$arrResponse = "eliminando";

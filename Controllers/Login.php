@@ -43,9 +43,9 @@
                         $_SESSION['idPersona'] = $arrData['id'];
                         $_SESSION['nomPersona'] = $arrDatosUser['nombre_persona'].' '.$arrDatosUser['ap_paterno'].' '.$arrDatosUser['ap_materno'];
                         $_SESSION['plantel'] = conexiones[$strConexion]['NAME'];
-                        //$_SESSION['claveRol'] = $arrData['cve_rol'];
-                        //$_SESSION['idRol'] = $arrData['id_rol'];
-                        //$_SESSION['nombreRol'] = $arrData['nombre_rol'];
+                        $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
+                        $_SESSION['idRol'] = $arrDatosUser['id_rol'];
+                        $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');

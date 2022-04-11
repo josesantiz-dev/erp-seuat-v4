@@ -18,13 +18,14 @@
 
 
         //EXTRAER CICLOS O EXTRAER CICLOS
-        public function selectGrados()
+        public function selectGrados(string $nomConexion)
         {
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT t_grados.id AS IdGrados, t_grados.nombre_grado AS Nombre, t_grados.numero_natural AS Numero_Nat, t_grados.numero_romano AS Numero_Rom, t_grados.estatus AS estatus 
                     FROM t_grados 
                     WHERE t_grados.estatus !=0
                     ";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $this->strNomConexion);
             return $request;
         }
 

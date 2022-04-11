@@ -1,5 +1,10 @@
 <?php
     class Ciclos extends Controllers{
+
+        private $idUser;
+        private $nomConexion;
+        private $rol;
+
         public function __construct()
         {
             parent::__construct();
@@ -9,6 +14,9 @@
                 header('Location: '.base_url().'/login');
                 die();
             }
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+            $this->rol = $_SESSION['claveRol'];
         }
 
         public function Ciclos()
@@ -24,7 +32,7 @@
 
         //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
         public function getCiclos(){
-            $arrData = $this->model->selectCiclos();
+            $arrData = $this->model->selectCiclos($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
                 /* $arrData[$i]['id_guardado'] = */ /* $arrData[$i]['IdCiclos']; */
                 /* $arrData[$i]['id'] = $i+1; */
@@ -62,7 +70,7 @@
             $intIdCiclos = intval(strClean($id));
             if($intIdCiclos > 0)
             {
-                $arrData = $this->model->selectsCiclo($intIdCiclos);
+                $arrData = $this->model->selectsCiclo($intIdCiclos, $this->nomConexion);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -103,7 +111,7 @@
                                                                    $strFecha_Actualizacion,
                                                                    $intId_usuario_creacion,
                                                                    $intId_Usuario_Actualizacion,
-                                                                   $intId_Generacion);
+                                                                   $intId_Generacion, $this->nomConexion);
                                                                    $option = 1;
                     }
 
@@ -153,7 +161,7 @@
                                                                     $intEstatus,
                                                                     $strFecha_Actualizacion,
                                                                     $intId_Usuario_Actualizacion,
-                                                                    $intId_Generacion);
+                                                                    $intId_Generacion, $this->nomConexion);
                                                                     $option = 1;
                     }
 
@@ -178,7 +186,7 @@
             if($_POST)
             {
                 $intIdCiclos = intval($_POST['idCiclos']);
-                $requestDelete = $this->model->deleteCiclos($intIdCiclos);
+                $requestDelete = $this->model->deleteCiclos($intIdCiclos, $this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el ciclo correctamente.');
@@ -193,10 +201,10 @@
         }
 
 
-        //SELECT
+        //SELECT NUEVO CICLO GENERACION
         public function getSelectCiclo(){
             $htmlOptions = "<option value='' selected>- Elige una generación -</option>";
-            $arrData = $this->model->selectCiclo();
+            $arrData = $this->model->selectCiclo($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -212,7 +220,7 @@
         //SELECT PARA EDITAR CICLO
         public function getSelectEditCiclo(){
             $htmlOptions = "<option value='' selected>- Elige una generación -</option>";
-            $arrData = $this->model->selectEditCiclo();
+            $arrData = $this->model->selectEditCiclo( $this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){

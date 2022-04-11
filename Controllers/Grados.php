@@ -1,5 +1,10 @@
 <?php
     class Grados extends Controllers{
+
+        private $idUser;
+        private $nomConexion;
+        private $rol;
+
         public function __construct()
         {
             parent::__construct();
@@ -9,6 +14,9 @@
                 header('Location: '.base_url().'/login');
                 die();
             }
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+            $this->rol = $_SESSION['claveRol'];
         }
 
         public function Grados()
@@ -23,7 +31,7 @@
 
         //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
         public function getGrados(){
-            $arrData = $this->model->selectGrados();
+            $arrData = $this->model->selectGrados($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
                 /* $arrData[$i]['id_guardado'] = */ /* $arrData[$i]['IdCiclos']; */
                 /* $arrData[$i]['id'] = $i+1; */

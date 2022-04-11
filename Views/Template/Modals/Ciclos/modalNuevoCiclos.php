@@ -33,7 +33,7 @@
                   </div> -->
                   <div class="form-group">
                     <label for="listIdGeneracionesNuevo">Generaciones</label>
-                    <select class="form-control" id="listIdGeneracionesNuevo" name="listIdGeneracionesNuevo" onchange="generacionesSeleccionada(value)" required >
+                    <select class="form-control" id="listIdGeneracionesNuevo" name="listIdGeneracionesNuevo" required >
                       <!-- <option value="">-- Selecciona una generación --</option> -->
                       <!-- <option value="1">Activo</option>
                       <option value="2">Inactivo</option> -->

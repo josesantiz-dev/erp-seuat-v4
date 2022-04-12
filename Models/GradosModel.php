@@ -31,19 +31,22 @@
 
 
         //PARA EDITAR GRADOS
-        public function selectGrado (int $intIdGrados)
+        public function selectGrado (int $intIdGrados, string $nomConexion)
         {
             //BUSCAR GRADOS
             $this->intIdGrados = $intIdGrados;
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_grados WHERE id = $this->intIdGrados";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $this->strNomConexion);
             return $request;
         }
 
 
 
         //PARA GUARDAR O INSERTAR DATOS
-        public function insertGrado(string $Nombre_Grado, string $Numero_Natural, string $Numero_Romano, int $Estatus, string $Fecha_Creacion, string $Fecha_Actualizacion, int $Id_usuario_creacion, int $Id_Usuario_Actualizacion){
+        public function insertGrado(string $Nombre_Grado, string $Numero_Natural, string $Numero_Romano, int $Estatus, 
+                                    string $Fecha_Creacion, string $Fecha_Actualizacion, int $Id_usuario_creacion, 
+                                    int $Id_Usuario_Actualizacion, string $nomConexion){
 
             $return = "";
             $this->strNombre_Grado = $Nombre_Grado;
@@ -54,14 +57,15 @@
             $this->strFecha_Actualizacion = $Fecha_Actualizacion;
             $this->intId_usuario_creacion = $Id_usuario_creacion;
             $this->intId_Usuario_Actualizacion = $Id_Usuario_Actualizacion;
+            $this->strNomConexion = $nomConexion;
 
             $sql = "SELECT * FROM t_grados WHERE nombre_grado = '$this->strNombre_Grado' ";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $this->strNomConexion);
 
             if(empty($request)){
                 $query_insert = "INSERT INTO t_grados(nombre_grado, numero_natural, numero_romano, estatus, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?)";
                 $arrData = array($this->strNombre_Grado, $this->strNumero_Natural, $this->strNumero_Romano, $this->intEstatus, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion);
-                $request_insert = $this->insert($query_insert,$arrData);
+                $request_insert = $this->insert($query_insert,$this->strNomConexion,$arrData);
                 $return = $request_insert;
             }else{
                 $return = "exit";
@@ -71,7 +75,8 @@
 
 
         //PARA ACTUALIZAR GRADOS
-        public function updateGrados(int $id, string $Nombre_Grado, string $Numero_Natural, string $Numero_Romano, int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion){
+        public function updateGrados(int $id, string $Nombre_Grado, string $Numero_Natural, string $Numero_Romano, 
+                                    int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion, string $nomConexion){
             $this->intIdGrados = $id;
             $this->strNombre_Grado = $Nombre_Grado;
             $this->strNumero_Natural = $Numero_Natural;
@@ -79,15 +84,16 @@
             $this->intEstatus = $estatus;
             /* $this->strFecha_Actualizacion = $fecha_actualizacion; */
             $this->intId_Usuario_Actualizacion = $id_usuario_actualizacion;
+            $this->strNomConexion = $nomConexion;
 
             $sql = "SELECT * FROM t_grados WHERE nombre_grado = '$this->strNombre_Grado' AND id != $this->intIdGrados";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql,$this->strNomConexion);
 
             if(empty($request))
             {
                 $sql = "UPDATE t_grados SET nombre_grado = ?, numero_natural = ?, numero_romano = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = $this->intIdGrados ";
                 $arrData = array($this->strNombre_Grado, $this->strNumero_Natural, $this->strNumero_Romano, $this->intEstatus, $this->intId_Usuario_Actualizacion);
-                $request = $this->update($sql,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
             }else{
                 $request = "exist";
             }
@@ -96,15 +102,16 @@
 
 
         //MODELO PARA ELIMINAR GRADOS
-        public function deleteGrados(int $idGrados){
+        public function deleteGrados(int $idGrados, string $nomConexion){
             $this->intIdGrados = $idGrados;
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_materias WHERE id_grados = $this->intIdGrados";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql,$this->strNomConexion);
             if(empty($request))
             {
                 $sql = "UPDATE t_grados SET estatus = ? WHERE id = $this->intIdGrados";
                 $arrData =array(0);
-                $request = $this->update($sql,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
                 if($request)
                 {
                     $request = 'ok';

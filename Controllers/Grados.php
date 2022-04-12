@@ -69,7 +69,7 @@
             $intIdGrados = intval(strClean($id));
             if($intIdGrados > 0)
             {
-                $arrData = $this->model->selectGrado($intIdGrados);
+                $arrData = $this->model->selectGrado($intIdGrados, $this->nomConexion);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -110,7 +110,7 @@
                                                                    $strFecha_Creacion,
                                                                    $strFecha_Actualizacion,
                                                                    $intId_usuario_creacion,
-                                                                   $intId_Usuario_Actualizacion);
+                                                                   $intId_Usuario_Actualizacion, $this->nomConexion);
                                                                    $option = 1;
                     }
 
@@ -160,7 +160,7 @@
                                                                     $strNumero_Romano,
                                                                     $intEstatus,
                                                                     $strFecha_Actualizacion,
-                                                                    $intId_Usuario_Actualizacion);
+                                                                    $intId_Usuario_Actualizacion, $this->nomConexion);
                                                                     $option = 1;
                     }
 
@@ -185,7 +185,7 @@
             if($_POST)
             {
                 $intIdGrados = intval($_POST['idGrados']);
-                $requestDelete = $this->model->deleteGrados($intIdGrados);
+                $requestDelete = $this->model->deleteGrados($intIdGrados, $this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el grado correctamente.');

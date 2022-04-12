@@ -1,5 +1,10 @@
 <?php
     class Administracion_tutores extends Controllers{
+
+        private $idUser;
+        private $nomConexion;
+        private $rol;
+
         public function __construct()
         {
             parent::__construct();
@@ -8,6 +13,9 @@
                 header('Location: '.base_url().'/login');
                 die();
             }
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+            $this->rol = $_SESSION['claveRol'];
         }
 
         public function Administracion_tutores()
@@ -24,7 +32,7 @@
 
         //PARA ENLISTAR ADMINISTRACION MATRICULAS TUTORES
         public function getAdministracionTutores(){
-            $arrData = $this->model->selectAdministTutores();
+            $arrData = $this->model->selectAdministTutores($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
                 if($arrData[$i]['Estatus'] == 1){
                     $arrData[$i]['Estatus'] = '<span class="badge badge-dark">Activo</span>';
@@ -61,7 +69,7 @@
             $intIdAdminisTurores = intval(strClean($id));
             if($intIdAdminisTurores > 0)
             {
-                $arrData = $this->model->selectAdminisTut($intIdAdminisTurores);
+                $arrData = $this->model->selectAdminisTut($intIdAdminisTurores,$this->nomConexion);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -109,7 +117,7 @@
                                                                                       $strCorreo,
                                                                                       $intEstatus, 
                                                                                       $strFecha_Actualizacion, 
-                                                                                      $intId_Usuario_Actualizacion);
+                                                                                      $intId_Usuario_Actualizacion, $this->nomConexion);
                                                                                       $option = 1;
                         }
 
@@ -134,7 +142,7 @@
             if($_POST)
             {
                 $intIdAdminisTurores = intval($_POST['idTut']);
-                $requestDelete = $this->model->deleteAdministTutores($intIdAdminisTurores);
+                $requestDelete = $this->model->deleteAdministTutores($intIdAdminisTurores, $this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el tutor correctamente.');

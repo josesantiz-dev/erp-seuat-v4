@@ -82,15 +82,19 @@
             }
             if($intIdPersonaNueva == 1){
                 $id_subcampania = $this->model->selectSubcampania($this->nomConexion);
-                $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
-                if($arrData){
-                    $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                if($id_subcampania){
+                    $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
+                    if($arrData){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                    }else{
+                        $arrResponse = array('estatus' => false, 'mgg' => 'No es posible guardar los datos');
+                    }
                 }else{
-                    $arrResponse = array('estatus' => false, 'mgg' => 'No es posible guardar los datos');
+                    $arrResponse = array('estatus' => false, 'mgg' => 'No existe una subcampania activa');
                 }
             }
             if($intIdPersonaEdit !=0){
-                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
+                $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$this->nomConexion);
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{

@@ -1,4 +1,114 @@
-<div class="modal fade" id="ModalFormNuevaPersona" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="ModalNuevoProspecto" data-backdrop="static" data-keyboard="true" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header headerRegister">
+                <h5 class="modal-title" id="titleModalNuevo">Nuevo prospecto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card card-secondary">
+                    <form id="formPersonaNuevo" name="formPersonaNuevo">
+                        <input type="hidden" id="idNuevo" name="idNuevo" value="">
+                        <div class="card-body overflow-auto" style="height:435px;">
+                            <div class="card mb-3 card-secondary" id="cardDatosPer" name="cardDatosPer">
+                                <div class="card-header text-white">
+                                    <h3 class="card-title"><i class="fa fa-user"></i> &nbsp; Datos personales</h3>
+                                    <div class="card-tools">
+                                        <!-- <button type="button" class="btn btn-tool" data-card-widget="collaps">
+                                            <i class="fa fa-plus"></i>
+                                        </button> -->
+                                    </div>
+                                </div>
+                                <div class="card-body row">
+                                    <div class="form-group col-md-4">
+                                        <label>Nombre(s)</label>
+                                        <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control" placeholder="Nombre(s)">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Apellido paterno</label>
+                                        <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control" placeholder="Apellido paterno">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Apellido paterno</label>
+                                        <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control" placeholder="Apellido materno">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Sexo</label>
+                                        <select class="form-control" id="listSexoNuevo" name="listSexoNuevo" onchange="validarPersona()">
+                                            <option value="">Elige sexo</option>
+                                            <option value="H">H</option>
+                                            <option value="M">M</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Alias</label>
+                                        <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control" placeholder="Alias">
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label>Edad</label>
+                                        <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control" placeholder="Edad">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Estado civil</label>
+                                        <select class="form-control" id="listEstadoCivilNuevo" name="listEstadoCivilNuevo" required>
+                                            <option value="">Elije estado civil</option>
+                                            <option value="Soltero">Soltero(a)</option>
+                                            <option value="Casado">Casado(a)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Ocupación</label>
+                                        <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control" placeholder="Ocupación">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Escolaridad</label>
+                                        <select class="form-control" name="slctEscolaridad" id="slctEscolaridad" onkeyup="validarPersona()">
+                                            <option value="">Seleccionar...</option>
+                                            <!-- <?php
+                                                    foreach ($data['niveles'] as $value) {
+                                                    ?>
+                                                <option value="<?= $value['id'] ?>"><?= $value['nombre_nivel_educativo'] ?></option>
+                                            <?php
+                                                    }
+                                            ?> -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Fecha de nacimiento</label>
+                                        <input type="date" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control" placeholder="Apellido paterno">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- <form id="formSalonNuevo" name="formSalonNuevo">
+                        <input type="hidden" id="idSalonNuevo" name="idSalonNuevo" value="">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-7">
+                                    <label>Nombre del salón</label>
+                                    <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="EJ: Salón 1" name="" maxlength="45" required>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="">Capacidad máx. alumnos</label>
+                                    <input type="number" min="1" pattern="^[0-9]" id="txtCantidadMax" name="txtCantidadMax" class="form-control form-control-sm" placeholder="EJ: 10,15,20" required>
+                                </div>
+                            </div>
+                        </div> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" data-dismiss="modal" id="dimissModalNuevoSalon"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="cancelarModalNuevo"></i>Cancelar</a>
+                <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Guardar</span></button>
+            </div>
+            <!-- </form> -->
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal fade" id="ModalNuevoProspecto" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header headerRegister">
@@ -13,9 +123,9 @@
                         <input type="hidden" id="idNuevo" name="idNuevo" value="">
                         <div class="card-body overflow-auto" style="height:435px;">
 
-                            <div class="card mb-3 card-secondary collapsed-card" id="cardDatosPer" name="cardDatosPer">
+                            <div class="card mb-3 card-secondary" id="cardDatosPer" name="cardDatosPer">
                               <div class="card-header text-white">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Datos Persnales</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Datos Personales</h3>
                                 <div class="card-tools">
                                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                   <i class="fas fa-plus"></i>
@@ -113,7 +223,7 @@
                               <!-- /.card-body -->
                             </div>
 
-                            <div class="card card-secondary mb-3 collapsed-card" id="datosResidencia">
+                            <div class="card card-secondary mb-3" id="datosResidencia">
                               <div class="card-header text-white">
                                 <h3 class="card-title"><i class="fas fa-map-marker-alt"></i> &nbsp; Residencia</h3>
                                 <div class="card-tools">
@@ -174,7 +284,7 @@
                               <!-- /.card-body -->
                             </div>
 
-                            <div class="card card-secondary mb-3 collapsed-card" id="datosContacto">
+                            <div class="card card-secondary mb-3" id="datosContacto">
                               <div class="card-header text-white">
                                 <h3 class="card-title"><i class="fas fa-address-book"></i> &nbsp; Contacto</h3>
                                 <div class="card-tools">
@@ -220,7 +330,7 @@
                               <!-- /.card-body -->
                             </div>
 
-                            <div class="card card-secondary mb-3 collapsed-card" id="cardProspecto">
+                            <div class="card card-secondary mb-3" id="cardProspecto">
                               <div class="card-header text-white">
                                 <h3 class="card-title"><i class="fas fa-layer-group"></i> &nbsp; Prospecto</h3>
                                 <div class="card-tools">
@@ -306,7 +416,7 @@
                               <!-- /.card-body -->
                             </div>
 
-                            <div class="card card-secondary mb-3 collapsed-card" id="cardCaptacion">
+                            <div class="card card-secondary mb-3" id="cardCaptacion">
                               <div class="card-header text-white">
                                 <h3 class="card-title"><i class="fas fa-thumbs-up"></i> &nbsp; Medio captación</h3>
                                 <div class="card-tools">
@@ -336,7 +446,7 @@
                               <!-- /.card-body -->
                             </div>
 
-                            <div class="card card-secondary mb-3 collapsed-card" id="cardComent">
+                            <div class="card card-secondary mb-3" id="cardComent">
                               <div class="card-header text-white">
                                 <h3 class="card-title"><i class="fas fa-comment-alt"></i> &nbsp; Comentario</h3>
                                 <div class="card-tools">
@@ -366,4 +476,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->

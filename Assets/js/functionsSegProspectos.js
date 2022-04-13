@@ -151,11 +151,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // $('#tableSeguimientoProspecto').DataTable();
 
-function ftnAgendar(id){
-	var idAgendar = id;
-	document.querySelector("#idPersona").value = idAgendar;
-}
-
 // modalAgendarProspectoSeguimiento.addEventListener('submit', (e) =>{
 
 // 	e.preventDefault()

@@ -1,5 +1,10 @@
 <?php
   class Generacion extends Controllers{
+
+    private $idUser;
+    private $nomConexion;
+    private $rol;
+
     public function __construct()
     {
         parent::__construct();
@@ -9,6 +14,9 @@
             header('Location: '.base_url().'/login');
             die();
         }
+        $this->idUser = $_SESSION['idUser'];
+        $this->nomConexion = $_SESSION['nomConexion'];
+        $this->rol = $_SESSION['claveRol'];
     }
 
     public function Generacion()
@@ -23,7 +31,7 @@
 
     //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
     public function getGeneraciones(){
-        $arrData = $this->model->selectGeneraciones();
+        $arrData = $this->model->selectGeneraciones($this->nomConexion);
         for($i=0; $i < count($arrData); $i++){
           $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
           $arrData[$i]['id'] = $i+1;
@@ -55,13 +63,60 @@
         die();
     }
 
+    //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
+  /*public function getGeneraciones(string $nomConexion)
+  {
+    $arrRes = [];
+    if ($nomConexion == 'all') {
+      foreach (conexiones as $key => $conexion) {
+        if ($key != 'bd_user') {
+          $arrData = $this->model->selectGeneraciones($key);
+          for ($i = 0; $i < count($arrData); $i++) {
+            $arrData[$i]['nom_conexion'] = $key;
+          }
+          array_push($arrRes, $arrData);
+        }
+      }
+      $newArray = array_merge([], ...$arrRes);
+    } else {
+      $newArray = $this->model->selectGeneraciones($nomConexion);
+      for ($i = 0; $i < count($newArray); $i++) {
+        $newArray[$i]['nom_conexion'] = $nomConexion;
+      }
+    }
+    for ($i = 0; $i < count($newArray); $i++) {
+      $newArray[$i]['id'] = $i + 1;
+      if ($newArray[$i]['estatus'] == 1) {
+        $newArray[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
+      } else {
+        $newArray[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
+      }
+      $newArray[$i]['options'] = '
+                                  <div class="text-center">
+                                  <div class="btn-group">
+                                  <button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fas fa-layer-group"></i> &nbsp; Acciones
+                                  </button>
+                                  <div class="dropdown-menu">
+                                  <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditGeneracion" con="'.$newArray[$i]['nom_conexion'].'" onClick="fntEditGeneraciones(this,'.$newArray[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditNivelEducativo" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+                                  <div class="dropdown-divider"></div>
+                                  <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelGeneracion" con="'.$newArray[$i]['nom_conexion'].'" onClick="fntDelGeneraciones(this,'.$newArray[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp;<i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  ';
+    }
+    echo json_encode($newArray, JSON_UNESCAPED_UNICODE);
+    die();
+  }*/
+
 
     //EDITAR
     public function getGeneracion($id){
         $intIdGeneraciones = intval(strClean($id)); //intval(strClean($idrol));
         if($intIdGeneraciones > 0)
         {
-          $arrData = $this->model->selectGeneracion($intIdGeneraciones);
+          $arrData = $this->model->selectGeneracion($intIdGeneraciones,$this->nomConexion);
           if(empty($arrData))
           {
             $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -105,7 +160,7 @@
                                                                               $intId_usuario_creacion,
                                                                               $intId_Usuario_Actualizacion,
                                                                               $strFecha_Creacion,
-                                                                              $strFecha_Actualizacion);
+                                                                              $strFecha_Actualizacion, $this->nomConexion);
                                                                               $option = 1;
             } 
 
@@ -156,7 +211,7 @@
                                                                          $strFecha_fin,
 																											                   $intEstatus, 
 																											                   $strFecha_Actualizacion, 
-																											                   $intId_Usuario_Actualizacion);
+																											                   $intId_Usuario_Actualizacion, $this->nomConexion);
 																											                   $option = 1;
 								}
 
@@ -183,7 +238,7 @@
 				if($_POST)
 				{
 						$intIdGeneraciones = intval($_POST['idGeneraciones']);
-						$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones);
+						$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones, $this->nomConexion);
 						if($requestDelete == 'ok')
 						{
 							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');

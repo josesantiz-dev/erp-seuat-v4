@@ -21,31 +21,35 @@
 
 
         //EXTRAER SALONES ADMINISTRACION MATRICULAS TUTORES
-        public function selectAdministTutores()
+        public function selectAdministTutores(string $nomConexion)
         {
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT tut.id AS idTut, CONCAT(tut.nombre_tutor,' ', tut.appat_tutor,' ', tut.apmat_tutor) as nombre_tutor, 
                             tut.direccion, tut.tel_celular, tut.tel_fijo, tut.email, tut.estatus AS Estatus 
                     FROM t_tutores as tut
                     WHERE tut.estatus !=0
                     ";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql,$this->strNomConexion);
             return $request;
         }
 
 
         //PARA EDITAR TUTORES
-        public function selectAdminisTut (int $intIdAdminisTurores)
+        public function selectAdminisTut (int $intIdAdminisTurores, string $nomConexion)
         {
             //BUSCAR TUTORES
             $this->intIdAdminisTurores = $intIdAdminisTurores;
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_tutores WHERE id = $this->intIdAdminisTurores";
-            $request = $this->select($sql);
+            $request = $this->select($sql,$this->strNomConexion);
             return $request;
         }
 
 
         //MODELO PARA ACTUALIZAR
-        public function updateAdministTutores(int $id, string $nombre_tutor, string $appat_tutor, string $apmat_tutor, string $direccion, string $tel_celular, string $tel_fijo, string $email, int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion){
+        public function updateAdministTutores(int $id, string $nombre_tutor, string $appat_tutor, string $apmat_tutor, 
+                                            string $direccion, string $tel_celular, string $tel_fijo, string $email, 
+                                            int $estatus, string $fecha_actualizacion, int $id_usuario_actualizacion, string $nomConexion){
 
             $this->intIdAdminisTurores = $id;
             $this->strNombreTutor = $nombre_tutor;
@@ -58,15 +62,16 @@
             $this->intEstatus = $estatus;
             //$this->strFecha_Actualizacion = $fecha_actualizacion;
             $this->intId_Usuario_Actualizacion = $id_usuario_actualizacion;
+            $this->strNomConexion = $nomConexion;
     
             $sql = "SELECT * FROM t_tutores WHERE nombre_tutor = '$this->strNombreTutor' AND id != $this->intIdAdminisTurores";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql,$this->strNomConexion);
     
             if(empty($request))
             {
                 $sql = "UPDATE t_tutores SET nombre_tutor = ?, appat_tutor = ?, apmat_tutor = ?, direccion = ?, tel_celular = ?, tel_fijo = ?, email = ?, estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = $this->intIdAdminisTurores ";
                 $arrData = array($this->strNombreTutor, $this->strApellidoPatTutor, $this->strApellidoMatTutor, $this->strDirreccion, $this->strTelCelular, $this->strTelFijo, $this->strCorreo, $this->intEstatus, $this->intId_Usuario_Actualizacion);
-                $request = $this->update($sql,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
             }else{
                 $request = "exist";
             }
@@ -75,15 +80,16 @@
 
 
         //MODELO PARA ELIMINAR TUTORES
-        public function deleteAdministTutores(int $idTut){
+        public function deleteAdministTutores(int $idTut, string $nomConexion){
             $this->intIdAdminisTurores = $idTut;
+            $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_inscripciones WHERE id_tutores = $this->intIdAdminisTurores";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql,$this->strNomConexion);
             if(empty($request))
             {
                 $sql = "UPDATE t_tutores SET estatus = ? WHERE id = $this->intIdAdminisTurores";
                 $arrData =array(0);
-                $request = $this->update($sql,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
                 if($request)
                 {
                     $request = 'ok';

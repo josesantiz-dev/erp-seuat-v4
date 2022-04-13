@@ -1,5 +1,10 @@
 <?php
     class Salones_compuestos extends Controllers{
+
+        private $idUser;
+        private $nomConexion;
+        private $rol;
+
         public function __construct()
         {
             parent::__construct();
@@ -9,6 +14,9 @@
                 header('Location: '.base_url().'/login');
                 die();
             }
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+            $this->rol = $_SESSION['claveRol'];
         }
 
         public function Salones_compuestos()
@@ -23,7 +31,7 @@
 
         //PARA ENLISTAR TODOS LOS SALONES COMPUESTOS
         public function getSalonesCompuest(){
-            $arrData = $this->model->selectSalonesCompuest();
+            $arrData = $this->model->selectSalonesCompuest($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
                 if($arrData[$i]['Est'] == 1){
                     $arrData[$i]['Est'] = '<span class="badge badge-dark">Activo</span>';
@@ -61,7 +69,7 @@
             $intIdSalonesCompuestos = intval(strClean($id));
             if($intIdSalonesCompuestos > 0)
             {
-                $arrData = $this->model->selectSalonCompu($intIdSalonesCompuestos);
+                $arrData = $this->model->selectSalonCompu($intIdSalonesCompuestos, $this->nomConexion);
                 if(empty($arrData))
                 {
                     $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
@@ -114,7 +122,7 @@
                                                                                         $intId_Planteles,
                                                                                         $intId_Turnos,
                                                                                         $intId_Salones,
-                                                                                        $intEstatus);
+                                                                                        $intEstatus, $this->nomConexion);
                                                                                         $option = 1;
                     }
 
@@ -174,7 +182,7 @@
                                                                                    $intId_Grupos,
                                                                                    $intId_Planteles,
                                                                                    $intId_Turnos,
-                                                                                   $intId_Salones);
+                                                                                   $intId_Salones, $this->nomConexion);
                                                                                    $option = 1;
                     }
 
@@ -200,7 +208,7 @@
             if($_POST)
             {
                 $intIdSalonesCompuestos = intval($_POST['IdSalonCom']);
-                $requestDelete = $this->model->deleteSalonesCompu($intIdSalonesCompuestos);
+                $requestDelete = $this->model->deleteSalonesCompu($intIdSalonesCompuestos, $this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el salón compuesto correctamente.');
@@ -225,7 +233,7 @@
         /*---------------------------------------SELECT PARA NUEVOS---------------------------------------*/ 
         public function getSelectSalonComPerio(){
             $htmlOptions = "<option value='' selected>- Elige un periodo -</option>";
-            $arrData = $this->model->selectSalonComPerio();
+            $arrData = $this->model->selectSalonComPerio($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -239,7 +247,7 @@
 
         public function getSelectSalonComGrado(){
             $htmlOptions = "<option value='' selected>- Elige un grado -</option>";
-            $arrData = $this->model->selectSalonComGrado();
+            $arrData = $this->model->selectSalonComGrado($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -253,7 +261,7 @@
 
         public function getSelectSalonComGrupo(){
             $htmlOptions = "<option value='' selected>- Elige un grupo -</option>";
-            $arrData = $this->model->selectSalonComGrupo();
+            $arrData = $this->model->selectSalonComGrupo($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -267,7 +275,7 @@
 
         public function getSelectSalonComPlantel(){
             $htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
-            $arrData = $this->model->selectSalonComPlant();
+            $arrData = $this->model->selectSalonComPlant($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -281,7 +289,7 @@
 
         public function getSelectSalonComHorar(){
             $htmlOptions = "<option value='' selected>- Elige un turno -</option>";
-            $arrData = $this->model->selectSalonComHorar();
+            $arrData = $this->model->selectSalonComHorar($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -295,7 +303,7 @@
 
         public function getSelectSalonComSalon(){
             $htmlOptions = "<option value='' selected>- Elige un salón -</option>";
-            $arrData = $this->model->selectSalonComSalon();
+            $arrData = $this->model->selectSalonComSalon($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -313,7 +321,7 @@
         
         public function getSelectEditSalonComPerio(){
             $htmlOptions = "<option value='' selected>- Elige un periodo -</option>";
-            $arrData = $this->model->selectEditSalonComPerio();
+            $arrData = $this->model->selectEditSalonComPerio($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -327,7 +335,7 @@
 
         public function getSelectEditSalonComGrado(){
             $htmlOptions = "<option value='' selected>- Elige un grado -</option>";
-            $arrData = $this->model->selectEditSalonComGrado();
+            $arrData = $this->model->selectEditSalonComGrado($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -341,7 +349,7 @@
 
         public function getSelectEditSalonComGrupo(){
             $htmlOptions = "<option value='' selected>- Elige un grupo -</option>";
-            $arrData = $this->model->selectEditSalonComGrupo();
+            $arrData = $this->model->selectEditSalonComGrupo($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -355,7 +363,7 @@
 
         public function getSelectEditSalonComPlantel(){
             $htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
-            $arrData = $this->model->selectEditSalonComPlant();
+            $arrData = $this->model->selectEditSalonComPlant($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -369,7 +377,7 @@
 
         public function getSelectEditSalonComHorar(){
             $htmlOptions = "<option value='' selected>- Elige un turno -</option>";
-            $arrData = $this->model->selectEditSalonComHorar();
+            $arrData = $this->model->selectEditSalonComHorar($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){
@@ -383,7 +391,7 @@
 
         public function getSelectEditSalonComSalon(){
             $htmlOptions = "<option value='' selected>- Elige un salón -</option>";
-            $arrData = $this->model->selectEditSalonComSalon();
+            $arrData = $this->model->selectEditSalonComSalon($this->nomConexion);
             if(count($arrData) > 0 ){
                 for ($i=0; $i < count($arrData); $i++) {
                     if($arrData[$i]['estatus'] == 1){

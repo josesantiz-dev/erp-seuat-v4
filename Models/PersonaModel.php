@@ -22,7 +22,7 @@
             per.estatus,acp.id_categoria_persona,per.id_escolaridad,gra.nombre_escolaridad,per.id_localidad,loc.nombre AS nomlocalidad,
             per.nombre_persona,per.ocupacion,per.sexo,per.tel_celular,per.tel_fijo,mun.id AS idmun,mun.nombre AS nommunicipio,est.id AS idest,
             est.nombre AS nomestado,per.fecha_nacimiento,per.curp,niv.nombre_nivel_educativo AS nivel_carrera_interes,niv.id AS id_nivel_carrera_interes,
-            ci.nombre_carrera AS carerra_interes,ci.id AS id_carrera_interes,pros.id_carrera_interes,plant.nombre_plantel AS nombre_plantel_interes,
+            ci.nombre_carrera AS carerra_interes,ci.id AS id_carrera_interes,pros.id_plantel_interes,pros.id_carrera_interes,plant.nombre_plantel AS nombre_plantel_interes,
             plant.municipio AS municipio_plantel_interes, mc.medio_captacion,pros.escuela_procedencia,pros.observaciones AS observacion FROM t_personas AS per
             INNER JOIN t_localidades AS loc ON per.id_localidad = loc.id
             INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
@@ -117,9 +117,13 @@
             $CP = ($data['txtCPEdit'] == '')?null:$data['txtCPEdit'];
             $direccion = ($data['txtDireccionEdit'] == '')?null:$data['txtDireccionEdit'];
             $observacion = ($data['txtObservacionEdit'] == '')?null:$data['txtObservacionEdit'];
-            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,alias = ?,direccion = ?,edad = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ?,fecha_actualizacion = NOW(), id_plantel_interes = ?, id_escolaridad = ?,escuela_procedencia = ?,observacion = ?,id_usuario_actualizacion = ? WHERE id = $idPersona";
-            $request = $this->update($sql,$nomConexion,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$CP,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,$nivelCarreraInteres,$carreraInteres,$plantelInteres,$escolaridad,$escuelaProcedencia,$observacion,$idUSer));
-            return $request;
+            $sql = "UPDATE t_personas SET nombre_persona = ?,ap_paterno = ?,ap_materno = ?,alias = ?,direccion = ?,edad = ?,cp = ?,colonia = ?,tel_celular = ?,tel_fijo = ?,email = ?,edo_civil = ?,ocupacion = ?,curp = ?,fecha_nacimiento = ?,fecha_actualizacion = NOW(),id_escolaridad = ?,id_usuario_actualizacion = ? WHERE id = $idPersona";
+            $request = $this->update($sql,$nomConexion,array($nombre,$apellidoP,$apellidoM,$alias,$direccion,$edad,$CP,$colonia,$telefonoCelular,$telefonoFijo,$email,$estadoCivil,$ocupacion,$CURP,$fechaNacimiento,$escolaridad,$idUSer));
+            if($request){
+                $sqlProspecto = "UPDATE t_prospectos SET escuela_procedencia = ?,observaciones = ?, id_plantel_interes = ?,id_nivel_carrera_interes = ?,id_carrera_interes = ? WHERE id_persona = $idPersona";
+                $requestProspecto = $this->update($sqlProspecto, $nomConexion, array($escuelaProcedencia, $observacion, $plantelInteres, $nivelCarreraInteres, $carreraInteres));
+            }
+            return $requestProspecto;
         }
         public function selectEstados(string $nomConexion){
             $sql = "SELECT *FROM t_estados";

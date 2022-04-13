@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
+                            <button type="button" onclick="fnNuevaInscripcion()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
                         </ol>
                     </div>
                 </div>

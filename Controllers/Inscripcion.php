@@ -119,11 +119,15 @@
             }
             //Nueva
             if($intIdInscripcionNueva == 0){
-                $arrData = $this->model->insertInscripcion($data,$_SESSION['idUser'], $this->nomConexion);
-                if($arrData){
-                    $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
+                if($_POST['idSubcampaniaNuevo'] != ''){
+                    $arrData = $this->model->insertInscripcion($data,$_SESSION['idUser'], $this->nomConexion);
+                    if($arrData){
+                        $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
+                    }else{
+                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
+                    }
                 }else{
-                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar si subcampaña');
                 }
             }
             //Editar

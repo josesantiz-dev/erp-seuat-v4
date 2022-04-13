@@ -83,23 +83,34 @@
                                                 <label><b>Campaña</b></label>
                                                 <?php 
                                                     $campanias = $data['subcampanias'];
-                                                    $campania = array_shift($campanias);
+                                                    if(count($campanias) > 0){
+                                                        $campania = array_shift($campanias); ?>
+                                                        <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
+                                                        <p>Estas inscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania"><?php echo($campania['nombre_campania'].'/'.$campania['nombre_sub_campania'])?></span>&nbsp 
+                                                            <button type="button" onclick="fnCambiarCamSubcampania()" class="btn btn-sm"><i class="fa fa-pencil-alt"></i></button>
+                                                        </p>
+                                                        <div class="col-md-8 row cambiarsubcampania">
+                                                            <select class="form-control form-control-sm col-8 listCampSub" onchange="campaniaSeleccionada(value)">
+                                                                <option value="">Seleccionar</option>
+                                                                <?php 
+                                                                    foreach ($data['subcampanias'] as $key => $value) { ?>
+                                                                        <option value="<?php echo($value['id_subcampania']) ?>"><?php echo($value['nombre_campania'].'/'.$value['nombre_sub_campania'].'  ('.$value['fecha_fin_subcampania'].')') ?></option>
+                                                                    <?php }
+                                                                ?>
+                                                            </select> 
+                                                            <div class="col-4"><button onclick="fnQuitCambiarSubCampania()" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button></div>
+                                                        </div>
+                                                    <?php }else{ ?>
+                                                        <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="">
+                                                        <p><span class="badge badge-warning nombrecampania">No hay campañas/subcampañas activas</span>
+                                                        </p>
+                                                        <div class="col-md-8 row cambiarsubcampania">
+                                                            <select class="form-control form-control-sm col-8 listCampSub" onchange="campaniaSeleccionada(value)">
+                                                                <option value="">Seleccionar</option>
+                                                            </select> 
+                                                        </div>
+                                                    <?php }
                                                 ?>
-                                                <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
-                                                <p>Estas inscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania"><?php echo($campania['nombre_campania'].'/'.$campania['nombre_sub_campania'])?></span>&nbsp 
-                                                    <button type="button" onclick="fnCambiarCamSubcampania()" class="btn btn-sm"><i class="fa fa-pencil-alt"></i></button>
-                                                </p>
-                                                <div class="col-md-8 row cambiarsubcampania">
-                                                    <select class="form-control form-control-sm col-8 listCampSub" onchange="campaniaSeleccionada(value)">
-                                                        <option value="">Seleccionar</option>
-                                                        <?php 
-                                                            foreach ($data['subcampanias'] as $key => $value) { ?>
-                                                                <option value="<?php echo($value['id_subcampania']) ?>"><?php echo($value['nombre_campania'].'/'.$value['nombre_sub_campania'].'  ('.$value['fecha_fin_subcampania'].')') ?></option>
-                                                            <?php }
-                                                        ?>
-                                                    </select> 
-                                                    <div class="col-4"><button onclick="fnQuitCambiarSubCampania()" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button></div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>    
@@ -152,8 +163,8 @@
                         <div class="col-6">
                             <div style="overflow:auto;">
                                 <div style="float:right;">
-                                    <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(-1)"  id="btnAnterior"><i class="fas fa-fw fa-lg fa-arrow-circle-left icono-azul"></i>Anterior</button>
-                                    <button class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(1)"  id="btnSiguiente"><i class="fas fa-fw fa-lg fa-arrow-circle-right icono-azul"></i>Siguiente</button>
+                                    <a type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(-1)"  id="btnAnterior"><i class="fas fa-fw fa-lg fa-arrow-circle-left icono-azul"></i>Anterior</a>
+                                    <a type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" href="#" onclick="pasarTab(1)"  id="btnSiguiente"><i class="fas fa-fw fa-lg fa-arrow-circle-right icono-azul"></i>Siguiente</a>
                                     <button id="btnActionFormNuevo" type="submit" class="btn btn-outline-secondary btn-primary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Inscribir</span></button>
                                 </div>
                             </div>

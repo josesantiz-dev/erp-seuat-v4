@@ -18,39 +18,42 @@ class Categoria_serviciosModel extends Mysql
 		parent::__construct();
 	}
 
-    public function selectCategoria_servicios()
+    public function selectCategoria_servicios(string $nomConexion)
     {
         //Extraer las categorias de servicios
+        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_categoria_servicios WHERE estatus !=0 ORDER BY id DESC";
-        $request = $this->select_all($sql);
+        $request = $this->select_all($sql,$this->strNomConexion);
         return $request;
     }
     
 
-    public function selectCategoria_servicio(int $intIdCategoria_servicios)
+    public function selectCategoria_servicio(int $intIdCategoria_servicios, string $nomConexion)
     {
         //Buscar Categoria
         $this->intIdCategoria_servicios = $intIdCategoria_servicios;
+        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_categoria_servicios WHERE id = $this->intIdCategoria_servicios";
-        $request = $this->select($sql);
+        $request = $this->select($sql,$this->strNomConexion);
         return $request;
     }
 
 
-    public function insertCategoria_servicios(string $strClave_categoria,string $strNombre_categoria,int $intAplica_colegiatura,int $intEstatus,int $id_user){
+    public function insertCategoria_servicios(string $strClave_categoria,string $strNombre_categoria,int $intAplica_colegiatura,int $intEstatus,int $id_user, string $nomConexion){
         $this->strClave_categoria_servicio = $strClave_categoria;
         $this->strNombre_categoria = $strNombre_categoria;
         $this->intAplica_colegiatura = $intAplica_colegiatura;
         $this->intEstatus = $intEstatus;
         $this->intId_user = $id_user;
+        $this->strNomConexion = $nomConexion;
        
         $sql = "SELECT * FROM t_categoria_servicios WHERE nombre_categoria = '{$this->strNombre_categoria}'";
-        $request = $this->select_all($sql);
+        $request = $this->select_all($sql,$this->strNomConexion);
         
         if(empty($request)){
             $query_insert = "INSERT INTO t_categoria_servicios(clave_categoria,nombre_categoria,colegiatura,estatus,fecha_creacion,id_usuario_creacion) VALUES(?,?,?,?,NOW(),?)";
             $arrData = array($this->strClave_categoria_servicio,$this->strNombre_categoria,$this->intAplica_colegiatura, $this->intEstatus, $this->intId_user);
-            $request_insert = $this->insert($query_insert,$arrData);
+            $request_insert = $this->insert($query_insert,$this->strNomConexion,$arrData);
             $return = $request_insert;
         }else{
             $return = "exist";
@@ -58,21 +61,22 @@ class Categoria_serviciosModel extends Mysql
         return $return;
     }	
 
-    public function updateCategoria_servicios(int $id, string $clave_categoria,string $nombre_categoria, int $aplica_colegiatura,int $estatus,int $id_user){
+    public function updateCategoria_servicios(int $id, string $clave_categoria,string $nombre_categoria, int $aplica_colegiatura,int $estatus,int $id_user,string $nomConexion){
         $this->intIdCategoria_servicios = $id;
         $this->strClave_categoria_servicio = $clave_categoria;
         $this->strNombre_categoria = $nombre_categoria;
         $this->intAplica_colegiatura = $aplica_colegiatura;
         $this->intEstatus = $estatus;
         $this->intId_user = $id_user;
+        $this->strNomConexion = $nomConexion;
         
         $sql = "SELECT * FROM t_categoria_servicios WHERE nombre_categoria = '$this->strNombre_categoria' AND id != $this->intIdCategoria_servicios";
-        $request = $this->select_all($sql);
+        $request = $this->select_all($sql,$this->strNomConexion);
         if(empty($request))
         {
             $sql = "UPDATE t_categoria_servicios SET clave_categoria = ?,nombre_categoria = ?, colegiatura = ?,estatus = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id = $this->intIdCategoria_servicios ";
-            $arrData = array($this->strClave_categoria_servicio,$this->strNombre_categoria, $this->intAplica_colegiatura,$this->intEstatus, $this->idUser);
-            $request = $this->update($sql,$arrData);
+            $arrData = array($this->strClave_categoria_servicio,$this->strNombre_categoria, $this->intAplica_colegiatura,$this->intEstatus, $this->intId_user);
+            $request = $this->update($sql,$this->strNomConexion,$arrData);
         }else{
             $request = "exist";
         }
@@ -80,16 +84,17 @@ class Categoria_serviciosModel extends Mysql
     }
 
 
-    public function deleteCategoria_servicios(int $idcategoria_servicios)
+    public function deleteCategoria_servicios(int $idcategoria_servicios,string $nomConexion)
 		{
 			$this->intIdCategoria_servicios = $idcategoria_servicios;
+            $this->strNomConexion = $nomConexion;
 			$sql = "SELECT * FROM t_servicios WHERE id_categoria_servicio = $this->intIdCategoria_servicios";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql,$this->strNomConexion);
 			if(empty($request))
 			{
 				$sql = "UPDATE t_categoria_servicios SET estatus = ? WHERE id = $this->intIdCategoria_servicios";
 				$arrData = array(0);
-				$request = $this->update($sql,$arrData);
+				$request = $this->update($sql,$this->strNomConexion,$arrData);
 				if($request)
 				{
 					$request = 'ok';	

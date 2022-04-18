@@ -137,7 +137,7 @@ function fnGuardarPrecarga(){
         return false;
     }
     if(arrDatosNew.length == 0){
-        swal.fire("Atención", "No ha seleccionaro servicios, selecciona una carrera para ver los servicios", "warning");
+        swal.fire("Atención", "No ha seleccionado servicios, selecciona una carrera para ver los servicios", "warning");
         return false; 
     }
     if(periodo == 0){
@@ -165,7 +165,7 @@ function fnGuardarPrecarga(){
                 console.log(resultado);
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
-            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}/${idPlanEstudios}`;
+            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${periodo}/${grado}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}/${idPlanEstudios}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado){
                     swal.fire("Atención", "Datos guardados correctamente", "success");

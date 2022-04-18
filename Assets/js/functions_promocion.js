@@ -5,6 +5,7 @@ let divLoading = document.querySelector("#divLoading");
 window.addEventListener('load', function () {
 	fntCampanias();
 	fntServicios();
+	fntSelectSubcampanias();
 	$('.select2').select2()
 }, false);
 

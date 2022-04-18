@@ -14,7 +14,7 @@ class Categoria_servicios extends Controllers
         }
         $this->idUser = $_SESSION['idUser'];
         $this->nomConexion = $_SESSION['nomConexion'];
-        $this->rol = $_SESSION['claveRol'];
+        // $this->rol = $_SESSION['claveRol'];
     }
 
     public function Categoria_servicios()
@@ -80,7 +80,8 @@ class Categoria_servicios extends Controllers
                 $intIdCategoria_servicios = intval($_POST['idCategoria_servicios']);
                 $strClave_categoria = strClean($_POST['txtClave_categoria']);
                 $strNombre_categoria = strClean($_POST['txtNombre_categoria']);
-                $intAplica_colegiatura = intVal($_POST['chk_aplica_colegiatura']);
+                // $intAplica_colegiatura = intVal($_POST['chk_aplica_colegiatura']);
+                $intAplica_colegiatura = (empty($_POST['chk_aplica_colegiatura'])?0:1);
                 $intEstatus = intval($_POST['listEstatus']);
                 if ($intIdCategoria_servicios == 0) {
                     //Crear

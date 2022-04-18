@@ -14,7 +14,7 @@
 			}
 			$this->idUser = $_SESSION['idUser'];
             $this->nomConexion = $_SESSION['nomConexion'];
-            $this->rol = $_SESSION['claveRol'];
+            // $this->rol = $_SESSION['claveRol'];
 		}
 		public function Servicios(){
 			$data['page_tag'] = "Servicios";
@@ -94,6 +94,7 @@
 			echo $htmlOptions;
 			die();
 		}
+		
 		public function getSelectPlanteles(){
 			$htmlOptions = "<option value='' selected>- Elige un plantel -</option>";
 			$arrData = $this->model->selectPlanteles($this->nomConexion);
@@ -119,7 +120,8 @@
 					$strCodigo_servicio =  strClean($_POST['txtCodigo_servicio']);
 					$strNombre_servicio =  strClean($_POST['txtNombre_servicio']);
 					$intPrecio_unitario = intval($_POST['txtPrecio_unitario']);
-					$intAplica_edo_cuenta = intval($_POST['chkAplica_edo_cuenta']);
+					// $intAplica_edo_cuenta = intval($_POST['chkAplica_edo_cuenta']);
+					$intAplica_edo_cuenta = (empty($_POST['chkAplica_edo_cuenta'])?0:1);
 					$strAnio_fiscal = strClean($_POST['listAnioFiscal']);
 					$intEstatus = intval($_POST['listEstatus']);
 					$strFecha_creacion = date('Y-m-d H:i:s'); // strClean($_POST['txtFecha_creacion']);
@@ -152,20 +154,24 @@
 
 		public function setServicios_up(){
 			if($_POST){
-				if(empty($_POST['idServicio']) || empty($_POST['listAnioFiscal']) || empty($_POST['listEstatus']) || empty($_POST['listIdCategoria_servicio']) || empty($_POST['listIdPlantel']) || empty($_POST['listIdUnidades_medida'])  || empty($_POST['txtCodigo_servicio']) || empty($_POST['txtNombre_servicio']) || empty($_POST['txtPrecio_unitario']) ){
+				if(empty($_POST['idServicioEdit'])  || empty($_POST['txtCodigo_servicio_edit']) || empty($_POST['txtNombre_servicio_edit']) || 
+				empty($_POST['txtPrecio_unitario_edit']) || empty($_POST['listIdCategoria_servicio_edit']) || empty($_POST['listIdUnidades_medida_edit']) || 
+				empty($_POST['listAnioFiscal_edit']) || empty($_POST['listIdPlantel_edit']) || empty($_POST['list_estatus_servicios_edit']) ){
 					$arrResponse = array("estatus" => false, "msg" => 'Datos incorrectos.');
 				}else{
-					$intIdServicio = intval($_POST['idServicio']);
-					$strCodigo_servicio =  strClean($_POST['txtCodigo_servicio']);
-					$strNombre_servicio =  strClean($_POST['txtNombre_servicio']);
-					$intPrecio_unitario = intval($_POST['txtPrecio_unitario']);
-					$intAplica_edo_cuenta = intval($_POST['chkAplica_edo_cuenta']);
-					$strAnio_fiscal = strClean($_POST['listAnioFiscal']);
-					$intEstatus = intval($_POST['listEstatus']);
-					$intIdPlantel = intval($_POST['listIdPlantel']);
-					$intIdCategoria_servicio = intval($_POST['listIdCategoria_servicio']);
-					$intIdUnidades_medida = intval($_POST['listIdUnidades_medida']);
-					$arrRequest = $this->model->updateServicio($intIdServicio,$strCodigo_servicio,$strNombre_servicio,$intPrecio_unitario,$intAplica_edo_cuenta,$strAnio_fiscal,$intEstatus,$intIdPlantel,$intIdCategoria_servicio,$intIdUnidades_medida,$_SESSION['idUser'],$this->nomConexion);
+					$intIdServicio = intval($_POST['idServicioEdit']);
+					$strCodigo_servicio =  strClean($_POST['txtCodigo_servicio_edit']);
+					$strNombre_servicio =  strClean($_POST['txtNombre_servicio_edit']);
+					$intPrecio_unitario = intval($_POST['txtPrecio_unitario_edit']);
+					$intIdCategoria_servicio = intval($_POST['listIdCategoria_servicio_edit']);
+					$intIdUnidades_medida = intval($_POST['listIdUnidades_medida_edit']);
+					$strAnio_fiscal = strClean($_POST['listAnioFiscal_edit']);
+					// $intAplica_edo_cuenta = intval($_POST['chkAplica_edo_cuenta_edit']);
+					$intAplica_edo_cuenta = (empty($_POST['chkAplica_edo_cuenta_edit'])?0:1);
+					$intIdPlantel = intval($_POST['listIdPlantel_edit']);
+					$intEstatus = intval($_POST['list_estatus_servicios_edit']);
+					$arrRequest = $this->model->updateServicio($intIdServicio,$strCodigo_servicio,$strNombre_servicio,$intPrecio_unitario,
+						$intIdCategoria_servicio,$intIdUnidades_medida,$strAnio_fiscal,$intAplica_edo_cuenta,$intIdPlantel,$intEstatus,$_SESSION['idUser'],$this->nomConexion);
 					if($arrRequest){
 						$arrResponse = array("estatus" => true, "msg" => 'Datos actualizados correctamente.');
 					}else{

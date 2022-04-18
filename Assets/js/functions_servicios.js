@@ -50,16 +50,16 @@ document.addEventListener('DOMContentLoaded', function(){
 			"order": [[ 0,"asc" ]]
 	});
 	// Casilla de verificación enlazar función al evento OnClick
-	document.getElementById('chkAplica_edo_cuenta').onclick = function() {
-		if(this.checked) {
-			console.log("checkeado");
-			document.querySelector("#chkAplica_edo_cuenta").checked = true;
-			/*alert(this.value);*/
-		}else{
+	// document.getElementById('chkAplica_edo_cuenta').onclick = function() {
+	// 	if(this.checked) {
+	// 		console.log("checkeado");
+	// 		document.querySelector("#chkAplica_edo_cuenta").checked = true;
+	// 		/*alert(this.value);*/
+	// 	}else{
 			
-			// Retorna falso si no esta checkeado
-		}
-	};
+	// 		// Retorna falso si no esta checkeado
+	// 	}
+	// };
 	/* document.getElementById('chkAplica_edo_cuenta_edit').onclick = function() {
 		if(this.checked) {
 			console.log("checkeado");
@@ -68,6 +68,21 @@ document.addEventListener('DOMContentLoaded', function(){
 			document.getElementById("chkAplica_edo_cuenta_edit").checked = true;
 		}
 	}; */
+
+	document.getElementById('chkAplica_edo_cuenta').onclick = function () {
+		if (this.checked) {
+			document.querySelector("#chkAplica_edo_cuenta").value = 1;
+		} else {
+			document.querySelector("#chkAplica_edo_cuenta").value = 0;
+		}
+	};
+	document.getElementById('chkAplica_edo_cuenta_edit').onclick = function () {
+		if (this.checked) {
+			document.querySelector("#chkAplica_edo_cuenta_edit").value = 1;
+		} else {
+			document.querySelector("#chkAplica_edo_cuenta_edit").value = 0;
+		}
+	};
 
 	// Crear
 	if(document.querySelector("#formServicios")){
@@ -138,9 +153,10 @@ document.addEventListener('DOMContentLoaded', function(){
 			let intIdCategoria = document.querySelector('#listIdCategoria_servicio_edit').value;
 			let intIdUnidad = document.querySelector('#listIdUnidades_medida_edit').value;
 			let strAnioFiscal = document.querySelector('#listAnioFiscal_edit').value;
+			let intAplica_edo_cuenta = document.querySelector('#chkAplica_edo_cuenta_edit').value;
 			let intIdPlantel = document.querySelector('#listIdPlantel_edit').value;
 			let intEstatus = document.querySelector('#list_estatus_servicios_edit').value;
-			if(intIdServicio == '' || strCodigoServicio == '' || strNombreServicio == '' || strPrecio == '' || intIdCategoria == '' || intIdUnidad == '' || strAnioFiscal == '' || intIdPlantel == '' || intEstatus == ''){
+			if(intIdServicio == '' || strCodigoServicio == '' || strNombreServicio == '' || strPrecio == '' || intIdCategoria == '' || intIdUnidad == '' || strAnioFiscal == '' || intAplica_edo_cuenta == '' || intIdPlantel == '' || intEstatus == ''){
 				swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
 				return false;
 			} 

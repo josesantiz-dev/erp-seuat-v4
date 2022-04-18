@@ -25,12 +25,13 @@ class ServiciosModel extends Mysql{
         $request = $this->select_all($sql,$this->strNomConexion);
         return $request;
     }
-    
+        //EDITAR SERVICIOS
     public function selectServicio(int $id, string $nomConexion){
         $this->strNomConexion = $nomConexion;
         $sql = "SELECT s.codigo_servicio,s.nombre_servicio,s.precio_unitario,s.id_categoria_servicio,s.id_unidades_medida,s.anio_fiscal,s.aplica_edo_cuenta,
-        s.id_plantel,s.estatus FROM t_servicios AS s
-        WHERE s.id = $id";
+                s.id_plantel,s.estatus 
+                FROM t_servicios AS s
+                WHERE s.id = $id";
         $request = $this->select($sql,$this->strNomConexion);
         return $request;
     }
@@ -49,6 +50,7 @@ class ServiciosModel extends Mysql{
     }
 
     public function selectPlanteles(string $nomConexion){
+        $this->strNomConexion = $nomConexion;
         $sql = "SELECT * FROM t_planteles WHERE estatus != 0 ORDER BY nombre_plantel ASC ";
         $request = $this->select_all($sql,$this->strNomConexion);
         return $request;
@@ -83,10 +85,10 @@ class ServiciosModel extends Mysql{
         }
         return $return;
     }
-    public function updateServicio(int $intIdServicio,string $strCodigo_servicio,string $strNombre_servicio,string $intPrecio_unitario,int $intAplica_edo_cuenta,int $strAnio_fiscal,int $intEstatus,int $intIdPlantel,int $intIdCategoria_servicio,int $intIdUnidades_medida,int $id_user, string $nomConexion){
+    public function updateServicio(int $intIdServicio,string $strCodigo_servicio,string $strNombre_servicio,string $intPrecio_unitario,int $intIdCategoria_servicio,int $intIdUnidades_medida,int $strAnio_fiscal,int $intAplica_edo_cuenta,int $intIdPlantel,int $intEstatus,int $id_user, string $nomConexion){
         $this->strNomConexion = $nomConexion;
-        $sql = "UPDATE t_servicios SET codigo_servicio = ?,nombre_servicio = ?,precio_unitario = ?,aplica_edo_cuenta = ?,anio_fiscal = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?,id_plantel = ?,id_categoria_servicio = ?,id_unidades_medida = ? WHERE id = $intIdServicio";
-        $arrRequest = $this->update($sql,$this->strNomConexion,array($strCodigo_servicio,$strNombre_servicio,$intPrecio_unitario,$intAplica_edo_cuenta,$strAnio_fiscal,$intEstatus,$id_user,$intIdPlantel,$intIdCategoria_servicio,$intIdUnidades_medida));
+        $sql = "UPDATE t_servicios SET codigo_servicio = ?,nombre_servicio = ?,precio_unitario = ?,id_categoria_servicio = ?,id_unidades_medida = ?,anio_fiscal = ?,aplica_edo_cuenta = ?,id_plantel = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $intIdServicio";
+        $arrRequest = $this->update($sql,$this->strNomConexion,array($strCodigo_servicio,$strNombre_servicio,$intPrecio_unitario,$intIdCategoria_servicio,$intIdUnidades_medida,$strAnio_fiscal,$intAplica_edo_cuenta,$intIdPlantel,$intEstatus,$id_user));
         return $arrRequest;
     }
 

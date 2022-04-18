@@ -71,7 +71,7 @@
                                             <label for="listSubcampania">Subcampañas</label>
                                             <select class="form-control form-control-sm" id="listSubcampania_edit"
                                                 name="listSubcampania_edit" style="width: 100%;" required="">
-                                                <option value="">- Seleccionar subcampaña -</option>
+
                                             </select>
                                         </div>
                                     </div>

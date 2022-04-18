@@ -1,6 +1,11 @@
 <?php
 class Promocion extends Controllers
 {
+
+    private $idUser;
+    private $nomConexion;
+    private $rol;
+
     public function __construct()
     {
         parent::__construct();
@@ -9,6 +14,9 @@ class Promocion extends Controllers
             header('Location: ' . base_url() . '/login');
             die();
         }
+        $this->idUser = $_SESSION['idUser'];
+        $this->nomConexion = $_SESSION['nomConexion'];
+        // $this->rol = $_SESSION['claveRol'];
     }
     public function Promocion()
     {
@@ -16,13 +24,13 @@ class Promocion extends Controllers
         $data['page_title'] = "Promoción servicios";
         $data['page_name'] = "promocion_servicios";
         $data['page_functions_js'] = "functions_promocion.js";
-		$data['servicios'] = $this->model->selectServicios();
-		$data['campanias'] = $this->model->selectCampanias();
+		$data['servicios'] = $this->model->selectServicios($this->nomConexion);
+		$data['campanias'] = $this->model->selectCampanias($this->nomConexion);
         $this->views->getView($this, "promocion", $data);
     }
 
     public function getPromociones(){
-        $arrData = $this->model->selectPromociones();
+        $arrData = $this->model->selectPromociones($this->nomConexion);
         for ($i = 0; $i < count($arrData); $i++) {
 			$arrData[$i]['numeracion'] = $i+1;
             if ($arrData[$i]['EstatusPromocion'] == 1) {
@@ -53,7 +61,7 @@ class Promocion extends Controllers
         //if($_SESSION['permisosMod']['r']){
         $intIdCategoria_servicios = intval(strClean($id));
         if ($intIdCategoria_servicios > 0) {
-            $arrData = $this->model->selectCategoria_servicio($intIdCategoria_servicios);
+            $arrData = $this->model->selectCategoria_servicio($intIdCategoria_servicios,$this->nomConexion);
             if (empty($arrData)) {
                 $arrResponse = array('estatus' => false, 'msg' => 'Datos no encontrados.');
             } else {
@@ -68,7 +76,7 @@ class Promocion extends Controllers
     public function getSelectServicios()
     {
         $htmlOptions = "<option value='' selected>- Elige un servicio -</option>";
-        $arrData = $this->model->selectServicios();
+        $arrData = $this->model->selectServicios($this->nomConexion);
         if (count($arrData) > 0) {
             for ($i = 0; $i < count($arrData); $i++) {
                 if ($arrData[$i]['estatus'] == 1) {
@@ -83,7 +91,7 @@ class Promocion extends Controllers
 	public function getSelectServiciosEdit($id)
     {
         $htmlOptions = "";
-        $arrData = $this->model->selectServicios();
+        $arrData = $this->model->selectServicios($this->nomConexion);
         if (count($arrData) > 0) {
             for ($i = 0; $i < count($arrData); $i++) {
 				if ($arrData[$i]['estatus'] == 1) {
@@ -103,7 +111,7 @@ class Promocion extends Controllers
     public function getSelectCampanias()
     {
         $htmlOptions = "<option value='' selected>- Elige una campaña -</option>";
-        $arrData = $this->model->selectCampanias();
+        $arrData = $this->model->selectCampanias($this->nomConexion);
         if (count($arrData) > 0) {
             for ($i = 0; $i < count($arrData); $i++) {
                 if ($arrData[$i]['estatus'] == 1) {
@@ -121,12 +129,13 @@ class Promocion extends Controllers
         //if($_SESSION['permisosMod']['r']){
         $intIdCampania = intval(strClean($idCampania));
         $htmlOptions = "<option value='' selected>- Elige una subcampaña -</option>";
-        $arrData = $this->model->selectSubcampanias($intIdCampania);
+        $arrData = $this->model->selectSubcampanias($intIdCampania,$this->nomConexion);
         if (count($arrData) > 0) {
             for ($i = 0; $i < count($arrData); $i++) {
                 if ($arrData[$i]['estatus'] == 1) {
 
-                    $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['nombre_sub_campania'] . ' [ ' . $arrData[$i]['fecha_inicio'] . ' - ' . $arrData[$i]['fecha_fin'] . ' ]</option>';
+                    // $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['nombre_sub_campania'] . ' [ ' . $arrData[$i]['fecha_inicio'] . ' - ' . $arrData[$i]['fecha_fin'] . ' ]</option>';
+                    $htmlOptions .= '<option value="' . $arrData[$i]['id'] . '">' . $arrData[$i]['nombre_sub_campania'] . '</option>';
                 }
             }
         }
@@ -157,18 +166,9 @@ class Promocion extends Controllers
 
                 if ($intIdPromocion == 0) {
                     //Crear
-                    $request_promocion = $this->model->insertPromocion($strNombre_promocion,
-                        $strDescripcion,
-                        $intEstatus,
-                        $strPorcentaje_descuento,
-                        $strFecha_inicio,
-                        $strFecha_fin,
-                        $strFecha_creacion,
-                        $strFecha_actualizacion,
-                        $intId_usuario_creacion,
-                        $intId_usuario_actualizacion,
-                        $intId_subcampania,
-                        $intId_servicio);
+                    $request_promocion = $this->model->insertPromocion($strNombre_promocion,$strDescripcion,$intEstatus,$strPorcentaje_descuento,
+                        $strFecha_inicio,$strFecha_fin,$strFecha_creacion,$strFecha_actualizacion,$intId_usuario_creacion,$intId_usuario_actualizacion,
+                        $intId_subcampania,$intId_servicio,$this->nomConexion);
                     $option = 1;
                 }
 
@@ -204,7 +204,7 @@ class Promocion extends Controllers
 				$strNombre_promocion = strClean($_POST['txtNombre_promocion_edit']);
 				$intPorcentaje_descuento = intval($_POST['txtPorcentaje_descuento_edit']);
 				$intEstatus = intval($_POST['listEstatusEdit']);
-				$request_promocion = $this->model->updatePromocion($intId_promocion,$intId_campania,$intId_servicio,$intId_subcampania,$strDescripcion,$strFecha_fin,$strFecha_inicio,$strNombre_promocion,$intPorcentaje_descuento,$_SESSION['idUser'],$intEstatus);
+				$request_promocion = $this->model->updatePromocion($intId_promocion,$intId_campania,$intId_servicio,$intId_subcampania,$strDescripcion,$strFecha_fin,$strFecha_inicio,$strNombre_promocion,$intPorcentaje_descuento,$_SESSION['idUser'],$intEstatus,$this->nomConexion);
 				if($request_promocion){
 					$arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
 				}else{
@@ -218,7 +218,7 @@ class Promocion extends Controllers
     }
 
 	public function getPromocion(int $id){
-		$arrData = $this->model->selectPromocion($id);
+		$arrData = $this->model->selectPromocion($id,$this->nomConexion);
 		if($arrData){
 			$arrData['fecha_fin'] = date('Y-m-d');
 			$arrData['fecha_inicio'] = date('Y-m-d');
@@ -235,7 +235,7 @@ class Promocion extends Controllers
         if ($_POST) {
             //if($_SESSION['permisosMod']['d']){
             $intIdPromocion = intval($_POST['idPromocion']);
-            $requestDelete = $this->model->deletePromocion($intIdPromocion);
+            $requestDelete = $this->model->deletePromocion($intIdPromocion,$this->nomConexion);
             if ($requestDelete == 'ok') {
                 $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la promoción correctamente.');
             } else if ($requestDelete == 'exist') {

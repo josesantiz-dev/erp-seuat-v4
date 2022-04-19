@@ -45,7 +45,7 @@ class Seguimiento extends Controllers{
                     <div class="dropdown-menu">
                             <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" title="Agendar"> &nbsp; &nbsp;<i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
                             <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar datos</button>
-                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" onclick="fnDarSeguimiento('.$arrData[$i]['id'].')" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                             <!--<a class="dropdown-item" href="#">link</a>-->
                     </div>
                 </div>
@@ -231,28 +231,28 @@ class Seguimiento extends Controllers{
     //     die();
     // }
 
-    public function getPersonaSeguimiento(int $idPersona)
-    {
-        $intIdPersona = intval($idPersona);
-        if($intIdPersona > 0)
-        {
-            $data['datos'] = $this->model->selectPersonaSeguimiento(int $intIdPersona,,$this->nomConexion);
-            $data['seguimiento'] = $this->model->selectSeguimientoProspecto($intIdPersona);
-            if(empty($data['datos']))
-            {
-                $data['response'] = array('estatus' => false, 'msg' => 'Datos no encontrados');
-            }
-            else
-            {
-                $data['response'] = array('estatus' => true, 'msg' => $data['datos']);
-            }
-            for($i=0;$i<count($data['seguimiento']);$i++)
-            {
-               $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-warning">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
-            }
-        }
-        echo json_encode($data,JSON_UNESCAPED_UNICODE);
-    }
+    // public function getPersonaSeguimiento(int $idPersona)
+    // {
+    //     $intIdPersona = intval($idPersona);
+    //     if($intIdPersona > 0)
+    //     {
+    //         $data['datos'] = $this->model->selectPersonaSeguimiento(int $intIdPersona,,$this->nomConexion);
+    //         $data['seguimiento'] = $this->model->selectSeguimientoProspecto($intIdPersona);
+    //         if(empty($data['datos']))
+    //         {
+    //             $data['response'] = array('estatus' => false, 'msg' => 'Datos no encontrados');
+    //         }
+    //         else
+    //         {
+    //             $data['response'] = array('estatus' => true, 'msg' => $data['datos']);
+    //         }
+    //         for($i=0;$i<count($data['seguimiento']);$i++)
+    //         {
+    //            $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-warning">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
+    //         }
+    //     }
+    //     echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    // }
 
     // public function setNuevoProspecto(){
     //   if($_POST){

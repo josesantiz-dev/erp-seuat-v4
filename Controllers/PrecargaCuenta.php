@@ -26,6 +26,7 @@
 			$data['page_name'] = "Precarga cuenta";
 			$data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+			$data['niveles'] = $this->model->selectNiveles($this->nomConexion);
             $data['periodos'] = $this->model->selectPeriodos($this->nomConexion);
             $data['grados'] = $this->model->selectGrados($this->nomConexion);
 			$data['page_functions_js'] = "functions_precarga_cuenta.js";
@@ -41,11 +42,13 @@
 				}else{
 					$arrData = $this->model->selectPlanEstudiosByNivel($idNivel,$this->nomConexion);
 				}
-            }else{
+            }
+			else{
                 $idPlantel = intval($idPlantel);
 				if($idNivel == 'null' || $idNivel == 'Todos'){
 					$arrData = $this->model->selectPlanEstudiosByPlantel($idPlantel,$this->nomConexion);
-				}else{
+				}
+				else{
 					$arrData = $this->model->selectPlanEstudiosByPlantelNivel($idPlantel,$idNivel,$this->nomConexion);
 				}
             }
@@ -56,15 +59,17 @@
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
+		
         public function getServicios(int $idPlantel){
             $idPlantel = intval($idPlantel);
             $arrData = $this->model->selectServicios($idPlantel,$this->nomConexion);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
+
 		public function getNivelesByPlantel($idPlantel){
 			if($idPlantel == 'Todos'){
-				$arrData = $this->model->seletNiveles();
+				$arrData = $this->model->seletNiveles($this->nomConexion);
 			}else{
 				$idPlantel = intval($idPlantel);
 				$arrData = $this->model->selectNivelesByPlantel($idPlantel,$this->nomConexion);

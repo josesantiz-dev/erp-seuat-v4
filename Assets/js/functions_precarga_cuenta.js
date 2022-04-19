@@ -165,7 +165,7 @@ function fnGuardarPrecarga(){
                 console.log(resultado);
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
-            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${periodo}/${grado}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}/${idPlanEstudios}`;
+            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado){
                     swal.fire("Atención", "Datos guardados correctamente", "success");

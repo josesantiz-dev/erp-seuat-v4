@@ -1,3 +1,4 @@
+let divLoading = document.querySelector("#divLoading");
 //Mostrar Lista de Planteles de Datatable
 document.addEventListener('DOMContentLoaded', function(){
 	tableCategoriasCarreras = $('#tableCategoriaCarreras').dataTable( {
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
 			return false;
 		}
+        divLoading.getElementsByClassName.display = "flex";
 		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 		var ajaxUrl = base_url+'/CategoriaCarrera/setCategioriaCarrera';
 		var formData = new FormData(formNuevaCategoria);
@@ -63,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function(){
 					swal.fire("Error", objData.msg, "error");
 				}
 			}
+            divLoading.style.display = "none";
             return false;
 		}
 	}
@@ -100,6 +103,7 @@ $('#tableCategoriaCarreras').DataTable();
 //Funcion para Editar Categoria Carrera
 function fntEditCategoriaCarrera(idCategoria){
     var idCategoriaCarrera = idCategoria;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/CategoriaCarrera/getCategoriaCarrera/'+idCategoriaCarrera;
     request.open("GET",ajaxUrl ,true);
@@ -125,6 +129,8 @@ function fntEditCategoriaCarrera(idCategoria){
                 swal.fire("Error", objData.msg , "error");
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -139,6 +145,7 @@ formEditCategoriaCarrera.onsubmit = function(e){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/CategoriaCarrera/setCategioriaCarrera';
     var formData = new FormData(formEditCategoriaCarrera);
@@ -158,6 +165,7 @@ formEditCategoriaCarrera.onsubmit = function(e){
                 swal.fire("Error", objData.msg, "error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -176,6 +184,7 @@ function fntDelCategoriaCarrera(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/CategoriaCarrera/delCategoriaCarrera'; 
             var strData = "idCategoriaCarrera="+id;
@@ -195,6 +204,8 @@ function fntDelCategoriaCarrera(id) {
 
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

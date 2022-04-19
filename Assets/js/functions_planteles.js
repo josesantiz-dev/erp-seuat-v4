@@ -5,6 +5,8 @@ document.getElementById("btnSiguiente").style.display = "none";
 document.getElementById("btnSiguienteEdit").style.display = "none";
 document.getElementById("btnActionFormNuevo").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
+let divLoading = document.querySelector("#divLoading");
+
 var tabActual = 0;
 var tabActualEdit = 0;
 mostrarTab(tabActual);
@@ -71,14 +73,13 @@ document.addEventListener('DOMContentLoaded', function(){
         var strColonia = document.querySelector('#txtColoniaNuevo').value;
         var intCodigoPostal = document.querySelector('#txtCodigoPostalNuevo').value;
 
-        
-
         if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || 
             strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 
             intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
                 return false;
         }
+        divLoading.getElementsByClassName.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = base_url+'/Plantel/setPlantel';
         var formData = new FormData(formPlantel);
@@ -98,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         swal.fire("Error", objData.msg, "error");
                     }
                 }
+                divLoading.style.display = "none";
                 return false;
             }
     }
@@ -245,6 +247,7 @@ function fnNavTab(numTab){
 
 //Funcion para obtener el ID del Estado en el Select y obtener lista de Municipios
 function estadoSeleccionado(value){
+    divLoading.getElementsByClassName.display = "flex";
     const $selMunicipio = document.querySelector('#listMunicipioNuevo');
     let url = base_url+"/Plantel/getMunicipios?idestado="+value;
         fetch(url)
@@ -257,12 +260,14 @@ function estadoSeleccionado(value){
                     opcion.value = resultado[i]['id'];
                     $selMunicipio.appendChild(opcion);
                 }
+                divLoading.style.display = "none";
             })
             .catch(err => { throw err });
 }
 //Funcion para obtener el ID del Estado en el Select y obtener lista de Municipios
 function estadoSeleccionadoEdit(value){
     const $selMunicipio = document.querySelector('#listMunicipioEdit');
+    divLoading.getElementsByClassName.display = "flex";
     let url = base_url+"/Plantel/getMunicipios?idestado="+value;
         fetch(url)
             .then(res => res.json())
@@ -274,12 +279,14 @@ function estadoSeleccionadoEdit(value){
                     opcion.value = resultado[i]['id'];
                     $selMunicipio.appendChild(opcion);
                 }
+                divLoading.style.display = "none";
             })
             .catch(err => { throw err });
 }
 //Funcion para obtener el ID del Municipio en el Select y obtener lista de Localidades
 function municipioSeleccionado(value){
     const $selLocalidades = document.querySelector('#listLocalidadNuevo');
+    divLoading.getElementsByClassName.display = "flex";
     let url = base_url+"/Plantel/getLocalidades?idmunicipio="+value;
         fetch(url)
             .then(res => res.json())
@@ -291,6 +298,7 @@ function municipioSeleccionado(value){
                     opcion.value = resultado[i]['id'];
                     $selLocalidades.appendChild(opcion);
                 }
+                divLoading.style.display = "none";
             })
             .catch(err => { throw err });
             
@@ -298,6 +306,7 @@ function municipioSeleccionado(value){
 //Funcion para obtener el ID del Municipio en el Select y obtener lista de Localidades
 function municipioSeleccionadoEdit(value){
     const $selLocalidades = document.querySelector('#listLocalidadEdit');
+    divLoading.getElementsByClassName.display = "flex";
     let url = base_url+"/Plantel/getLocalidades?idmunicipio="+value;
         fetch(url)
             .then(res => res.json())
@@ -309,6 +318,7 @@ function municipioSeleccionadoEdit(value){
                     opcion.value = resultado[i]['id'];
                     $selLocalidades.appendChild(opcion);
                 }
+                divLoading.style.display = "none";
             })
             .catch(err => { throw err });
             
@@ -380,6 +390,7 @@ function fntEditPlantel(idPlantel){
     var idplantel = idPlantel;
     $('#step1-tabEdit').click();
     tabActualEdit = 0;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Plantel/getPlantel/'+idplantel;
     request.open("GET",ajaxUrl ,true);
@@ -477,6 +488,8 @@ function fntEditPlantel(idPlantel){
             }
             
         }
+        divLoading.style.display = "none";
+        return false;
     }
     
 }
@@ -495,6 +508,7 @@ function fntDelPlantel(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Plantel/delPlantel'; 
             var strData = "idPlantel="+id;
@@ -513,6 +527,8 @@ function fntDelPlantel(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });
@@ -522,6 +538,7 @@ function fntDelPlantel(id) {
 //Funcion para Editar Plantel
 function fntVerPlantel(idPlantel){
     var idplantel = idPlantel;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Plantel/getPlantel/'+idplantel;
     request.open("GET",ajaxUrl ,true);
@@ -562,6 +579,8 @@ function fntVerPlantel(idPlantel){
             }
             
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 //Funcion para guardar datos del Plantel Editado
@@ -588,6 +607,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
+        divLoading.getElementsByClassName.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = base_url+'/Plantel/setPlantel';
         var formData = new FormData(formEditPlantel);
@@ -607,6 +627,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
                         swal.fire("Error",objData.msg, "error");
                     }
                 }
+                divLoading.style.display = "none";
                 return false;
             }
     }

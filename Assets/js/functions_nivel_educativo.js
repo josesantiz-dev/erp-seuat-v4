@@ -1,6 +1,7 @@
 var tableNivelEducativo;
 var formNivelEducativoNuevo = document.querySelector("#formNivelEducativoNuevo");
 var formNivelEducativoEdit = document.querySelector("#formNivelEducativoEdit");
+let divLoading = document.querySelector("#divLoading");
 
 //Datatable
 document.addEventListener('DOMContentLoaded', function(){
@@ -51,6 +52,7 @@ formNivelEducativoNuevo.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/NivelEducativo/setNivelEducativo';
     var formData = new FormData(formNivelEducativoNuevo);
@@ -69,6 +71,7 @@ formNivelEducativoNuevo.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -76,6 +79,7 @@ formNivelEducativoNuevo.onsubmit = function(e){
 //Editar Nivel Educativo
 function fntEditNivelEducativo(idNivelEducativo){
     var idNivelEducativo = idNivelEducativo;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/NivelEducativo/getNivelEducativo/'+idNivelEducativo;
     request.open("GET",ajaxUrl ,true);
@@ -103,6 +107,8 @@ function fntEditNivelEducativo(idNivelEducativo){
                 swal.fire("Error", objData.msg , "error");
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 //Form Nivel Edicativo Edit
@@ -118,6 +124,7 @@ formNivelEducativoEdit.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/NivelEducativo/setNivelEducativo';
     var formData = new FormData(formNivelEducativoEdit);
@@ -136,6 +143,7 @@ formNivelEducativoEdit.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -154,6 +162,7 @@ function fntDelNivelEducativo(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/NivelEducativo/delNivelEducativo'; 
             var strData = "idNivelEducativo="+id;
@@ -172,6 +181,8 @@ function fntDelNivelEducativo(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

@@ -1,6 +1,7 @@
 var tableModalidad;
 var formModalidad = document.querySelector("#formModalidad");
 var formModalidadEdit = document.querySelector("#formModalidadEdit");
+let divLoading = document.querySelector("#divLoading");
 
 //Funcion para Datatable de Mostrar todas las Modalidades
 document.addEventListener('DOMContentLoaded', function(){
@@ -48,6 +49,7 @@ formModalidad.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Modalidades/setModalidad';
     var formData = new FormData(formModalidad);
@@ -66,6 +68,7 @@ formModalidad.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -73,6 +76,7 @@ formModalidad.onsubmit = function(e){
 //Editar Modalidad
 function fntEditModalidad(idModalidad){
     var idModalidad = idModalidad;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Modalidades/getModalidad/'+idModalidad;
     request.open("GET",ajaxUrl ,true);
@@ -98,6 +102,8 @@ function fntEditModalidad(idModalidad){
                 swal.fire("Error", objData.msg , "error");
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 //Guardar Nueva Modalidad
@@ -109,6 +115,7 @@ formModalidadEdit.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Modalidades/setModalidad';
     var formData = new FormData(formModalidadEdit);
@@ -127,6 +134,7 @@ formModalidadEdit.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -145,6 +153,7 @@ function fntDelModalidad(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Modalidades/delModalidad'; 
             var strData = "idModalidad="+id;
@@ -163,6 +172,8 @@ function fntDelModalidad(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

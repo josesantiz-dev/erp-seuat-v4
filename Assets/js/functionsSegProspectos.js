@@ -72,6 +72,13 @@ document.addEventListener('DOMContentLoaded', function(){
 	$('#tableSeguimientoProspecto').DataTable();
 });
 
+
+function ftnAgendar(id){
+	let idAgendar = id
+	document.querySelector('#idPersona').value = idAgendar
+}
+
+
 // function validarPersona(){
 
 // 	if(!(strNombre.value == '') && !(strApPaterno.value == '') && !(strApMaterno.value == '') && !(strAlias.value == '') && !(strSexo.value == '') && !(strEdoCivil.value == '') && !(strOcupacion.value == '') && !(strFechaNacimiento.value == '') && !(intEscolaridad.value == '')) {
@@ -424,73 +431,64 @@ document.addEventListener('DOMContentLoaded', function(){
 // 	// })
 // })
 
-// // function validar(){
-// //
-// // 	if(!(document.getElementById("slctNivelEstudios").value == "")){
-// // 		document.getElementById("cardProspecto").setAttribute("class", "card-success");
-// // 	}else{
-// // 		console.log("HOLA MUNDO XDD")
-// // 	}
-// //
-// // }
-
-
 // // const modalFormNuevaPersona = document.querySelector("#ModalFormNuevaPersona")
 // //
 
 
-// function ftnNvoProspecto(){
+function fnNuevoProspecto(){
 
-// 	rowTable = "";
-// 	$('#ModalFormNuevaPersona').modal({
-// 		backdrop: 'static',
-// 		keyboard: false,
-// 	})
+	// rowTable = "";
+	// $('#ModalFormNuevaPersona').modal({
+	// 	backdrop: 'static',
+	// 	keyboard: false,
+	// })
 
-// 	$('#ModalFormNuevaPersona').modal('show');
+	// $('#ModalFormNuevaPersona').modal('show');
 
-// 	let captacion1 = document.querySelector('#captacion1')
-// 	let captacion2 = document.querySelector('#captacion2')
-// 	let dataLenght;
-// 	let url = `${base_url}/Seguimiento/getMedioCaptacion`
-// 	fetch(url)
-// 		.then(response => response.json())
-// 		.then(data => {
-// 			captacion1.innerHTML = ""
-// 			captacion2.innerHTML = ""
-// 			dataLenght = data.length/2;
-// 			for (let i = 0; i < data.length; i++) {
-// 				if(i<dataLenght){
-// 					captacion1.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
-// 				}else{
-// 					captacion2.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
-// 				}
+	let captacion1 = document.querySelector('#captacion1')
+	let captacion2 = document.querySelector('#captacion2')
+	let captacion3 = document.querySelector('#captacion3')
+	let dataLenght;
+	let url = `${base_url}/Seguimiento/getMedioCaptacion`
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			// captacion1.innerHTML = ""
+			// captacion2.innerHTML = ""
+			// dataLenght = data.length/3;
+			// for (let i = 0; i < data.length; i++) {
+			// 	if(i<dataLenght){
+			// 		captacion1.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
+			// 	}else{
+			// 		captacion2.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
+			// 	}
 
-// 			}
-// 		})
-// 		.catch(err => console.log(err))
+			// }
+		})
+		.catch(err => console.log(err))
 
-// 		let subcampania = document.querySelector('#slctSubcampania')
-// 		let idCampania = document.querySelector('#idCampania').value
-// 		let urlSbC = `${base_url}/Seguimiento/getSubCampaniass/${idCampania}`
-// 		fetch(urlSbC)
-// 			.then(res => res.json())
-// 			.then(data => {
+		let subcampania = document.querySelector('#slctSubcampania')
+		let idCampania = document.querySelector('#idCampania').value
+		let urlSbC = `${base_url}/Seguimiento/getSubCampaniass/${idCampania}`
+		fetch(urlSbC)
+			.then(res => res.json())
+			.then(data => {
 
-// 				subcampania.innerHTML
-// 				for(let i = 0; i < data.length; i++){
+				subcampania.innerHTML
+				for(let i = 0; i < data.length; i++){
 
-// 					option = document.createElement('option');
-// 					option.text = data[i]['nombre_sub_campania']+" [Vigencia "+data[i]['fecha_inicio']+" Al "+data[i]['fecha_fin']+"]";
-// 					option.value = data[i]['id'];
-// 					subcampania.appendChild(option);
+					option = document.createElement('option');
+					option.text = data[i]['nombre_sub_campania']+" [Vigencia "+data[i]['fecha_inicio']+" Al "+data[i]['fecha_fin']+"]";
+					option.value = data[i]['id'];
+					subcampania.appendChild(option);
 
-// 				}
+				}
 
-// 			})
-// 			.catch()
+			})
+			.catch()
 
-// }
+}
 
 // function estadoSeleccionado(value){
 //     const selMunicipio = document.querySelector('#listMunicipioNuevo');
@@ -585,10 +583,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // })
 
-$(".close").click(function(){
-	$('#ModalFormNuevaPersona').modal('hide')
-})
+// $(".close").click(function(){
+// 	$('#ModalFormNuevaPersona').modal('hide')
+// })
 
-$("#dimissModalNuevo").click(function(){
-	$('#ModalFormNuevaPersona').modal('hide')
-})
+// $("#dimissModalNuevo").click(function(){
+// 	$('#ModalFormNuevaPersona').modal('hide')
+// })

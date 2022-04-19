@@ -1,6 +1,9 @@
 <?php
     headerAdmin($data);
-    getModal('Seguimiento/modalNvoProspecto',$data);
+    getModal("Seguimiento/modalNvoProspecto",$data);
+    getModal("Seguimiento/modalAgendarProspecto",$data);
+    getModal("Seguimiento/modalEditarDatos",$data);
+    getModal("Seguimiento/modalSeguimiento",$data);
 ?>
 
 <div class="wrapper">

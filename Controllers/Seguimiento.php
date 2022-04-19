@@ -22,6 +22,11 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Seguimiento de prospección";
         $data['page_title'] = "Seguimiento de prospección";
         $data['page_functions_js'] = "functionsSegProspectos.js";
+        $data['escolaridad'] = $this->model->selectEscolaridad($this->nomConexion);
+        $data['estados'] = $this->model->selectEstados($this->nomConexion);
+        $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+        $data['nivel_estudios_interes'] = $this->model->selectNivelInteres($this->nomConexion);
+        $data['carrera_interes'] = $this->model->selectCarreraInteres($this->nomConexion);
         $this->views->getView($this,"seguimiento_prospectos",$data);
     }
 
@@ -38,10 +43,9 @@ class Seguimiento extends Controllers{
                     <button type="" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-layer-group"></i> &nbsp; Acciones
                     </button>
                     <div class="dropdown-menu">
-                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" data-toggle="modal" onclick="ftnAgendar('.$arrData[$i]['id'].')" data-targe="#ModalAgendarProspectoSeguimiento" title="Agendar"> &nbsp; &nbsp;<i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
-                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalEditSalon" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
-                            <div class="dropdown-divider"></div>
-                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal" data-toggle="modal" data-target="#ModalAgendarProspectoSeguimiento" title="Agendar"> &nbsp; &nbsp;<i class="fas fa-calendar-alt"></i> &nbsp; Agendar</button>
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditSalon" data-toggle="modal" data-target="#ModalEditDatosProspectoSeguimiento" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar datos</button>
+                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelSalon" data-toggle="modal" data-target="#ModalSeguimiento" title="Seguimiento"> &nbsp;&nbsp; <i class="far fa-arrow-alt-circle-right"></i> &nbsp; Seguimiento</button>
                             <!--<a class="dropdown-item" href="#">link</a>-->
                     </div>
                 </div>
@@ -58,17 +62,31 @@ class Seguimiento extends Controllers{
         $this->views->getView($this,'AgendaProspecto',$data);
     }
     
-    public function persona(){
-        $data['page_tag'] = "Persona";
-        $data['page_title'] = "Personas";
-        $data['page_content'] = "";
-        $data['page_functions_js'] = "functions_persona.js";
-        //$data['estados'] = $this->model->selectEstados();
-        //$data['categoria_persona'] = $this->model->selectCategoriasPersona();
-        //$data['grados_estudios'] = $this->model->selectGradosEstudios()
-        //$data['planteles'] = $this->model->selectPlanteles();
-        //$data['medios_captacion'] = $this->model->selectMediosCaptacion()
-        $this->views->getView($this,"persona",$data);
+    // public function persona(){
+    //     $data['page_tag'] = "Persona";
+    //     $data['page_title'] = "Personas";
+    //     $data['page_content'] = "";
+    //     $data['page_functions_js'] = "functions_persona.js";
+    //     //$data['estados'] = $this->model->selectEstados();
+    //     //$data['categoria_persona'] = $this->model->selectCategoriasPersona();
+    //     //$data['grados_estudios'] = $this->model->selectGradosEstudios()
+    //     //$data['planteles'] = $this->model->selectPlanteles();
+    //     //$data['medios_captacion'] = $this->model->selectMediosCaptacion()
+    //     $this->views->getView($this,"persona",$data);
+    // }
+
+    public function getMunicipios(){
+        $idEstado = $_GET['idestado'];
+        $arrData = $this->model->selectMunicipios($idEstado, $nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getLocalidades(){
+        $idMunicipio = $_GET['idmunicipio'];
+        $arrData = $this->model->selectLocalidades($idMunicipio, $nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     // public function seguimiento_prospectos(){
@@ -166,6 +184,18 @@ class Seguimiento extends Controllers{
         die();
     }
 
+    public function getMedioCaptacion(){
+
+        $arrData = $this->model->selectMediosCaptacion($this->nomconexion);
+        for($i=0; $i<count($arrData); $i++){
+            $arrData[$i]['med_capInput'] = 
+            '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['id'].'" onclick="validarMedio()" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['medio_captacion'].'<br>';
+        }
+        // <input type="radio" class="form-check-input" id="radno_da_linea" name="rad" value="11">No da línea<br>
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     // public function setProgramarAgenda(){
     //     if($_POST){
     //     if(empty($_POST['txtFechaProg']) || empty($_POST['txtHoraProg']) || empty($_POST['idUsuarioAtendidoAgenda']) || empty($_POST['txtFechaRegistro'])){
@@ -201,28 +231,28 @@ class Seguimiento extends Controllers{
     //     die();
     // }
 
-    // public function getPersonaSeguimiento(int $idPersona)
-    // {
-    //     $intIdPersona = intval($idPersona);
-    //     if($intIdPersona > 0)
-    //     {
-    //         $data['datos'] = $this->model->selectPersonaSeguimiento($intIdPersona);
-    //         $data['seguimiento'] = $this->model->selectSeguimientoProspecto($intIdPersona);
-    //         if(empty($data['datos']))
-    //         {
-    //             $data['response'] = array('estatus' => false, 'msg' => 'Datos no encontrados');
-    //         }
-    //         else
-    //         {
-    //             $data['response'] = array('estatus' => true, 'msg' => $data['datos']);
-    //         }
-    //         for($i=0;$i<count($data['seguimiento']);$i++)
-    //         {
-    //            $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-warning">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
-    //         }
-    //     }
-    //     echo json_encode($data,JSON_UNESCAPED_UNICODE);
-    // }
+    public function getPersonaSeguimiento(int $idPersona)
+    {
+        $intIdPersona = intval($idPersona);
+        if($intIdPersona > 0)
+        {
+            $data['datos'] = $this->model->selectPersonaSeguimiento(int $intIdPersona,,$this->nomConexion);
+            $data['seguimiento'] = $this->model->selectSeguimientoProspecto($intIdPersona);
+            if(empty($data['datos']))
+            {
+                $data['response'] = array('estatus' => false, 'msg' => 'Datos no encontrados');
+            }
+            else
+            {
+                $data['response'] = array('estatus' => true, 'msg' => $data['datos']);
+            }
+            for($i=0;$i<count($data['seguimiento']);$i++)
+            {
+               $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-warning">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
+            }
+        }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
 
     // public function setNuevoProspecto(){
     //   if($_POST){
@@ -285,39 +315,6 @@ class Seguimiento extends Controllers{
     //   }
 
     //   die();
-    // }
-
-    // public function getMunicipios(){
-
-    //   $idEstado = $_GET['idestado'];
-    //   $arrData = $this->model->selectMunicipios($idEstado);
-    //   echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-    //   die();
-
-    // }
-
-    // public function getLocalidades(){
-
-    //   $idMunicipio = $_GET['idmunicipio'];
-    //   $arrData = $this->model->selectLocalidades($idMunicipio);
-    //   echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-    //   die();
-
-    // }
-
-    // public function getMedioCaptacion(){
-
-    //   $arrData = $this->model->selectMediosCaptacion();
-    //   for($i=0; $i<count($arrData); $i++){
-
-    //     $arrData[$i]['med_capInput'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['id'].'" onclick="validarMedio()" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['medio_captacion'].'
-    //     <br>';
-
-    //   }
-    //   // <input type="radio" class="form-check-input" id="radno_da_linea" name="rad" value="11">No da línea<br>
-    //   echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-    //   die();
-
     // }
 
     // public function getSubCampaniass(int $idCampania){

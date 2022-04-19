@@ -64,31 +64,57 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    // public function selectPlanteles(){
-    //     $sql = "SELECT id, nombre_plantel FROM t_planteles";
-    //     $request = $this->select_all($sql);
-    //     return $request;
-    // }
+    public function selectEscolaridad(string $nomConexion){
+        $sql = "SELECT id, nombre_escolaridad FROM t_escolaridad";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
 
-    // public function selectNiveles(){
-    //     $sql = "SELECT id, nombre_nivel_educativo FROM t_nivel_educativos";
-    //     $request = $this->select_all($sql);
-    //     return $request;
-    // }
+    public function selectEstados(string $nomConexion){
+        $sql = "SELECT * FROM t_estados";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
 
-    // public function selectCarreras()
-    // {
-    //     $sql = "SELECT id, nombre_carrera FROM t_carrera_interes";
-    //     $request = $this->select_all($sql);
-    //     return $request;
-    // }
+    public function selectMunicipios(int $idEstado, string $nomConexion){
+        $idEstado = $idEstado;
+        $sql = "SELECT *FROM t_municipios WHERE id_estados = $idEstado";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
 
-    // public function selectCarrera($idNivel){
-    //     $idNvl = $idNivel;
-    //     $sql = "SELECT id, nombre_carrera FROM t_carrera_interes WHERE id_nivel_educativo = $idNvl";
-    //     $request = $this->select_all($sql);
-    //     return $request;
-    //}
+    }
+
+    public function selectLocalidades(int $idMunicipio, string $nomConexion){
+        $idMunicipio = $idMunicipio;
+        $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
+    
+    public function selectPlanteles(string $nomConexion){
+        $sql = "SELECT id, nombre_plantel, municipio FROM t_planteles";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
+
+    public function selectNivelInteres(string $nomConexion){
+        $sql = "SELECT id, nombre_nivel_educativo FROM t_nivel_educativos";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
+
+    public function selectCarreraInteres(string $nomConexion)
+    {
+        $sql = "SELECT id, nombre_carrera FROM t_carrera_interes";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
+
+    public function selectMediosCaptacion(string $nomConexion){
+        $sql = "SELECT * FROM t_medio_captacion";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
 
     // public function selectProspectos(){
     //     $sql = "SELECT pe.id,CONCAT(pe.nombre_persona,' ',pe.ap_paterno,' ', pe.ap_materno) as nombre_completo, cat_pe.nombre_categoria, pe.alias, pe.tel_celular, plt.nombre_plantel, crr.nombre_carrera, med.medio_captacion
@@ -188,25 +214,25 @@ class SeguimientoModel extends Mysql{
     //     return $request;
     // }
 
-    // public function selectPersonaSeguimiento(int $idPer)
-    // {
-    //     $this->intIdPers = $idPer;
-    //     $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ',pe.ap_paterno, ' ', pe.ap_materno) AS nombre_persona, pe.tel_celular,
-    //     pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista,
-    //     pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
-    //     FROM t_personas AS pe
-    //     INNER JOIN t_localidades AS loc ON pe.id_localidad = loc.id
-    //     INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
-    //     INNER JOIN t_estados AS est ON mun.id_estados = est.id
-    //     INNER JOIN t_prospectos AS pros ON pros.id_persona = pe.id
-    //     INNER JOIN t_personas AS pe2 ON pe.id_usuario_creacion = pe2.id
-    //     INNER JOIN t_medio_captacion AS med ON pros.id_medio_captacion = med.id
-    //     INNER JOIN t_nivel_educativos AS nvl ON pros.id_nivel_carrera_interes = nvl.id
-    //     LEFT JOIN t_carrera_interes AS crr ON pros.id_carrera_interes = crr.id
-    //     WHERE pe.id = $this->intIdPers";
-    //     $request = $this->select($sql);
-    //     return $request;
-    // }
+    public function selectPersonaSeguimiento(int $idPer,string $nomConexion)
+    {
+        $this->intIdPers = $idPer;
+        $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ',pe.ap_paterno, ' ', pe.ap_materno) AS nombre_persona, pe.tel_celular,
+        pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista,
+        pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
+        FROM t_personas AS pe
+        INNER JOIN t_localidades AS loc ON pe.id_localidad = loc.id
+        INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
+        INNER JOIN t_estados AS est ON mun.id_estados = est.id
+        INNER JOIN t_prospectos AS pros ON pros.id_persona = pe.id
+        INNER JOIN t_personas AS pe2 ON pe.id_usuario_creacion = pe2.id
+        INNER JOIN t_medio_captacion AS med ON pros.id_medio_captacion = med.id
+        INNER JOIN t_nivel_educativos AS nvl ON pros.id_nivel_carrera_interes = nvl.id
+        LEFT JOIN t_carrera_interes AS crr ON pros.id_carrera_interes = crr.id
+        WHERE pe.id = $this->intIdPers";
+        $request = $this->select($sql,$nomConexion);
+        return $request;
+    }
 
     // //insertSeguimientoProspectoInd($intResp,$strComent,$intIdPro)
     // public function insertSeguimientoProspectoInd(int $respuesta_rap, string $comentario, int $idPros)
@@ -291,46 +317,6 @@ class SeguimientoModel extends Mysql{
     //   $requestPro = $this->insert($sqlPros, $arrData2);
     //   return $requestPro;
 
-    // }
-
-    // public function selectEstados(){
-
-    //   $sql = "SELECT * FROM t_estados";
-    //   $request = $this->select_all($sql);
-    //   return $request;
-
-    // }
-
-    // public function selectMunicipios($idEstado){
-
-    //   $idEstado = $idEstado;
-    //   $sql = "SELECT *FROM t_municipios WHERE id_estados = $idEstado";
-    //   $request = $this->select_all($sql);
-    //   return $request;
-
-    // }
-
-    // public function selectLocalidades($idMunicipio){
-
-    //   $idMunicipio = $idMunicipio;
-    //   $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
-    //   $request = $this->select_all($sql);
-    //   return $request;
-
-    // }
-
-    // public function selectMediosCaptacion(){
-
-    //   $sql = "SELECT * FROM t_medio_captacion";
-    //   $request = $this->select_all($sql);
-    //   return $request;
-
-    // }
-
-    // public function selectEscolaridad(){
-    //     $sql = "SELECT id, nombre_escolaridad FROM t_escolaridad";
-    //     $request = $this->select_all($sql);
-    //     return $request;
     // }
 
     // public function selectCampania(){

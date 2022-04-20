@@ -17,13 +17,15 @@
                 <h3><i>"Una elección inteligente"</i></h3>
                 <br>
                 <p>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</button>
+<!--                     <button type="button" id="btnTour" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
+ -->                    <button type="button" id="btnDashboard" class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</button>
                 </p>
             </div>
             <div class="col-6">
                 <img src="<?php echo media() ?>/images/img/lading.svg" width="80%">
             </div>
+
+            
         </div>
         <!-- <div class="content-header">
             <div class="container-fluid">

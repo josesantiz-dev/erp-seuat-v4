@@ -72,6 +72,13 @@ document.addEventListener('DOMContentLoaded', function(){
 	$('#tableSeguimientoProspecto').DataTable();
 });
 
+
+function ftnAgendar(id){
+	let idAgendar = id
+	document.querySelector('#idPersona').value = idAgendar
+}
+
+
 // function validarPersona(){
 
 // 	if(!(strNombre.value == '') && !(strApPaterno.value == '') && !(strApMaterno.value == '') && !(strAlias.value == '') && !(strSexo.value == '') && !(strEdoCivil.value == '') && !(strOcupacion.value == '') && !(strFechaNacimiento.value == '') && !(intEscolaridad.value == '')) {
@@ -150,11 +157,6 @@ document.addEventListener('DOMContentLoaded', function(){
 // }
 
 // $('#tableSeguimientoProspecto').DataTable();
-
-function ftnAgendar(id){
-	var idAgendar = id;
-	document.querySelector("#idPersona").value = idAgendar;
-}
 
 // modalAgendarProspectoSeguimiento.addEventListener('submit', (e) =>{
 
@@ -304,77 +306,77 @@ function ftnAgendar(id){
 // }
 
 
-// function fnDarSeguimiento(idPer){
-// 	let idPersona = idPer
-// 	let url = `${base_url}/Seguimiento/getPersonaSeguimiento/${idPersona}`
-// 	let idPers = document.querySelector('#idPersonaSeg')
-// 	let idProspecto = document.querySelector('#idProspecto')
-// 	let lblNombre = document.querySelector('#lblNombre')
-// 	let lblTelefono = document.querySelector('#lblTel_celular')
-// 	let lblEmail = document.querySelector('#lblEmail')
-// 	let lblEstado = document.querySelector('#lblEstado')
-// 	let lblMunicipio = document.querySelector('#lblMunicipio')
-// 	let lblMedioPublicitario = document.querySelector('#lblMedioPublicitario')
-// 	let lblNombreComisionista = document.querySelector('#lblNombreComisionista')
-// 	let lblTelefonoComisionista = document.querySelector('#tel_celular_comisionista')
-// 	let lblFecha = document.querySelector('#lblFecha')
-// 	let lblNivelEducativo = document.querySelector('#lblNivelEducativo')
-// 	let lblCarreraInteres = document.querySelector('#lblCarreraInteres')
+function fnDarSeguimiento(idPer){
+	let idPersona = idPer
+	let url = `${base_url}/Seguimiento/getPersonaSeguimiento/${idPersona}`
+	let idPers = document.querySelector('#idPersonaSeg')
+	let idProspecto = document.querySelector('#idProspecto')
+	let lblNombre = document.querySelector('#lblNombre')
+	let lblTelefono = document.querySelector('#lblTel_celular')
+	let lblEmail = document.querySelector('#lblEmail')
+	let lblEstado = document.querySelector('#lblEstado')
+	let lblMunicipio = document.querySelector('#lblMunicipio')
+	let lblMedioPublicitario = document.querySelector('#lblMedioPublicitario')
+	let lblNombreComisionista = document.querySelector('#lblNombreComisionista')
+	let lblTelefonoComisionista = document.querySelector('#tel_celular_comisionista')
+	let lblFecha = document.querySelector('#lblFecha')
+	let lblNivelEducativo = document.querySelector('#lblNivelEducativo')
+	let lblCarreraInteres = document.querySelector('#lblCarreraInteres')
 
-// 	fetch(url)
-// 		.then(response => response.json())
-// 		.then(data => {
-// 			console.log(data)
-// 			if(data.response.estatus)
-// 			{
-// 				idPers.value = data.datos.id
-// 				idProspecto.value = data.datos.id_pro
-// 				lblNombre.textContent = data.datos.nombre_persona
-// 				lblEstado.textContent = data.datos.estado
-// 				lblMunicipio.textContent = data.datos.municipio
-// 				lblTelefono.textContent = data.datos.tel_celular
-// 				lblEmail.textContent = data.datos.email
-// 				lblNombreComisionista.textContent = data.datos.nombre_comisionista
-// 				lblTelefonoComisionista.textContent = data.datos.tel_comisionista
-// 				lblFecha.textContent = data.datos.fecha_creacion
-// 				lblMedioPublicitario.textContent = data.datos.medio_captacion
-// 				lblNivelEducativo.textContent = data.datos.nombre_nivel_educativo
-// 				lblCarreraInteres.textContent = data.datos.nombre_carrera
-// 			}
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			if(data.response.estatus)
+			{
+				idPers.value = data.datos.id
+				idProspecto.value = data.datos.id_pro
+				lblNombre.textContent = data.datos.nombre_persona
+				lblEstado.textContent = data.datos.estado
+				lblMunicipio.textContent = data.datos.municipio
+				lblTelefono.textContent = data.datos.tel_celular
+				lblEmail.textContent = data.datos.email
+				lblNombreComisionista.textContent = data.datos.nombre_comisionista
+				lblTelefonoComisionista.textContent = data.datos.tel_comisionista
+				lblFecha.textContent = data.datos.fecha_creacion
+				lblMedioPublicitario.textContent = data.datos.medio_captacion
+				lblNivelEducativo.textContent = data.datos.nombre_nivel_educativo
+				lblCarreraInteres.textContent = data.datos.nombre_carrera
+			}
 
-// 			tableSegProspectoIndividual = $('#tableSegProspectoIndividual').dataTable( {
-// 				"aProcessing":true,
-// 				"aServerSide":true,
-// 				"language": {
-// 					"url": " "+base_url+"/Assets/plugins/Spanish.json"
-// 				},
-// 				"ajax":{
-// 					"url": " "+base_url+"/Seguimiento/getPersonaSeguimiento/"+idPersona,
-// 					"dataSrc":"seguimiento"
-// 				},
-// 				"columns":[
-// 					{"data": "fecha_de_seguimiento"},
-// 					{"data": "respuesta_rapida"},
-// 					{"data": "comentario"},
-// 					{"data": "nombre_asesor"}
-// 				],
-// 				"responsive": true,
-// 				"paging": false,
-// 				"lengthChange": true,
-// 				"searching": false,
-// 				"ordering": false,
-// 				"info": false,
-// 				"autoWidth": false,
-// 				//"scrollY": '42vh',
-// 				"scrollCollapse": false,
-// 				"bDestroy": true,
-// 				"order": [[ 0, "asc" ]],
-// 				"iDisplayLength": 10
-// 			});
+			tableSegProspectoIndividual = $('#tableSegProspectoIndividual').dataTable( {
+				"aProcessing":true,
+				"aServerSide":true,
+				"language": {
+					"url": " "+base_url+"/Assets/plugins/Spanish.json"
+				},
+				"ajax":{
+					"url": " "+base_url+"/Seguimiento/getPersonaSeguimiento/"+idPersona,
+					"dataSrc":"seguimiento"
+				},
+				"columns":[
+					{"data": "fecha_de_seguimiento"},
+					{"data": "respuesta_rapida"},
+					{"data": "comentario"},
+					{"data": "nombre_asesor"}
+				],
+				"responsive": true,
+				"paging": false,
+				"lengthChange": true,
+				"searching": false,
+				"ordering": false,
+				"info": false,
+				"autoWidth": false,
+				//"scrollY": '42vh',
+				"scrollCollapse": false,
+				"bDestroy": true,
+				"order": [[ 0, "asc" ]],
+				"iDisplayLength": 10
+			});
 
-// 			$('#tableSegProspectoIndividual').DataTable();
-// 		})
-// }
+			$('#tableSegProspectoIndividual').DataTable();
+		})
+}
 
 // formEditarDatos.addEventListener('submit', (e) => {
 // 	e.preventDefault()
@@ -429,73 +431,64 @@ function ftnAgendar(id){
 // 	// })
 // })
 
-// // function validar(){
-// //
-// // 	if(!(document.getElementById("slctNivelEstudios").value == "")){
-// // 		document.getElementById("cardProspecto").setAttribute("class", "card-success");
-// // 	}else{
-// // 		console.log("HOLA MUNDO XDD")
-// // 	}
-// //
-// // }
-
-
 // // const modalFormNuevaPersona = document.querySelector("#ModalFormNuevaPersona")
 // //
 
 
-// function ftnNvoProspecto(){
+function fnNuevoProspecto(){
 
-// 	rowTable = "";
-// 	$('#ModalFormNuevaPersona').modal({
-// 		backdrop: 'static',
-// 		keyboard: false,
-// 	})
+	// rowTable = "";
+	// $('#ModalFormNuevaPersona').modal({
+	// 	backdrop: 'static',
+	// 	keyboard: false,
+	// })
 
-// 	$('#ModalFormNuevaPersona').modal('show');
+	// $('#ModalFormNuevaPersona').modal('show');
 
-// 	let captacion1 = document.querySelector('#captacion1')
-// 	let captacion2 = document.querySelector('#captacion2')
-// 	let dataLenght;
-// 	let url = `${base_url}/Seguimiento/getMedioCaptacion`
-// 	fetch(url)
-// 		.then(response => response.json())
-// 		.then(data => {
-// 			captacion1.innerHTML = ""
-// 			captacion2.innerHTML = ""
-// 			dataLenght = data.length/2;
-// 			for (let i = 0; i < data.length; i++) {
-// 				if(i<dataLenght){
-// 					captacion1.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
-// 				}else{
-// 					captacion2.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
-// 				}
+	let captacion1 = document.querySelector('#captacion1')
+	let captacion2 = document.querySelector('#captacion2')
+	let captacion3 = document.querySelector('#captacion3')
+	let dataLenght;
+	let url = `${base_url}/Seguimiento/getMedioCaptacion`
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			// captacion1.innerHTML = ""
+			// captacion2.innerHTML = ""
+			// dataLenght = data.length/3;
+			// for (let i = 0; i < data.length; i++) {
+			// 	if(i<dataLenght){
+			// 		captacion1.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
+			// 	}else{
+			// 		captacion2.innerHTML += '<div class="text-info">'+data[i]['med_capInput']+'</div>'
+			// 	}
 
-// 			}
-// 		})
-// 		.catch(err => console.log(err))
+			// }
+		})
+		.catch(err => console.log(err))
 
-// 		let subcampania = document.querySelector('#slctSubcampania')
-// 		let idCampania = document.querySelector('#idCampania').value
-// 		let urlSbC = `${base_url}/Seguimiento/getSubCampaniass/${idCampania}`
-// 		fetch(urlSbC)
-// 			.then(res => res.json())
-// 			.then(data => {
+		let subcampania = document.querySelector('#slctSubcampania')
+		let idCampania = document.querySelector('#idCampania').value
+		let urlSbC = `${base_url}/Seguimiento/getSubCampaniass/${idCampania}`
+		fetch(urlSbC)
+			.then(res => res.json())
+			.then(data => {
 
-// 				subcampania.innerHTML
-// 				for(let i = 0; i < data.length; i++){
+				subcampania.innerHTML
+				for(let i = 0; i < data.length; i++){
 
-// 					option = document.createElement('option');
-// 					option.text = data[i]['nombre_sub_campania']+" [Vigencia "+data[i]['fecha_inicio']+" Al "+data[i]['fecha_fin']+"]";
-// 					option.value = data[i]['id'];
-// 					subcampania.appendChild(option);
+					option = document.createElement('option');
+					option.text = data[i]['nombre_sub_campania']+" [Vigencia "+data[i]['fecha_inicio']+" Al "+data[i]['fecha_fin']+"]";
+					option.value = data[i]['id'];
+					subcampania.appendChild(option);
 
-// 				}
+				}
 
-// 			})
-// 			.catch()
+			})
+			.catch()
 
-// }
+}
 
 // function estadoSeleccionado(value){
 //     const selMunicipio = document.querySelector('#listMunicipioNuevo');
@@ -590,10 +583,10 @@ function ftnAgendar(id){
 
 // })
 
-$(".close").click(function(){
-	$('#ModalFormNuevaPersona').modal('hide')
-})
+// $(".close").click(function(){
+// 	$('#ModalFormNuevaPersona').modal('hide')
+// })
 
-$("#dimissModalNuevo").click(function(){
-	$('#ModalFormNuevaPersona').modal('hide')
-})
+// $("#dimissModalNuevo").click(function(){
+// 	$('#ModalFormNuevaPersona').modal('hide')
+// })

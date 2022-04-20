@@ -1,5 +1,9 @@
 <?php
-headerAdmin($data);
+    headerAdmin($data);
+    getModal("Seguimiento/modalNvoProspecto",$data);
+    getModal("Seguimiento/modalAgendarProspecto",$data);
+    getModal("Seguimiento/modalEditarDatos",$data);
+    getModal("Seguimiento/modalSeguimiento",$data);
 ?>
 
 <div class="wrapper">
@@ -12,7 +16,7 @@ headerAdmin($data);
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" id="btnNuevoProspecto" onclick="fnNuevoProspecto()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoProspecto"><i class="fa fa-plus-circle fa-md"></i> Nuevo</button>
+                            <button type="button" id="btnNuevoProspecto" onClick="fnNuevoProspecto()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalNuevoProspecto"><i class="fa fa-plus-circle fa-md"></i> Nuevo Prospecto</button>
                         </ol>
                     </div>
                 </div>

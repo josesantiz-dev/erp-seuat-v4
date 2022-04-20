@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"id"},
+            {"data":"numeracion"},
             {"data":"nombre_generacion"},
             {"data":"fecha_inicio_gen"},
 			{"data":"fecha_fin_gen"},

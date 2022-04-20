@@ -15,7 +15,7 @@
             }
             $this->idUser = $_SESSION['idUser'];
             $this->nomConexion = $_SESSION['nomConexion'];
-            $this->rol = $_SESSION['claveRol'];
+            // $this->rol = $_SESSION['claveRol'];
         }
 
         public function Administracion_tutores()
@@ -34,6 +34,7 @@
         public function getAdministracionTutores(){
             $arrData = $this->model->selectAdministTutores($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['Estatus'] == 1){
                     $arrData[$i]['Estatus'] = '<span class="badge badge-dark">Activo</span>';
                 }else{

@@ -36,9 +36,10 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"IdSalonCom"},
+            {"data":"numeracion"},
             {"data":"NomSalCom"},
             {"data":"NomPerio"},
+            {"data":"anoCic"},
             {"data":"NomGrad"},
             {"data":"NomGrup"},
             {"data":"NomPlant"},

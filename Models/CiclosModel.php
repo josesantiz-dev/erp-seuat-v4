@@ -109,7 +109,7 @@
             {
                 $sql = "UPDATE t_ciclos SET estatus = ? WHERE id = $this->intIdCiclos";
                 $arrData =array(0);
-                $request = $this->update($sql, $this->strNomConexion,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
                 if($request)
                 {
                     $request = 'ok';

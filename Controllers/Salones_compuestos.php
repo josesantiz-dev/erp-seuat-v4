@@ -16,7 +16,7 @@
             }
             $this->idUser = $_SESSION['idUser'];
             $this->nomConexion = $_SESSION['nomConexion'];
-            $this->rol = $_SESSION['claveRol'];
+            // $this->rol = $_SESSION['claveRol'];
         }
 
         public function Salones_compuestos()
@@ -33,6 +33,7 @@
         public function getSalonesCompuest(){
             $arrData = $this->model->selectSalonesCompuest($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
+                $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['Est'] == 1){
                     $arrData[$i]['Est'] = '<span class="badge badge-dark">Activo</span>';
                 }else{

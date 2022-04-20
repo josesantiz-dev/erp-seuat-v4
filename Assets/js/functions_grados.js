@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"IdGrados"},
+            {"data":"numeracion"},
             {"data":"Nombre"},
             {"data":"Numero_Nat"},
             {"data":"Numero_Rom"},

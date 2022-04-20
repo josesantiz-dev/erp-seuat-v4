@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"IdPeriodos"},
+            {"data":"numeracion"},
             {"data":"Nombre"},
             {"data":"Fecha_inicio"},
             {"data":"Fecha_fin"},

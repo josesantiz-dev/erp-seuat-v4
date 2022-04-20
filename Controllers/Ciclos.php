@@ -186,8 +186,8 @@
         public function delCiclos(){
             if($_POST)
             {
-                $intIdCiclos = intval($_POST['idCiclos']);
-                $requestDelete = $this->model->deleteCiclos($intIdCiclos, $this->nomConexion);
+                $intIdCiclos = intval($_POST['IdCiclos']);
+                $requestDelete = $this->model->deleteCiclos($intIdCiclos,$this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el ciclo correctamente.');

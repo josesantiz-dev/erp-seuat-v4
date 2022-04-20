@@ -36,10 +36,10 @@
           // $arrData[$i]['id_guardado'] = $arrData[$i]['id'];
           // $arrData[$i]['id'] = $i+1;
           $arrData[$i]['numeracion'] = $i+1;
-          if($arrData[$i]['estatus'] == 1){
-            $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
+          if($arrData[$i]['est'] == 1){
+            $arrData[$i]['est'] = '<span class="badge badge-dark">Activo</span>';
           }else{
-            $arrData[$i]['estatus']= '<span class="badge badge-secondary">Inactivo</span>';
+            $arrData[$i]['est']= '<span class="badge badge-secondary">Inactivo</span>';
           }
           $arrData[$i]['options'] = '
                                       <div class="text-center">
@@ -48,11 +48,11 @@
                                             <i class="fas fa-layer-group"></i> &nbsp; Acciones
                                           </button>
                                           <div class="dropdown-menu">
-                                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditGeneracion" onClick="fntEditGeneraciones(this,'.$arrData[$i]['id'].')" title="Editar"> &nbsp;&nbsp;
+                                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditGeneracion" onClick="fntEditGeneraciones(this,'.$arrData[$i]['idGen'].')" title="Editar"> &nbsp;&nbsp;
                                               <i class="fas fa-pencil-alt"></i> &nbsp; Editar
                                             </button>
                                           <div class="dropdown-divider"></div>
-                                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelGeneracion" onClick="fntDelGeneraciones('.$arrData[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp;
+                                            <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelGeneracion" onClick="fntDelGeneraciones('.$arrData[$i]['idGen'].')" title="Eliminar"> &nbsp;&nbsp;
                                               <i class="far fa-trash-alt "></i> &nbsp; Eliminar
                                             </button>
                                           </div>
@@ -63,53 +63,6 @@
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
-
-    //PARA ENLISTAR TODOS LOS USUARIOS EN LA TABLA VISTA
-  /*public function getGeneraciones(string $nomConexion)
-  {
-    $arrRes = [];
-    if ($nomConexion == 'all') {
-      foreach (conexiones as $key => $conexion) {
-        if ($key != 'bd_user') {
-          $arrData = $this->model->selectGeneraciones($key);
-          for ($i = 0; $i < count($arrData); $i++) {
-            $arrData[$i]['nom_conexion'] = $key;
-          }
-          array_push($arrRes, $arrData);
-        }
-      }
-      $newArray = array_merge([], ...$arrRes);
-    } else {
-      $newArray = $this->model->selectGeneraciones($nomConexion);
-      for ($i = 0; $i < count($newArray); $i++) {
-        $newArray[$i]['nom_conexion'] = $nomConexion;
-      }
-    }
-    for ($i = 0; $i < count($newArray); $i++) {
-      $newArray[$i]['id'] = $i + 1;
-      if ($newArray[$i]['estatus'] == 1) {
-        $newArray[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
-      } else {
-        $newArray[$i]['estatus'] = '<span class="badge badge-secondary">Inactivo</span>';
-      }
-      $newArray[$i]['options'] = '
-                                  <div class="text-center">
-                                  <div class="btn-group">
-                                  <button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="fas fa-layer-group"></i> &nbsp; Acciones
-                                  </button>
-                                  <div class="dropdown-menu">
-                                  <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditGeneracion" con="'.$newArray[$i]['nom_conexion'].'" onClick="fntEditGeneraciones(this,'.$newArray[$i]['id'].')" data-toggle="modal" data-target="#ModalFormEditNivelEducativo" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
-                                  <div class="dropdown-divider"></div>
-                                  <button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelGeneracion" con="'.$newArray[$i]['nom_conexion'].'" onClick="fntDelGeneraciones(this,'.$newArray[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp;<i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
-                                  </div>
-                                  </div>
-                                  </div>
-                                  ';
-    }
-    echo json_encode($newArray, JSON_UNESCAPED_UNICODE);
-    die();
-  }*/
 
 
     //EDITAR
@@ -235,23 +188,42 @@
 
     //PARA ELIMINAR
     public function delGeneraciones()
+		{
+			if($_POST)
 			{
-				if($_POST)
-				{
-						$intIdGeneraciones = intval($_POST['idGeneraciones']);
-						$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones, $this->nomConexion);
-						if($requestDelete == 'ok')
-						{
-							$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');
-						}else if($requestDelete == 'exist'){
-							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar una generación asociado a un ciclo activo.');
-						}else{
-							$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la generación.');
-						}
-						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-				}
-				die();
+					$intIdGeneraciones = intval($_POST['idGeneraciones']);
+					$requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones, $this->nomConexion);
+					if($requestDelete == 'ok')
+					{
+						$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');
+					}else if($requestDelete == 'exist'){
+						$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar una generación asociado a un ciclo activo.');
+					}else{
+						$arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la generación.');
+					}
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}
+			die();
+		}
+
+
+    // public function delGeneraciones(){
+    //   if($_POST)
+    //   {
+    //       $intIdGeneraciones = intval($_POST['idGen']);
+    //       $requestDelete = $this->model->deleteGeneraciones($intIdGeneraciones,$this->nomConexion);
+    //       if($requestDelete == 'ok')
+    //       {
+    //           $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la generación correctamente.');
+    //       }else if($requestDelete == 'exist'){
+    //           $arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar una generación asociado a un ciclo activo.');
+    //       }else{
+    //           $arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar la generacion.');
+    //       }
+    //       echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+    //   }
+    //   die();
+    // }
 
     
     

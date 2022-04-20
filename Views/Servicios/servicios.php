@@ -44,7 +44,7 @@
                 <table id="tableServicios" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
+                    <th width="7%">#</th>
                     <th>Código</th>
                     <th>Servicio</th>
                     <th width="10%">P. unitario</th>

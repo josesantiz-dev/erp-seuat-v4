@@ -43,7 +43,7 @@
                 <table id="tablePromocion" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
+                    <th width="7%">#</th>
                     <th>Promoción</th>
                     <th>Servicio aplicado</th>
                     <th width="10%">% descuento</th>

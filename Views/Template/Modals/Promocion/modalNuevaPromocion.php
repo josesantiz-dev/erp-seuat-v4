@@ -51,11 +51,13 @@
                           <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="listCampania">Campañas</label>
-                              <select class="form-control form-control-sm" id="listCampania" name="listCampania" style="width: 100%;" required="" ></select>
+                              <select class="form-control form-control-sm" id="listCampania" name="listCampania" onchange="fntSelectSubcampanias(value)" style="width: 100%;" required="" ></select>
                             </div>
                             <div class="form-group col-md-6">
                               <label for="listSubcampania">Subcampañas</label>
-                              <select class="form-control form-control-sm" id="listSubcampania" name="listSubcampania" style="width: 100%;" required="" ></select>
+                              <select class="form-control form-control-sm" id="listSubcampania" name="listSubcampania" style="width: 100%;" required="" >
+                                <option value="">- Seleccionar subcampaña -</option>  
+                              </select>
 
                             </div>
                           </div>

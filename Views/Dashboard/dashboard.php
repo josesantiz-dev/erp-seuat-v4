@@ -18,7 +18,7 @@
                 <br>
                 <p>
 <!--                     <button type="button" id="btnTour" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
- -->                    <button type="button" id="btnDashboard" class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</button>
+ -->                    <a type="button" id="btnDashboard" href="<?php echo base_url()?>/DashboardDirc"class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</a>
                 </p>
             </div>
             <div class="col-6">

@@ -169,7 +169,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="<?php echo base_url() ?>" class="brand-link">
                 <!--<img src="<?php echo media(); ?>/images/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">-->
                 <span class="brand-text font-weight-light">ERP SEUAT</span>
             </a>
@@ -204,16 +204,15 @@
                         data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
-                                <!--<i class="nav-icon fas fa-tachometer-alt"></i>-->
                                 <p>
                                     Dashboard
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardDirc" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
@@ -222,7 +221,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardAdmision" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -233,12 +232,11 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardSeguimiento" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
-                                <!--<i class="nav-icon fas fa-tachometer-alt"></i>-->
                                 <p>
                                     Dashboard Prospección
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-header">
                             <h6>DIRC</h6>
@@ -305,7 +303,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Admisión</h6>
                         </li>
                         <li class="nav-item">
@@ -326,7 +324,7 @@
                         </li>
                         <li class="nav-header">
                             <h6>Prospección</h6>
-                        </li>
+                        </li> -->
                         <!--  <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="server"></i>
@@ -351,10 +349,9 @@
                   </p>
               </a>
           </li> -->
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layout"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     categoria servicios
                                 </p>
@@ -364,7 +361,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="calendar"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Campaña
                                 </p>
@@ -374,7 +370,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="calendar"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Subcampaña
                                 </p>
@@ -383,7 +378,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Seguimiento/seguimiento_prospectos" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="fast-forward"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Seguimiento de prospección
                                 </p>
@@ -392,14 +386,13 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/AgendaProspecto" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="calendar"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Agenda
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/MedioCaptacion" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="crosshair"></i>
                                 <p>
@@ -434,10 +427,10 @@
                                     Reinscripción
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
 
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="bar-chart"></i>
                   <p>
@@ -481,7 +474,7 @@
                   </p>
               </a>
           </li>
-
+ -->
                         <!--<li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="twitch"></i>
@@ -514,7 +507,7 @@
                   </p>
               </a>
           </li>-->
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Servicios</h6>
                         </li>
                         <li class="nav-item">
@@ -617,15 +610,13 @@
                                     Seguimiento de cajas
                                 </p>
                             </a>
-                        </li>
-                        <<<<<<< HEAD=======>>>>>>> menu
-                            <li class="nav-header">
+                        </li> -->
+                            <!-- <li class="nav-header">
                                 <h6>Administración</h6>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="ml-3 mr-2" data-feather="settings"></i>
-                                    <!--<i class="nav-icon fas fa-tachometer-alt"></i>-->
                                     <p>
                                         Configuración
                                         <i class="right fas fa-angle-left"></i>
@@ -640,7 +631,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
 
 
                     </ul>

@@ -26,15 +26,18 @@
         public function selectSalonesCompuest(string $nomConexion)
         {
             $this->strNomConexion = $nomConexion;
-            $sql = "SELECT t_salones_compuesto.id AS IdSalonCom, t_salones_compuesto.nombre_salon_compuesto AS NomSalCom, t_periodos.nombre_periodo AS NomPerio, t_grados.nombre_grado AS NomGrad, t_grupos.nombre_grupo AS NomGrup, t_planteles.nombre_plantel AS NomPlant, t_turnos.nombre_turno AS NomTurn, t_salones.nombre_salon AS NomSal, t_salones_compuesto.estatus AS Est
-                    FROM t_salones_compuesto 
-                    INNER JOIN t_periodos AS t_periodos ON t_salones_compuesto.id_periodo = t_periodos.id
-                    INNER JOIN t_grados AS t_grados ON t_salones_compuesto.id_grado = t_grados.id
-                    INNER JOIN t_grupos AS t_grupos ON t_salones_compuesto.id_grupo = t_grupos.id
-                    INNER JOIN t_planteles AS t_planteles ON t_salones_compuesto.id_plantel = t_planteles.id
-                    INNER JOIN t_turnos AS t_turnos ON t_salones_compuesto.id_turnos = t_turnos.id
-                    INNER JOIN t_salones AS t_salones ON t_salones_compuesto.id_salon = t_salones.id
-                    WHERE t_salones_compuesto.estatus !=0
+            $sql = "SELECT tSCom.id AS IdSalonCom, tSCom.nombre_salon_compuesto AS NomSalCom, tPe.nombre_periodo AS NomPerio, 
+                           tc.anio AS anoCic, tGra.nombre_grado AS NomGrad, t_Gru.nombre_grupo AS NomGrup, tPla.nombre_plantel AS NomPlant, 
+                           tTur.nombre_turno AS NomTurn, tSal.nombre_salon AS NomSal, tSCom.estatus AS Est
+                    FROM t_salones_compuesto AS tSCom
+                    INNER JOIN t_periodos AS tPe ON tSCom.id_periodo = tPe.id
+                    INNER JOIN t_grados AS tGra ON tSCom.id_grado = tGra.id
+                    INNER JOIN t_grupos AS t_Gru ON tSCom.id_grupo = t_Gru.id
+                    INNER JOIN t_planteles AS tPla ON tSCom.id_plantel = tPla.id
+                    INNER JOIN t_turnos AS tTur ON tSCom.id_turnos = tTur.id
+                    INNER JOIN t_salones AS tSal ON tSCom.id_salon = tSal.id
+                    INNER JOIN t_ciclos AS tc ON tPe.id_ciclo = tc.id
+                    WHERE tSCom.estatus !=0
                     ";
             $request = $this->select_all($sql,$this->strNomConexion);
             return $request;

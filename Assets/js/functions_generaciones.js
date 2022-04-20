@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"id"},
-            {"data":"nombre_generacion"},
-            {"data":"fecha_inicio_gen"},
-			{"data":"fecha_fin_gen"},
-            {"data":"estatus"},
+            {"data":"numeracion"},
+            {"data":"nomGen"},
+            {"data":"fechIn"},
+			{"data":"fechFin"},
+            {"data":"est"},
             {"data":"options"}
         ],
         "responsive": true,
@@ -219,9 +219,9 @@ function fntDelGeneraciones(id){
 		cancelButtonColor: '#d33',
         confirmButtonText: "Si, eliminar!",
         cancelButtonText: "No, cancelar!"
-    }). then((result) => {
+    }). then((result) =>{
 
-        if (result.isConfirmed)
+        if(result.isConfirmed)
         {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Generacion/delGeneraciones';
@@ -234,16 +234,53 @@ function fntDelGeneraciones(id){
                     let objData = JSON.parse(request.responseText);
                     if(objData.estatus)
                     {
-                        swal.fire("Eliminar!", objData.msg , "success");
+                        swal.fire("Eliminar!", objData.msg, "success");
                         tableGeneraciones.api().ajax.reload();
-                    } else {
-                        swal.fire("Atención!", objData.msg , "error");
+                    }else{
+                        swal.fire("Atención!", objData.msg, "error");
                     }
                 }
             }
         }
     });
 }
+
+// function fntDelGeneraciones(id){
+//     swal.fire({
+//         icon: "question",
+//         title: "Eliminar generación",
+//         text: "¿Realmente quiere eliminar la generación seleccionada?",
+//         type: "warning",
+//         showCancelButton: true,
+//         confirmButtonColor: '#045FB4',
+// 		cancelButtonColor: '#d33',
+//         confirmButtonText: "Si, eliminar!",
+//         cancelButtonText: "No, cancelar!"
+//     }). then((result) =>{
+
+//         if(result.isConfirmed)
+//         {
+//             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+//             let ajaxUrl = base_url+'/Generacion/delGeneraciones';
+//             let strData = "idGen="+id;
+//             request.open("POST",ajaxUrl,true);
+//             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//             request.send(strData);
+//             request.onreadystatechange = function(){
+//                 if(request.readyState == 4 && request.status == 200){
+//                     let objData = JSON.parse(request.responseText);
+//                     if(objData.estatus)
+//                     {
+//                         swal.fire("Eliminar!", objData.msg, "success");
+//                         tablePeriodos.api().ajax.reload();
+//                     }else{
+//                         swal.fire("Atención", objData.msg, "error");
+//                     }
+//                 }
+//             }
+//         }
+//     });
+// }
 
 
 //PARA ABRIR MODAL

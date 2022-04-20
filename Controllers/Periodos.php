@@ -16,7 +16,7 @@
             }
             $this->idUser = $_SESSION['idUser'];
             $this->nomConexion = $_SESSION['nomConexion'];
-            $this->rol = $_SESSION['claveRol'];
+            // $this->rol = $_SESSION['claveRol'];
         }
 
         public function Periodos()
@@ -35,7 +35,7 @@
             $arrData = $this->model->selectPeriodos($this->nomConexion);
             for($i=0; $i < count($arrData); $i++){
                 /* $arrData[$i]['id_guardado'] = */ /* $arrData[$i]['IdCiclos']; */
-                /* $arrData[$i]['id'] = $i+1; */
+                $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
                     $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
                 }else{

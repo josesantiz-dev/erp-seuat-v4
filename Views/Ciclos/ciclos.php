@@ -43,7 +43,7 @@
                 <table id="tableCiclos" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
+                    <th width="7%">#</th>
                     <th>Nombre</th>
                     <th width="17%">Año</th>
                     <th width="8%">Estatus</th>

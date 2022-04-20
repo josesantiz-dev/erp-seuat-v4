@@ -24,11 +24,11 @@
                     <input type="text" id="txtNombre_Grado" name="txtNombre_Grado" class="form-control" placeholder="&#xf007 Nombre del ciclo"  name="Ingresa el nombre"  required>
                   </div>
                   <div class="form-group">
-                    <label for="txtNumero_Natural">Número natural</label>
+                    <label for="txtNumero_Natural">Número natural (Grado)</label>
                     <input class="form-control" id="txtNumero_Natural" name="txtNumero_Natural" rows="2" type="number" value="" required>
                   </div>
                   <div class="form-group">
-                    <label for="txtNumero_Romano">Número romano</label>
+                    <label for="txtNumero_Romano">Número romano (Grado)</label>
                     <input type="text" id="txtNumero_Romano" name="txtNumero_Romano" class="form-control" placeholder="&#xf007 Número romano"  name="Ingresa el número romano"  required>
                   </div>
                 </div>

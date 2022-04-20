@@ -43,12 +43,13 @@
                 <table id="tableSalonesCompuestos" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
-                    <th>Nombre S. C.</th>
+                    <th width="7%">#</th>
+                    <th width="20%">Nombre S. C.</th>
                     <th width="10%">Periodos</th>
-                    <th width="10%">Grados</th>
+                    <th width="10%">Año ciclo</th>
+                    <th width="8%">Grados</th>
                     <th width="10%">Grupos</th>
-                    <th width="17%">Planteles</th>
+                    <th width="15%">Planteles</th>
                     <th width="12%">Horarios</th>
                     <th width="10%">Salones</th>
                     <th width="8%">Estatus</th>

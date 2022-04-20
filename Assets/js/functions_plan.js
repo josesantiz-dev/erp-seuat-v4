@@ -1,6 +1,7 @@
 var tablePlanes;
 var formPlanNuevo = document.querySelector("#formPlanNuevo");
 var formPlanEdit = document.querySelector("#formPlanEdit");
+let divLoading = document.querySelector("#divLoading");
 
 //Datatable
 document.addEventListener('DOMContentLoaded', function(){
@@ -49,6 +50,7 @@ formPlanNuevo.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Plan/setPlan';
     var formData = new FormData(formPlanNuevo);
@@ -67,6 +69,7 @@ formPlanNuevo.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -74,6 +77,7 @@ formPlanNuevo.onsubmit = function(e){
 //Editar Plan
 function fntEditPlan(idPlan){
     var idPlan = idPlan;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Plan/getPlan/'+idPlan;
     request.open("GET",ajaxUrl ,true);
@@ -100,6 +104,8 @@ function fntEditPlan(idPlan){
                 swal.fire("Error", objData.msg , "error");
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 //Form Plan Edit
@@ -112,6 +118,7 @@ formPlanEdit.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Plan/setPlan';
     var formData = new FormData(formPlanEdit);
@@ -130,6 +137,7 @@ formPlanEdit.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -148,6 +156,7 @@ function fntDelPlan(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Plan/delPlan'; 
             var strData = "idPlan="+id;
@@ -166,6 +175,8 @@ function fntDelPlan(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

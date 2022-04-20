@@ -28,6 +28,8 @@
             $data['subcampanias'] = $this->model->selectSubcampanias($this->nomConexion);
             $data['turnos'] = $this->model->selectturnos($this->nomConexion);
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
+            $data['rol'] = $this->rol;
+            $data['nomConexion'] = $this->nomConexion;
             $this->views->getView($this,"inscripcion",$data);
         }
         //Funcion para mostrar Vista(ControlEscolar)

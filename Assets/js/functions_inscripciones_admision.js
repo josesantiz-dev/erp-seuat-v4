@@ -20,6 +20,7 @@ divCambiarSubcampania.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
+    /* console.log(document.querySelector('#listPlantelDatatable').value); */
 });
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();

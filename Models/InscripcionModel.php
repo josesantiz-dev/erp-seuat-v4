@@ -90,12 +90,12 @@
             return $request;
         }
         public function selectPersonasModal($data, string $nomConexion){
-            $sql = "SELECT per.id,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre,
+            $sql = "SELECT per.id,CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) AS nombre,
             ins.id AS id_inscripcion,pr.id AS id_prospecto FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
-            LEFT JOIN t_prospectos AS pr ON pr.id_persona  = per.id 
-            WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%' AND pr.id  != ''";
+            LEFT JOIN t_prospectos AS pr ON pr.id_persona  = per.id
+            WHERE CONCAT(COALESCE(per.nombre_persona,''),' ',COALESCE(per.ap_paterno,''),' ',COALESCE(per.ap_materno,'')) LIKE '%$data%' AND pr.id  != ''";
             $request = $this->select_all($sql, $nomConexion);
             return $request;
         }

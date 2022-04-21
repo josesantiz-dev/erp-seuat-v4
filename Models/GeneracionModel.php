@@ -1,8 +1,6 @@
 <?php
     class GeneracionModel extends Mysql{
 
-        private $strNomConexion;
-
         public $intIdGeneraciones;
         public $strNombre_Generacion;
         public $strFecha_inicio;
@@ -103,7 +101,7 @@
           $this->intIdGeneraciones = $idGeneraciones;
           $this->strNomConexion = $nomConexion;
           $sql = "SELECT * FROM t_ciclos WHERE id_generacion = $this->intIdGeneraciones";
-          $request = $this->select_all($sql, $nomConexion);
+          $request = $this->select_all($sql, $$this->strNomConexion);
           if(empty($request))
           {
             $sql = "UPDATE t_generaciones SET estatus = ? WHERE id = $this->intIdGeneraciones";

@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"numeracion"},
             {"data":"Nombre"},
             {"data":"Anio"},
-            {"data":"estatus"},
             {"data":"Generacion"},
+            {"data":"estatus"},
             {"data":"options"}
         ],
         "responsive": true,
@@ -127,18 +127,19 @@ document.addEventListener('DOMContentLoaded', function(){
                     let objData = JSON.parse(request.responseText);
                     if(objData.estatus)
                     {
-                        if(rowTable == ""){
-                            tableCiclos.api().ajax.reload();
-                        }else{
-                            htmlEstatus = intEstatus == 1 ?
-                            '<span class="badge badge-dark">Activo</span>' :
-							'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombre_Ciclo;
-							rowTable.cells[2].textContent = strAnio;
-							rowTable.cells[3].innerHTML = htmlEstatus;
-                            rowTable.cells[4].innerHTML = intId_Generacion;
-							rowTable = "";
-                        }
+                        tableCiclos.api().ajax.reload();
+                        // if(rowTable == ""){
+                        //     tableCiclos.api().ajax.reload();
+                        // }else{
+                        //     htmlEstatus = intEstatus == 1 ?
+                        //     '<span class="badge badge-dark">Activo</span>' :
+						// 	'<span class="badge badge-secondary">Inactivo</span>';
+						// 	rowTable.cells[1].textContent = strNombre_Ciclo;
+						// 	rowTable.cells[2].textContent = strAnio;
+						// 	rowTable.cells[3].innerHTML = htmlEstatus;
+                        //     rowTable.cells[4].innerHTML = intId_Generacion;
+						// 	rowTable = "";
+                        // }
 
                         $('#ModalFormCicloEditar').modal('hide');
                         formCiclosUp.reset();

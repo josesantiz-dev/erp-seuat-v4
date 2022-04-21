@@ -142,20 +142,21 @@ document.addEventListener('DOMContentLoaded', function(){
                     let objData = JSON.parse(request.responseText);
                     if(objData.estatus)
                     {
-                        if(rowTable == ""){
-                            tablePeriodos.api().ajax.reload();
-                        }else{
-                            htmlEstatus = intEstatus == 1 ?
-                            '<span class="badge badge-dark">Activo</span>' :
-							'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombre_Periodo;
-							rowTable.cells[2].textContent = strFecha_inicio;
-                            rowTable.cells[3].textContent = strFecha_fin;
-                            rowTable.cells[4].innerHTML = intId_Organizacion_planes;
-                            rowTable.cells[5].innerHTML = intId_Ciclo;
-                            rowTable.cells[6].innerHTML = htmlEstatus;
-							rowTable = "";
-                        }
+                        tablePeriodos.api().ajax.reload();
+                        // if(rowTable == ""){
+                        //     tablePeriodos.api().ajax.reload();
+                        // }else{
+                        //     htmlEstatus = intEstatus == 1 ?
+                        //     '<span class="badge badge-dark">Activo</span>' :
+						// 	'<span class="badge badge-secondary">Inactivo</span>';
+						// 	rowTable.cells[1].textContent = strNombre_Periodo;
+						// 	rowTable.cells[2].textContent = strFecha_inicio;
+                        //     rowTable.cells[3].textContent = strFecha_fin;
+                        //     rowTable.cells[4].innerHTML = intId_Organizacion_planes;
+                        //     rowTable.cells[5].innerHTML = intId_Ciclo;
+                        //     rowTable.cells[6].innerHTML = htmlEstatus;
+						// 	rowTable = "";
+                        // }
 
                         $('#ModalFormPeriodoEditar').modal('hide');
                         formPeriodosUp.reset();

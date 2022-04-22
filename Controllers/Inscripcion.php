@@ -23,10 +23,11 @@
             $data['page_tag'] = "Inscripcion";
             $data['page_title'] = "Inscripciones";
             $data['page_content'] = "";
-            $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+/*             $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
             $data['grados'] = $this->model->selectGrados($this->nomConexion);
             $data['subcampanias'] = $this->model->selectSubcampanias($this->nomConexion);
             $data['turnos'] = $this->model->selectturnos($this->nomConexion);
+            $data['nivel_educativos'] = $this->model->selectNivelesEducativos($) */
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['nomConexion'] = $this->nomConexion;
@@ -47,20 +48,42 @@
         }
         //Obtener Lista de Inscripciones(Admision)
         public function getInscripcionesAdmision(){
-            $idPlantel = $_GET['idplantel'];
-            $arrData = $this->model->selectInscripcionesAdmision($idPlantel, $this->nomConexion);
-            for ($i=0; $i<count($arrData); $i++){
-                $arrData[$i]['numeracion'] = $i+1;
-                //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
-                if($arrData[$i]['nombre_grupo'] == null){
-                    $arrData[$i]['nombre_grupo'] = "Sin grupo";
-                }else{
-                    
+            $nomConexion = $_GET['conexion'];
+            if($nomConexion == 'Todos'){
+                $arrRes = [];
+                foreach (conexiones as $key => $conexion) {
+                    $arrData = $this->model->selectInscripcionesAdmision($key);
+                    for($i = 0; $i<count($arrData); $i++){
+                        $arrData[$i]['plantel'] = conexiones[$key]['NAME'];
+                        $arrData[$i]['numeracion'] = $i+1;
+                        //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
+                        if($arrData[$i]['nombre_grupo'] == null){
+                            $arrData[$i]['nombre_grupo'] = "Sin grupo";
+                        }else{
+                            
+                        }
+                        $arrData[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrData[$i]['total'].'</span></h5>';
+                        $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" gr="'.$arrData[$i]['grado'].'" tr="'.$arrData[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
+                    }
+                    array_push($arrRes,$arrData);
                 }
-                $arrData[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$arrData[$i]['total'].'</span></h5>';
-                $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" gr="'.$arrData[$i]['grado'].'" tr="'.$arrData[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
+                $newArray = array_merge([], ...$arrData);
+            }else{
+                $newArray = $this->model->selectInscripcionesAdmision($nomConexion);
+                for($i = 0; $i<count($newArray); $i++){
+                    $newArray[$i]['plantel'] = $nomConexion;
+                    $newArray[$i]['numeracion'] = $i+1;
+                    //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
+                    if($newArray[$i]['nombre_grupo'] == null){
+                        $newArray[$i]['nombre_grupo'] = "Sin grupo";
+                    }else{
+                        
+                    }
+                    $newArray[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$newArray[$i]['total'].'</span></h5>';
+                    $newArray[$i]['options'] = '<button type="button"  id="'.$newArray[$i]['id'].'" gr="'.$newArray[$i]['grado'].'" tr="'.$newArray[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
+                }
             }
-            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            echo json_encode($newArray,JSON_UNESCAPED_UNICODE);
             die();
         }
         //Obtener Lista de Inscripciones(ControlEscolar)
@@ -143,10 +166,19 @@
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         }
+
+        //Obtener lista de niveles educativos
+        public function getNivelesEducativos(){
+            $nomConexion = $_GET['conexion'];
+            $arrData = $this->model->selectNivelesEducativos($nomConexion);
+            echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            die();
+        }
         //Obtener Lista de Carreras
         public function getCarreras(){
-            $idPlantel = $_GET['iplantel'];
-            $arrData = $this->model->selectCarreras($idPlantel, $this->nomConexion);
+            $nomConexion = $_GET['conexion'];
+            $nivel = $_GET['nivel'];
+            $arrData = $this->model->selectCarreras($nivel,$nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -157,6 +189,31 @@
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        //Obtener lista de Grados
+        public function getGrados(){
+            $nomConexion = $_GET['conexion'];
+            $arrData = $this->model->selectGrados($nomConexion);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        //Obtener lista de turnos
+        public function getTurnos(){
+            $nomConexion = $_GET['conexion'];
+            $arrData = $this->model->selectturnos($nomConexion);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        //Obtener la campania actual
+        public function getCampaniaActual(){
+            $nomConexion = $_GET['conexion'];
+            $arrData = $this->model->selectSubcampanias($nomConexion);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         //Obtener Lista de Documentos
         public function getDocumentos(){
             $id = $_GET['id_alumno'];

@@ -35,44 +35,41 @@
                                             <div class="form-group col-md-7">
                                                 <label>Plantel</label>
                                                 <select class="form-control form-control-sm" id="listPlantelNuevo" name="listPlantelNuevo" onchange="fnPlantelSeleccionado(value)" required>
-                                                    <option value="">Selecciona el Plantel</option>
                                                     <?php 
-                                                        foreach ($data['planteles'] as $value) {
+                                                        foreach (conexiones as $key => $conexion) {
                                                             ?>
-                                                                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_plantel'].' ('.$value['municipio'].')'  ?></option>
-                                                            <?php
+                                                                <option value="<?php echo $key ?>"><?php echo $conexion['NAME'] ?></option>
+                                                            <?php if($key == $data['nomConexion']){ ?>
+                                                                <option value="<?php echo $key ?>" selected><?php echo $conexion['NAME'] ?></option>
+                                                            <?php }
                                                         }    
                                                     ?>
                                                 </select>                                    
                                             </div>
                                             <div class="form-group col-md-5">
-                                                <label>Carrera</label>
-                                                <select class="form-control form-control-sm" id="listCarreraNuevo" name="listCarreraNuevo" required>
-                                                    <option value="">Selecciona la Carrera</option>
+                                                <label>Nivel educativo</label>
+                                                <select class="form-control form-control-sm" id="listNivelEductaivo" name="listNivelEductaivo" onchange="fnNivelSeleccionado(value)" required>
+                                                    <option value="">Selecciona un nivel</option>
                                                 </select>                                    
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <label>Grado</label>
-                                                <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
-                                                    <option value="">Seleccionar</option>
-                                                    <?php
-                                                        foreach ($data['grados'] as $key => $value) { ?>
-                                                            <option value="<?php echo $value['numero_natural'] ?>"><?php echo $value['numero_natural']?></option>
-
-                                                        <?php }
-                                                    ?>
+                                            <div class="form-group col-md-8">
+                                                <label>Carrera</label>
+                                                <select class="form-control form-control-sm" id="listCarreraNuevo" name="listCarreraNuevo" required>
+                                                    <option value="">Seleccionar una carrera</option>
                                                 </select>                                    
                                             </div>
                                             <div class="form-group col-md-4">
+                                                <label>Grado</label>
+                                                <select class="form-control form-control-sm" id="listGradoNuevo" name="listGradoNuevo" required>
+                                                    <option value="">Seleccionar</option>
+                                                    
+                                                </select>                                    
+                                            </div>
+                                            <div class="form-group col-md-7">
                                                 <label>Turno</label>
                                                 <select class="form-control form-control-sm" id="listTurnoNuevo" name="listTurnoNuevo" required>
                                                     <option value="">Seleccionar</option>
-                                                    <?php
-                                                        foreach ($data['turnos'] as $key => $value) { ?>
-                                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_turno']?></option>
-
-                                                        <?php }
-                                                    ?>
+                                                    
                                                 </select>                                    
                                             </div>
                                             <div class="form-group col-md-5">
@@ -81,8 +78,11 @@
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label><b>Campaña</b></label>
+                                                <div class="result_campania"></div>
+                                                <!-- <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="">
+                                                <p id="no_hay_subcampania"><span class="badge badge-warning nombrecampania">No hay campañas/subcampañas activas</span></p> -->
                                                 <?php 
-                                                    $campanias = $data['subcampanias'];
+                                                   /*  $campanias = $data['subcampanias'];
                                                     if(count($campanias) > 0){
                                                         $campania = array_shift($campanias); ?>
                                                         <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
@@ -109,7 +109,7 @@
                                                                 <option value="">Seleccionar</option>
                                                             </select> 
                                                         </div>
-                                                    <?php }
+                                                    <?php } */
                                                 ?>
                                             </div>
                                         </div>

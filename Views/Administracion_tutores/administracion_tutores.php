@@ -43,7 +43,7 @@
                 <table id="tableAdministracionTutores" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="5%">ID</th>
+                    <th width="5%">#</th>
                     <th>Nombre tutor</th>
                     <th width="15%">Dirrección</th>
                     <th width="8%">Tel. Celular</th>

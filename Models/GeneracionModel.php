@@ -22,7 +22,9 @@
         public function selectGeneraciones(string $nomConexion)
         {
             $this->strNomConexion = $nomConexion;
-            $sql = "SELECT * FROM t_generaciones WHERE estatus !=0";
+            $sql = "SELECT tGen.id AS idGen, tGen.nombre_generacion AS nomGen, tGen.fecha_inicio_gen AS fechIn, tGen.fecha_fin_gen AS fechFin, tGen.estatus AS est 
+                    FROM t_generaciones AS tGen
+                    WHERE tGen.estatus !=0";
             $request = $this->select_all($sql, $this->strNomConexion);
             return $request;
         }
@@ -118,6 +120,29 @@
           }
           return $request;
         }
+
+
+        // public function deleteGeneraciones(int $idGeneraciones, string $nomConexion){
+        //   $this->intIdGeneraciones = $idGeneraciones;
+        //   $this->strNomConexion = $nomConexion;
+        //   $sql = "SELECT * FROM t_ciclos WHERE id_generacion = $this->intIdGeneraciones";
+        //   $request = $this->select_all($sql,$this->strNomConexion);
+        //   if(empty($request))
+        //   {
+        //       $sql = "UPDATE t_generaciones SET estatus = ? WHERE id = $this->intIdGeneraciones";
+        //       $arrData =array(0);
+        //       $request = $this->update($sql,$this->strNomConexion,$arrData);
+        //       if($request)
+        //       {
+        //           $request = 'ok';
+        //       }else{
+        //           $request  = 'error';
+        //       }
+        //   }else{
+        //       $request = 'exist';
+        //   }
+        //   return $request;
+        // }
 
 
         // //SELECT CATEGORIAS

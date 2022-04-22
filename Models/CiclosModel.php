@@ -25,7 +25,6 @@
                     FROM t_ciclos 
                     INNER JOIN t_generaciones AS t_generaciones ON t_ciclos.id_generacion = t_generaciones.id 
                     WHERE t_ciclos.estatus !=0
-                    /* SELECT * FROM t_ciclos WHERE estatus !=0 */
                     ";
             $request = $this->select_all($sql, $this->strNomConexion);
             return $request;
@@ -104,12 +103,12 @@
             $this->intIdCiclos = $idCiclos;
             $this->strNomConexion = $nomConexion;
             $sql = "SELECT * FROM t_periodos WHERE id_ciclo = $this->intIdCiclos";
-            $request = $this->select_all($sql, $this->strNomConexion);
+            $request = $this->select_all($sql,$this->strNomConexion);
             if(empty($request))
             {
                 $sql = "UPDATE t_ciclos SET estatus = ? WHERE id = $this->intIdCiclos";
                 $arrData =array(0);
-                $request = $this->update($sql, $this->strNomConexion,$arrData);
+                $request = $this->update($sql,$this->strNomConexion,$arrData);
                 if($request)
                 {
                     $request = 'ok';

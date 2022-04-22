@@ -397,7 +397,15 @@ function fntVerPersona(idPersona){
                 document.querySelector('#txtFechaNacimientOVer').value = objData.fecha_nacimiento;
                 document.querySelector('#txtCURPVer').value = objData.curp;
                 document.querySelector('#listNivelCarreraInteresVer').innerHTML = "<option>"+objData.nivel_carrera_interes+"</option>";
-                document.querySelector('#listCarreraInteresVer').innerHTML = "<option>"+objData.carrera_interes+"</option>";
+                let carreraInteres = `${base_url}/Persona/getCarrerasInteres?idNivel=${objData.id_nivel_carrera_interes}`;
+                fetch(carreraInteres).then((res) => res.json()).then(resultado =>{
+                    resultado.forEach(element => {
+                        if(element.id == objData.id_carrera_interes){
+                            document.querySelector('#listCarreraInteresVer').innerHTML = "<option>"+element.nombre_carrera+"</option>";
+                        }
+                    });
+                }).catch(err => {throw err});
+
                 document.querySelector('#txtMedioCaptacionVer').value = objData.medio_captacion;
                 document.querySelector('#txtNombreEscuelaProcVer').value = objData.escuela_procedencia;
                 if(objData.estatus == 1){

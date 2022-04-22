@@ -16,7 +16,7 @@
             }
             $this->idUser = $_SESSION['idUser'];
             $this->nomConexion = $_SESSION['nomConexion'];
-            $this->rol = $_SESSION['claveRol'];
+            // $this->rol = $_SESSION['claveRol'];
         }
 
         public function Ciclos()
@@ -36,6 +36,7 @@
             for($i=0; $i < count($arrData); $i++){
                 /* $arrData[$i]['id_guardado'] = */ /* $arrData[$i]['IdCiclos']; */
                 /* $arrData[$i]['id'] = $i+1; */
+                $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
                     $arrData[$i]['estatus'] = '<span class="badge badge-dark">Activo</span>';
                 }else{
@@ -185,13 +186,13 @@
         public function delCiclos(){
             if($_POST)
             {
-                $intIdCiclos = intval($_POST['idCiclos']);
-                $requestDelete = $this->model->deleteCiclos($intIdCiclos, $this->nomConexion);
+                $intIdCiclos = intval($_POST['IdCiclos']);
+                $requestDelete = $this->model->deleteCiclos($intIdCiclos,$this->nomConexion);
                 if($requestDelete == 'ok')
                 {
                     $arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado el ciclo correctamente.');
                 }else if($requestDelete == 'exist'){
-                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar un ciclo asociado a un periodo y generación activo.');
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar un ciclo asociado a un periodo activo.');
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'Error al eliminar el ciclo.');
                 }

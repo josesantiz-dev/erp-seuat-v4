@@ -462,7 +462,7 @@ function fntDelPlanEstudios(id) {
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     var objData = JSON.parse(request.responseText);
-                   if(objData.estatus)
+                    if(objData.estatus)
                     {
                         swal.fire("Eliminado!", objData.msg , "success");
                         tablePlanEstudios.api().ajax.reload();

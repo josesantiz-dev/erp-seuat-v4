@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
+                            <button type="button" onclick="fnNuevaInscripcion()" class="btn btn-inline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#ModalFormNuevaInscripcion"><i class="fa fa-plus-circle fa-md"></i>Nuevo</button>
                         </ol>
                     </div>
                 </div>
@@ -27,23 +27,34 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="col-md-6">
-                                    <label>Selecciona un plantel</label>
-                                    <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
-                                        <option selected>Todos</option>
-                                        <?php 
-                                            foreach ($data['planteles'] as $key => $value) {
-                                                ?>
-                                                    <option value="<?php echo $value['id']?>"><?php echo $value['nombre_plantel'].' ('.$value['municipio'].')'?></option>
-                                                <?php
-                                            }
-                                        ?>
-                                    </select>
+                        <?php if($data['rol'] == 'admin' || $data['rol'] == 'superadmin'){ ?>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
+                                            <option selected>Todos</option>
+                                            <?php 
+                                                foreach (conexiones as $key => $conexion) {
+                                                    ?>
+                                                        <option value="<?php echo $key ?>"><?php echo $conexion['NAME']?></option>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php }else { ?>
+                            <div class="card" style="display: none;">
+                                <div class="card-body">
+                                    <div class="col-md-6">
+                                        <select class="custom-select" id="listPlantelDatatable" onchange="fnPlantelSeleccionadoDatatable(value)">
+                                            <option value="<?php echo $data['nomConexion']?>" selected><?php echo conexiones[$data['nomConexion']]['NAME'] ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                     <div class="col-lg-12">
                         <div class="card">

@@ -1,14 +1,21 @@
 <?php
     class Modalidades extends Controllers{
-        public function __construct(){
-            parent::__construct();
-            session_start();
+        private $idUser;
+		private $nomConexion;
+		private $rol;
+		public function __construct()
+		{
+			parent::__construct();
+			session_start();
 		    if(empty($_SESSION['login']))
 		    {
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
-        }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
+		}
          //Funcion para la Vista de Modalidades
         public function modalidades(){
             $data['page_id'] = 6;
@@ -21,7 +28,7 @@
             $this->views->getView($this,"modalidades",$data);
         }
         public function getModalidades(){
-            $arrData = $this->model->selectModalidades();
+            $arrData = $this->model->selectModalidades($this->nomConexion);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 if($arrData[$i]['estatus'] == 1){
@@ -58,7 +65,7 @@
                 $intIdModalidadEdit = intval($_POST['idModalidadEdit']);
             }
             if($intIdModalidadNueva == 1){
-                $arrData = $this->model->insertModalidad($data);
+                $arrData = $this->model->insertModalidad($data, $this->nomConexion);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                 }else{
@@ -66,7 +73,7 @@
                 }
             }
             if($intIdModalidadEdit !=0){
-                $arrData = $this->model->updateModalidad($intIdModalidadEdit,$data);
+                $arrData = $this->model->updateModalidad($intIdModalidadEdit,$data, $this->nomConexion);
                 if($arrData['estatus'] != TRUE){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
                 }else{
@@ -78,7 +85,7 @@
         }
 
         public function getModalidad(int $idModalidad){
-            $arrData = $this->model->selectModalidad($idModalidad);
+            $arrData = $this->model->selectModalidad($idModalidad, $this->nomConexion);
             if($arrData){
                 echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                 die();
@@ -89,7 +96,7 @@
 		public function delModalidad(){
 			if($_POST){
 				$intIdModalidad = intval($_POST['idModalidad']);
-				$requestDelete = $this->model->deleteModalidad($intIdModalidad);
+				$requestDelete = $this->model->deleteModalidad($intIdModalidad, $this->nomConexion);
 				if($requestDelete == 'ok'){
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha eliminado la modalidad.');
 				}else{

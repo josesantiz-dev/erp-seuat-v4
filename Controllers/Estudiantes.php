@@ -1,8 +1,17 @@
 <?php
 	class Estudiantes extends Controllers{
+
+        private $idUser;
+        private $nomConexion;
+        private $rol;
+
 		public function __construct()
 		{
 			parent::__construct();
+
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+            // $this->rol = $_SESSION['claveRol'];
 		}
 		//Funcion para la Vista de Estudiantes
 		public function estudiantes()
@@ -12,8 +21,8 @@
 			$data['page_title'] = "Estudiantes";
 			$data['page_name'] = "estudiantes";
 			$data['page_content'] = "";
-			$data['estados'] = $this->model->selectEstados();
-            $data['grados_estudios'] = $this->model->selectGradosEstudios();
+			$data['estados'] = $this->model->selectEstados($this->nomConexion);
+            $data['grados_estudios'] = $this->model->selectGradosEstudios($this->nomConexion);
 			$data['page_functions_js'] = "functions_estudiantes.js";
 			$this->views->getView($this,"estudiantes",$data);
 		}
@@ -52,7 +61,7 @@
 			$this->views->getView($this,"estudiantes",$data);
 		} */
         public function getEstudiantes(){
-            $arrData = $this->model->selectEstudiantes();
+            $arrData = $this->model->selectEstudiantes($this->nomConexion);
             for ($i=0; $i<count($arrData); $i++){
                 $arrData[$i]['numeracion'] = $i+1;
                 $arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].' ('.$arrData[$i]['municipio'].')';
@@ -108,7 +117,7 @@
         }
         public function gettUsuarioValidacion(){
             $idUsuario = $_GET['idUser'];
-            $arrData = $this->model->selectUsuarioValidacion($idUsuario);
+            $arrData = $this->model->selectUsuarioValidacion($idUsuario, $this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -194,72 +203,72 @@
 		} */
         public function getDocumentacion(){
             $idInscripcion = $_GET['idIns'];
-            $arrData = $this->model->selectDocumentacion($idInscripcion);
+            $arrData = $this->model->selectDocumentacion($idInscripcion,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getDocumentosEntregados(){
             $idInscripcion = $_GET['idIns'];
-            $arrData = $this->model->selectDocumentacionEntregados($idInscripcion);
+            $arrData = $this->model->selectDocumentacionEntregados($idInscripcion,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function setValidacionDocumentacion(){
             $data = $_POST;
-			$arrData = $this->model->insertValidacionDocumentacion($data);
+			$arrData = $this->model->insertValidacionDocumentacion($data,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
 		public function setValidacionDatosPersonales(){
 			$data = $_POST;
-			$arrData = $this->model->insertValidacionDatosPersonales($data);
+			$arrData = $this->model->insertValidacionDatosPersonales($data,$this->nomConexion);
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
         public function setOriginalDocumentacion(){
             $data = $_GET;
-            $arrData = $this->model->insertOriginalDocumentacion($data);
+            $arrData = $this->model->insertOriginalDocumentacion($data,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function setCopiaDocumentacion(){
             $data = $_GET;
-            $arrData = $this->model->insertCopiaDocumentacion($data);
+            $arrData = $this->model->insertCopiaDocumentacion($data,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function setCantidadCopiaDocumentacion(){
             $data = $_GET;
-            $arrData = $this->model->insertCantidadCopiaDocumentacion($data);
+            $arrData = $this->model->insertCantidadCopiaDocumentacion($data,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getEstatusDocumentacion(){
             $data = $_GET;
-            $arrData = $this->model->selectEstatusDocumentacion($data);
+            $arrData = $this->model->selectEstatusDocumentacion($data,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
 		public function getMunicipios(){
             $idEstado = $_GET['idestado'];
-            $arrData = $this->model->selectMunicipios($idEstado);
+            $arrData = $this->model->selectMunicipios($idEstado,$this->nomConexion);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 		public function getLocalidades(){
             $idMunicipio = $_GET['idmunicipio'];
-            $arrData = $this->model->selectLocalidades($idMunicipio);
+            $arrData = $this->model->selectLocalidades($idMunicipio,$this->nomConexion);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 		public function getPersonaEdit($idPersona){
             $idPersona = $idPersona;
-            $arrData = $this->model->selectPersonaEdit($idPersona);
+            $arrData = $this->model->selectPersonaEdit($idPersona,$this->nomConexion);
             echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
             die();
         }
 		public function getListEstados(){
-			$arrResponse = $this->model->selectEstados();
+			$arrResponse = $this->model->selectEstados($this->nomConexion);
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -275,7 +284,7 @@
                 }
             }
             if(count($idDocumentosDetalles) >= 1){
-                $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion);
+                $arrPrestamo = $this->model->insertPrestamoDocumentos($idDocumentosDetalles,$idInscripion,$comentario,$fechaDevolucion,$this->nomConexion);
                 if($arrPrestamo){
                     $arrResponse['status'] = true;
                     $arrResponse['msg'] = "Prestamo realizado correctamente";
@@ -296,7 +305,7 @@
                 $folio = $valor[0]['folio'];
                 $data = $valor[1];
             }
-            $arrDevolucion = $this->model->insertDevolucionDocumentos($folio,$data);
+            $arrDevolucion = $this->model->insertDevolucionDocumentos($folio,$data,$this->nomConexion);
             if($arrDevolucion){
                 $arrResponse['estatus'] = true;
                 $arrResponse['msg'] = "Devolución realizado correctamente";
@@ -309,7 +318,7 @@
         }
         public function getHistorialPrestamoDocumentos(){
             $idInscripcion = $_GET['idIns'];
-            $arrHistorialFoliosDoc = $this->model->selectHistorialFoliosPrestamoDoctos($idInscripcion);
+            $arrHistorialFoliosDoc = $this->model->selectHistorialFoliosPrestamoDoctos($idInscripcion,$this->nomConexion);
             echo json_encode($arrHistorialFoliosDoc,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -317,7 +326,7 @@
         public function imprimir_comp_doc_prestamo($folio){
             $folioFormat = base64_decode($folio);
             $data['folio'] = $folioFormat;
-            $data['data'] = $this->model->selectListaDocumentosFolio($folioFormat);
+            $data['data'] = $this->model->selectListaDocumentosFolio($folioFormat,$this->nomConexion);
 			$this->views->getView($this,"viewpdf_prestamo_doc",$data);
         }
         public function imprimir_carta_compromiso_doc($date){
@@ -325,22 +334,22 @@
             $idInscripcionFormat = base64_decode($newDate[0]);
             $fechaComEntrega = base64_decode($newDate[1]);
             $data['idInscripcion'] = $idInscripcionFormat;
-            $arrData['docstatus'] = $this->model->selectEstatusDocumentacion($data);
-            $arrData['doc'] = $this->model->selectDocumentacion($idInscripcionFormat);
-            $arrData['data'] = $this->model->selectEstudianteInsc($idInscripcionFormat);
+            $arrData['docstatus'] = $this->model->selectEstatusDocumentacion($data,$this->nomConexion);
+            $arrData['doc'] = $this->model->selectDocumentacion($idInscripcionFormat,$this->nomConexion);
+            $arrData['data'] = $this->model->selectEstudianteInsc($idInscripcionFormat,$this->nomConexion);
             $arrData['fechaComEntrega'] = $fechaComEntrega;
 			$this->views->getView($this,"viewpdf_entrega_doc",$arrData);
         }
 
         public function geTutorAlumno($idPersona){
             $idAlumno = $idPersona;
-            $arrData = $this->model->selectTutorAlumno($idAlumno);
+            $arrData = $this->model->selectTutorAlumno($idAlumno,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
         public function getDatosFiscales($idPersona){
             $idAlumno = $idPersona;
-            $arrData = $this->model->selectDatosFiscales($idAlumno);
+            $arrData = $this->model->selectDatosFiscales($idAlumno,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -354,11 +363,11 @@
             $razonSocial = $datos['txtNombreSocial'];
             $RFC = $datos['txtRFC'];
             $telefono = $datos['txtTelefono'];
-            $respondeStatusDatFiscales = $this->model->selectStatusDatosFiscales($idAlumno);
+            $respondeStatusDatFiscales = $this->model->selectStatusDatosFiscales($idAlumno,$this->nomConexion);
             if($respondeStatusDatFiscales['id_datos_fiscales'] == null){
-                $responseDaosFiscales = $this->model->insertDatosFiscales($idAlumno,$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                $responseDaosFiscales = $this->model->insertDatosFiscales($idAlumno,$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono,$this->nomConexion);
                 if($responseDaosFiscales){
-                    $responseEstatusDatFisPersona = $this->model->updateDatFiscPersona($idAlumno,$responseDaosFiscales);
+                    $responseEstatusDatFisPersona = $this->model->updateDatFiscPersona($idAlumno,$responseDaosFiscales,$this->nomConexion);
                     if($responseEstatusDatFisPersona){
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos fiscales agregado correctamente');
                     }else{
@@ -366,7 +375,7 @@
                     }
                 }
             }else{
-                $response = $this->model->updateDatosFiscales($respondeStatusDatFiscales['id_datos_fiscales'],$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono);
+                $response = $this->model->updateDatosFiscales($respondeStatusDatFiscales['id_datos_fiscales'],$CP,$direccion,$email,$lugar,$razonSocial,$RFC,$telefono,$this->nomConexion);
                 if($response){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos fiscales actualizados correctamente');
                 }else{
@@ -378,7 +387,7 @@
         }
         public function setTutor(){
             $data = $_POST;
-            $arrData = $this->model->updateTutorAlumno($data);
+            $arrData = $this->model->updateTutorAlumno($data,$this->nomConexion);
             if($arrData){
                 $arrResponse['estatus'] = true;
                 $arrResponse['msg'] = "Tutor actualizado correctamente";
@@ -392,7 +401,7 @@
         }
         public function getCartaAut($idInscripcionActual){
             $idInscripcionFormat = base64_decode($idInscripcionActual);
-            $arrDataIns = $this->model->selectDatosImprimirCartaAut($idInscripcionFormat);
+            $arrDataIns = $this->model->selectDatosImprimirCartaAut($idInscripcionFormat,$this->nomConexion);
             $data['datos'] = $arrDataIns;
             $this->views->getView($this,"viewpdf_carta_autenticidad",$data);
         }

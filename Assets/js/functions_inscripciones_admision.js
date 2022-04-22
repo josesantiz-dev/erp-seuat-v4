@@ -20,6 +20,7 @@ divCambiarSubcampania.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
+    /* console.log(document.querySelector('#listPlantelDatatable').value); */
 });
 function buscarPersona(){
     var textoBusqueda = $("input#busquedaPersona").val();
@@ -141,19 +142,27 @@ formInscripcionNueva.onsubmit = function(e){
 
 function fnPlantelSeleccionado(answer){
     const selCarreras = document.querySelector('#listCarreraNuevo');
-    let url = base_url+"/Inscripcion/getCarreras?iplantel="+answer;
-    fetch(url)
-        .then(res => res.json())
-        .then((resultado) => {
-			selCarreras.innerHTML = "";
-            for (let i = 0; i < resultado.length; i++) {
-                opcion = document.createElement('option');
-                opcion.text = resultado[i]['nombre_carrera'];
-                opcion.value = resultado[i]['id'];
-                selCarreras.appendChild(opcion);
-            }
-        })
-        .catch(err => { throw err });
+    if(answer == ''){
+        selCarreras.innerHTML = "<option value=''>Selecciona la carrera</option>";
+    }else{
+        let url = base_url+"/Inscripcion/getCarreras?iplantel="+answer;
+        fetch(url)
+            .then(res => res.json())
+            .then((resultado) => {
+                if(resultado.length > 0){
+                    selCarreras.innerHTML = "";
+                    for (let i = 0; i < resultado.length; i++) {
+                        opcion = document.createElement('option');
+                        opcion.text = resultado[i]['nombre_carrera'];
+                        opcion.value = resultado[i]['id'];
+                        selCarreras.appendChild(opcion);
+                    }
+                }else{
+                    selCarreras.innerHTML = "<option value=''>Selecciona la carrera</option>";
+                }
+            })
+            .catch(err => { throw err });
+    }
 }
 
 function fnPlantelSeleccionadoEdit(answer){
@@ -174,6 +183,7 @@ function fnPlantelSeleccionadoEdit(answer){
 }
 
 function fnNavTab(numTab){
+    tabActual = numTab;
     var x = document.getElementsByClassName("tab");
     for(var i = 0; i<x.length;i++){
         x[i].style.display = "none";
@@ -182,6 +192,7 @@ function fnNavTab(numTab){
     estadoIndicadores(numTab);
 }
 function fnNavTabEddit(numTab){
+    tabActualEdit = numTab;
     //console.log(numTab);    
     var x = document.getElementsByClassName("tabEdit");
     for(var i = 0; i<x.length;i++){
@@ -598,6 +609,11 @@ function sizeCheckInput(){
         }
     });
     return size;
+}
+
+function fnNuevaInscripcion(){
+    $('#step1-tab').click();
+    tabActual = 0;
 }
 //console.log(arrCkeckedInput);
 //Funcion para convertir json a String

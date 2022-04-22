@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"IdCiclos"},
+            {"data":"numeracion"},
             {"data":"Nombre"},
             {"data":"Anio"},
             {"data":"estatus"},
@@ -209,7 +209,7 @@ function fntDelCiclos(id){
         {
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url+'/Ciclos/delCiclos';
-            let strData = "idCiclos="+id;
+            let strData = "IdCiclos="+id;
             request.open("POST",ajaxUrl,true);
             request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             request.send(strData);

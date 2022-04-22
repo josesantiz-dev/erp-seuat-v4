@@ -43,7 +43,7 @@
                 <table id="tableGrados" class="table table-bordered table-striped table-hover table-sm">
                   <thead>
                   <tr>
-                    <th width="7%">ID</th>
+                    <th width="7%">#</th>
                     <th>Nombre grado</th>
                     <th width="17%">Número natural</th>
                     <th width="17%">Número romano</th>

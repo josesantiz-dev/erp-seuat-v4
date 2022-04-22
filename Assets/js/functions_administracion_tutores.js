@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"idTut"},
+            {"data":"numeracion"},
             {"data":"nombre_tutor"},
             {"data":"direccion"},
             {"data":"tel_celular"},

@@ -1,6 +1,8 @@
 var tableMaterias;
 var formMateriaNueva = document.querySelector("#formMateriaNueva");
 var formMateriadit = document.querySelector("#formMateriaEdit");
+let divLoading = document.querySelector("#divLoading");
+
 //Datatable
 document.addEventListener('DOMContentLoaded', function(){
 	tableMaterias = $('#tableMaterias').dataTable( {
@@ -60,6 +62,7 @@ formMateriaNueva.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Materias/setMateria';
     var formData = new FormData(formMateriaNueva);
@@ -79,6 +82,7 @@ formMateriaNueva.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -86,6 +90,7 @@ formMateriaNueva.onsubmit = function(e){
 //Funcion para Ver Materia
 function fntVerMateria(idMateria){
     var idMateria = idMateria;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Materias/getMateria/'+idMateria;
     request.open("GET",ajaxUrl ,true);
@@ -117,12 +122,15 @@ function fntVerMateria(idMateria){
             }
             
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
 //Editar Materias
 function fntEditMateria(idMateria){
     var idMateria = idMateria;
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl  = base_url+'/Materias/getMateria/'+idMateria;
     request.open("GET",ajaxUrl ,true);
@@ -197,6 +205,8 @@ function fntEditMateria(idMateria){
             }
             
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 //Enviar datos de Materia Edit
@@ -217,6 +227,7 @@ formMateriaEdit.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Materias/setMateria';
     var formData = new FormData(formMateriaEdit);
@@ -235,6 +246,7 @@ formMateriaEdit.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
@@ -253,6 +265,7 @@ function fntDelMateria(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.getElementsByClassName.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Materias/delMateria'; 
             var strData = "idMateria="+id;
@@ -271,6 +284,8 @@ function fntDelMateria(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });
@@ -278,6 +293,7 @@ function fntDelMateria(id) {
 function plantelSeleccionado(id){
     const selLocalidades = document.querySelector('#listPlanEstudioNuevo');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
+    divLoading.getElementsByClassName.display = "flex";
     fetch(url_plan)
         .then(res => res.json())
         .then((resultado) => {
@@ -288,6 +304,7 @@ function plantelSeleccionado(id){
                 opcion.value = resultado[i]['id'];
                 selLocalidades.appendChild(opcion);
             }
+            divLoading.style.display = "none";
         })
         .catch(err => { throw err });
 }
@@ -295,6 +312,7 @@ function plantelSeleccionado(id){
 function plantelSeleccionadoEdit(id){
     const selLocalidades = document.querySelector('#listPlanEstudioEdit');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
+    divLoading.getElementsByClassName.display = "flex";
     fetch(url_plan)
         .then(res => res.json())
         .then((resultado) => {
@@ -305,6 +323,7 @@ function plantelSeleccionadoEdit(id){
                 opcion.value = resultado[i]['id'];
                 selLocalidades.appendChild(opcion);
             }
+            divLoading.style.display = "none";
         })
         .catch(err => { throw err });
 }

@@ -26,7 +26,7 @@
 			$data['page_name'] = "Precarga cuenta";
 			$data['page_content'] = "";
             $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-			$data['niveles'] = $this->model->selectNiveles($this->nomConexion);
+			// $data['niveles'] = $this->model->selectNiveles($this->nomConexion);
             $data['periodos'] = $this->model->selectPeriodos($this->nomConexion);
             $data['grados'] = $this->model->selectGrados($this->nomConexion);
 			$data['page_functions_js'] = "functions_precarga_cuenta.js";

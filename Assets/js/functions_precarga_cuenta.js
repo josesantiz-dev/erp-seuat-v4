@@ -238,9 +238,9 @@ function fnSeleccionarServicio(value,id,precio){
     let idServicio = id;
     let precioUnitario = precio;
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
-    let arrValue = {'id_servicio':idServicio,'nombre_servicio':nombreServicio,'codigo':codigoServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
+    let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
     arrDatosNew.push(arrValue);
-    //console.log(arrDatosNew);
+    console.log(arrDatosNew);
     mostrarServiciosTabla();
 }
 //Function para dar formato un numero a Moneda

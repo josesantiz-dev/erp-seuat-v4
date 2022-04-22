@@ -51,14 +51,7 @@
                                     <label>Selecciona un nivel</label>
                                     <select class="custom-select" id="listNivelDatatable" onchange="fnNivelSeleccionadoDatatable(value)">
                                         <option selected>Todos</option>
-                                        <?php 
-                                            foreach ($data['niveles'] as $key => $value) {
-                                                ?>
-                                        <option value="<?php echo $value['id']?>">
-                                            <?php echo $value['nombre_nivel_educativo']?></option>
-                                        <?php
-                                            }
-                                        ?>
+                                        
                                     </select>
                                 </div>
                             </div>

@@ -14,7 +14,7 @@ class PrecargaCuentaModel extends Mysql
         $request = $this->select_all($sql,$this->strNomConexion);
         return $request;
     }
-    
+
     public function selectPlanEstudios(string $nomConexion){
         $this->strNomConexion = $nomConexion;
         $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id AS id_plantel,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 

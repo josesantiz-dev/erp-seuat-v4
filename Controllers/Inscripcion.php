@@ -23,11 +23,11 @@
             $data['page_tag'] = "Inscripcion";
             $data['page_title'] = "Inscripciones";
             $data['page_content'] = "";
-/*             $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-            $data['grados'] = $this->model->selectGrados($this->nomConexion);
+            //$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+            //$data['grados'] = $this->model->selectGrados($this->nomConexion);
             $data['subcampanias'] = $this->model->selectSubcampanias($this->nomConexion);
-            $data['turnos'] = $this->model->selectturnos($this->nomConexion);
-            $data['nivel_educativos'] = $this->model->selectNivelesEducativos($) */
+            //$data['turnos'] = $this->model->selectturnos($this->nomConexion);
+            //$data['nivel_educativos'] = $this->model->selectNivelesEducativos($)
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['nomConexion'] = $this->nomConexion;
@@ -152,7 +152,7 @@
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
                     }
                 }else{
-                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar si subcampaña');
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
                 }
             }
             //Editar

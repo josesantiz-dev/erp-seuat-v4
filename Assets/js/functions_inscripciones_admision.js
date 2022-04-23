@@ -2,7 +2,7 @@ var tableInscripciones;
 var idPersonaSeleccionada;
 var formInscripcionNueva = document.querySelector("#formInscripcionNueva");
 var formTutorNuevo = document.querySelector("#formAgregarTutor");
-//let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
+let divCambiarSubcampania = document.querySelector('.cambiarsubcampania');
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
@@ -16,7 +16,7 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 let nomConexionSeleccionadoModal = null;
 
-//divCambiarSubcampania.style.display = "none";
+divCambiarSubcampania.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', function(){
 	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
@@ -110,7 +110,8 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            if(objData.estatus){
+            console.log(objData);
+            /* if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
                     Swal.fire({
@@ -134,7 +135,7 @@ formInscripcionNueva.onsubmit = function(e){
                 tableInscripciones.api().ajax.reload();
             }else{
                  swal.fire("Error",objData.msg,"error");
-            }
+            } */
         }
         return false;
     }
@@ -233,8 +234,8 @@ function fnTurnos(conexion){
 function fnCampaniaActual(conexion){
     let url = `${base_url}/Inscripcion/getCampaniaActual?conexion=${conexion}`;
     fetch(url).then((res) => res.json()).then(resultado =>{
-        console.log(resultado)
-        if(resultado.length > 0){
+        //console.log(resultado)
+        /* if(resultado.length > 0){
             let html ='<input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="">'+
             '<p>Estas inscribiendo a la campania/subcampania&nbsp<span class="badge badge-warning nombrecampania">skoskos</span>&nbsp'+ 
             '<button type="button" onclick="fnCambiarCamSubcampania()" class="btn btn-sm"><i class="fa fa-pencil-alt"></i></button></p>'+
@@ -249,7 +250,7 @@ function fnCampaniaActual(conexion){
             let html = '<input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="">'+
                     '<p><span class="badge badge-warning nombrecampania">No hay campañas/subcampañas activas</span></p>';
             document.querySelector('.result_campania').innerHTML = html;        
-        }
+        } */
     }).catch(err =>{throw err});
 }
 
@@ -390,6 +391,12 @@ function pasarTab(n) {
   } 
 
  function fnChkAlumnoTutor(){
+    if(idPersonaSeleccionada == '' || idPersonaSeleccionada == null || idPersonaSeleccionada == undefined){
+        swal.fire("Atención","Hay que seleccionar un alumno","warning").then((result) => {
+            document.querySelector('#chk-alumno-tutor').checked = false;
+        })
+        return false;
+    }
     if(document.querySelector('#chk-alumno-tutor').checked == true){
         let url = base_url+"/Inscripcion/getPersona?id="+idPersonaSeleccionada;
         fetch(url)

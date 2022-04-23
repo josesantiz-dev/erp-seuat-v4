@@ -14,6 +14,13 @@
             }
 		}
 
+		/* public function conexion($conn){
+            $conne = new Conexion();
+            $conne = $conne->conect($conn);
+            return $conne;
+        } */
+
+
 		//Insertar un registro
 		public function insert(string $query,string $bd, array $arrValues)
 		{

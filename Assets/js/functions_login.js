@@ -1,3 +1,4 @@
+const togglePassword = document.querySelector('#togglePassword');
 document.addEventListener('DOMContentLoaded', function(){
     if(document.querySelector("#formLogin")){
 
@@ -39,3 +40,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 }, false);
+
+togglePassword.addEventListener('click',function (e) {
+   const type = document.querySelector('#txtPassword').getAttribute('type') === 'password' ? 'text' : 'password';
+   document.querySelector('#txtPassword').setAttribute('type',type);
+   this.classList.toggle('fa-eye-slash');
+});

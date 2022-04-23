@@ -24,7 +24,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>SIE </b>Universiad SEUAT</a>
+    <a href="#"><b>SIE </b>Universidad SEUAT</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -44,6 +44,7 @@
           <input type="password" id="txtPassword" name="txtPassword" class="form-control" placeholder="Contraseña">
           <div class="input-group-append">
             <div class="input-group-text">
+              <i class="far fa-eye mr-2" id="togglePassword" style="color:#045FB4"></i>
               <span class="fas fa-lock"></span>
             </div>
           </div>

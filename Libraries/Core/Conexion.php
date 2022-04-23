@@ -17,6 +17,17 @@ class Conexion{
 	public function conect($bd){
 		return $this->conect[$bd];
 	}
+    /* public function conect($bd){
+        try{
+            $c = new PDO("mysql:host=".conexiones[$bd]['DB_HOST'].";dbname=".conexiones[$bd]['DB_NAME'].";charset=".conexiones[$bd]['DB_CHARSET'],conexiones[$bd]['DB_USER'],conexiones[$bd]['DB_PASSWORD']);
+            $c->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $c;
+        }catch(PDOException $e){
+            $msg = 'Error de conexión';
+            return $msg;
+            echo "ERROR: " . $e->getMessage();
+        }
+    } */
 }
 
 ?>

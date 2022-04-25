@@ -25,7 +25,7 @@
             $data['estados'] = $this->model->selectEstados($this->nomConexion);
             $data['categoria_persona'] = $this->model->selectCategoriasPersona($this->nomConexion);
             $data['grados_estudios'] = $this->model->selectGradosEstudios($this->nomConexion);
-            $data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
+            //$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
             $data['nivel_carrera_interes'] = $this->model->selectNivelesEducativos($this->nomConexion);
             $data['medios_captacion'] = $this->model->selectMediosCaptacion($this->nomConexion);
             $this->views->getView($this,"persona",$data);
@@ -87,10 +87,10 @@
                     if($arrData){
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                     }else{
-                        $arrResponse = array('estatus' => false, 'mgg' => 'No es posible guardar los datos');
+                        $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
                     }
                 }else{
-                    $arrResponse = array('estatus' => false, 'mgg' => 'No existe una subcampania activa');
+                    $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
                 }
             }
             if($intIdPersonaEdit !=0){
@@ -98,11 +98,12 @@
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{
-                    $arrResponse = array('estatus' => true, 'mgg' => 'No es posible actualizar los datos');
+                    $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         }
+
         public function getMunicipios(){
             $idEstado = $_GET['idestado'];
             $arrData = $this->model->selectMunicipios($idEstado, $this->nomConexion);

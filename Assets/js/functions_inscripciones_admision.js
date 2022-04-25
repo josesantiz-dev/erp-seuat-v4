@@ -110,7 +110,7 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            console.log(objData);
+            //console.log(objData);
             /* if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
@@ -168,7 +168,7 @@ function fnNivelSeleccionado(nivel){
         let listCarreras = document.querySelector('#listCarreraNuevo');
         let url = `${base_url}/Inscripcion/getCarreras?conexion=${nomConexionSeleccionadoModal}&nivel=${nivel}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
-            console.log(resultado)
+            //console.log(resultado)
             if(resultado.length > 0){
                 resultado.forEach(carrera => {
                     let option = document.createElement('option');

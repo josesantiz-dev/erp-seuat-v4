@@ -111,17 +111,17 @@
                                             <label>Plantel de interés</label>
                                             <select class="form-control form-control-sm" id="listPlantelInteres" name="listPlantelInteres">
                                                 <option value="">Seleccionar</option>
-                                                <?php foreach ($data['planteles'] as $key => $plantel) { ?>
-                                                    <option value="<?php echo $plantel['id'] ?>"><?php echo ($plantel['nombre_plantel'] . '(' . $plantel['municipio'] . ')') ?></option>
+                                                <?php foreach (conexiones as $key => $conexion) { ?>
+                                                    <option value="<?php echo $key ?>"><?php echo $conexion['NAME'] ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Nivel carrera de interés</label>
-                                            <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" <!--onchange="nivelCarreraInteresSeleccionado(value)" --> >
+                                            <select class="form-control form-control-sm" id="listNivelCarreraInteres" name="listNivelCarreraInteres" onchange="nivelCarreraInteresSeleccionado(value)">
                                                 <option value="">Seleccionar</option>
                                                 <?php
-                                                foreach ($data['nivel_estudios_interes'] as $value) {
+                                                foreach ($data['nivel_carrera_interes'] as $value) {
                                                 ?>
                                                     <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_nivel_educativo'] ?></option>
                                                 <?php
@@ -133,13 +133,6 @@
                                             <label>Carrera de interés</label>
                                             <select class="form-control form-control-sm" id="listCarreraInteres" name="listCarreraInteres">
                                                 <option value="">Seleccionar</option>
-                                                <?php
-                                                foreach ($data['nivel_estudios_interes'] as $value) {
-                                                ?>
-                                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre_nivel_educativo'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">

@@ -79,7 +79,7 @@
                                                 <!-- <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="">
                                                 <p id="no_hay_subcampania"><span class="badge badge-warning nombrecampania">No hay campañas/subcampañas activas</span></p> -->
                                                 <?php 
-                                                   $campanias = $data['subcampanias'];
+                                                   /*  $campanias = $data['subcampanias'];
                                                     if(count($campanias) > 0){
                                                         $campania = array_shift($campanias); ?>
                                                         <input type="hidden" id="idSubcampaniaNuevo" name="idSubcampaniaNuevo" value="<?php echo $campania['id_subcampania']?>">
@@ -106,7 +106,7 @@
                                                                 <option value="">Seleccionar</option>
                                                             </select> 
                                                         </div>
-                                                    <?php } 
+                                                    <?php } */
                                                 ?>
                                             </div>
                                         </div>

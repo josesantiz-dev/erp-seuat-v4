@@ -211,6 +211,7 @@ function municipioSeleccionadoEdit(value){
 
 function fntEditPersona(idPersona){
     var idPersona = idPersona;
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/getPersonaEdit/'+idPersona;
     request.open("GET",ajaxUrl,true);
@@ -337,6 +338,8 @@ function fntEditPersona(idPersona){
 
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -352,6 +355,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
+        divLoading.style.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = base_url+'/Persona/setPersona';
         var formData = new FormData(formEditPersona);
@@ -371,6 +375,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
                         swal.fire("Error", "error", "error");
                     }
                 }
+                divLoading.style.display = "none";
                 return false;
             }
 }
@@ -379,6 +384,7 @@ function fntVerPersona(idPersona){
     var idPersona = idPersona;
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/getPersonaEdit/'+idPersona;
+    divLoading.style.display = "flex";
     request.open("GET",ajaxUrl,true);
     request.send();
     request.onreadystatechange = function(){
@@ -428,6 +434,8 @@ function fntVerPersona(idPersona){
                 }
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -446,6 +454,7 @@ function fntDelPersona(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.style.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Persona/delPersona'; 
             var strData = "idPersona="+id;
@@ -464,6 +473,8 @@ function fntDelPersona(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

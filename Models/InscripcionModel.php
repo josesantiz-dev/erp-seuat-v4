@@ -118,7 +118,7 @@
             $emailTutor = $data['txtEmailTutorAgregar'];
 
             $anioActual = date('Y');
-            $siglaPlantel = "TGZ";
+            $siglaPlantel = conexiones[$nomConexion]['NAME'];
 
             $tipoIngreso = "Inscripcion";
             if($grado != 1){
@@ -138,7 +138,7 @@
                 $request_documentos = $this->select($sql_documentos, $nomConexion);
                 if($request_documentos){
                     $idDocumentos = $request_documentos['id'];
-                    $sql_folio_sistema = "SELECT COUNT(*)+1 AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaPlantel%'";
+                    $sql_folio_sistema = "SELECT COUNT(*) AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaPlantel%'";
                     $request_folio_sistema = $this->select($sql_folio_sistema, $nomConexion);
                     $request_folio_sistema_format = str_pad($request_folio_sistema['total']+1 ,5,"0",STR_PAD_LEFT);
                     $folioSistema = $siglaPlantel.$anioActual.($request_folio_sistema_format);
@@ -146,17 +146,23 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,$nomConexion,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser, $nomConexion));
                         if($request_inscripcion){
-                            $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW() WHERE id = $idPersona";
-                            $requestEmpresa = $this->update($sqlEmpresa,$nomConexion,array($empresa));
+                            $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
+                            $requestEmpresa = $this->update($sqlEmpresa,$nomConexion,array($empresa,$idUser));
+                            $sqlUpdateProspecto = "UPDATE t_prospectos SET id_plantel_inscrito = ? WHERE id_persona = $idPersona";
+                            $reqUpdateProspecto = $this->update($sqlUpdateProspecto,$nomConexion,array($nomConexion));
+                            $sqlUpdateAsigCatPersona = "UPDATE t_asignacion_categoria_persona SET fecha_baja = NOW(), estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_persona = $idPersona AND id_categoria_persona = 1";
+                            $reqUpdateAsigCatPersona = $this->update($sqlUpdateAsigCatPersona,$nomConexion,array(2,$idUser));
+                            $sqlInsertCatPersona = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
+                            $reqInsertCatPersona = $this->insert($sqlInsertCatPersona,$nomConexion,array(0,0,1,$idUser,$idPersona,2));
                         }
                     }
 
                 }
             }
-            return $request_inscripcion;
+            return $reqInsertCatPersona;
         }
         public function selectPlanteles(string $nomConexion){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";

@@ -10,16 +10,18 @@ document.getElementById("btnSiguienteEdit").style.display = "none";
 document.getElementById("btnActionFormNuevo").style.display = "none";
 document.getElementById("btnActionFormEdit").style.display = "none";
 document.querySelector('.listCampSubPos').style.display = "none";
+let divLoading = document.querySelector("#divLoading");
 var tabActual = 0;
 var tabActualEdit = 0;
 mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
-let nomConexionSeleccionadoModal = null;
-
 divCambiarSubcampania.style.display = "none";
 
+
+let nomConexionSeleccionadoModal = null;
 document.addEventListener('DOMContentLoaded', function(){
-	fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
+	//fnPlantelSeleccionadoDatatable(document.querySelector('#listPlantelDatatable').value);
+    fnPlantelSeleccionadoDatatable();
 });
 
 function buscarPersona(){
@@ -91,17 +93,18 @@ function seleccionarPersona(answer){
 formInscripcionNueva.onsubmit = function(e){
     e.preventDefault();
     var strNombrePersona = document.querySelector('#txtNombreNuevo').value;
-    var intPlantel = document.querySelector('#listPlantelNuevo').value;
+    //var intPlantel = document.querySelector('#listPlantelNuevo').value;
     var intCarrera = document.querySelector('#listCarreraNuevo').value;
     var intGrado = document.querySelector('#listGradoNuevo').value;
     var intTurno = document.querySelector('#listTurnoNuevo').value;
     var strNombreTutor = document.querySelector('#txtNombreTutorAgregar').value;
     var strAppPaternoTutor = document.querySelector('#txtAppPaternoTutorAgregar').value;
     var strAppMaternoTutor = document.querySelector('#txtAppMaternoTutorAgregar').value;
-    if(strNombrePersona == '' || intPlantel == '' || intCarrera == '' || intGrado == '' || intTurno == '' || strNombreTutor == '' || strAppPaternoTutor == ''|| strAppMaternoTutor == '' ){
+    if(strNombrePersona == '' || intCarrera == '' || intGrado == '' || intTurno == '' || strNombreTutor == '' || strAppPaternoTutor == ''|| strAppMaternoTutor == '' ){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Inscripcion/setInscripcion';
     var formData = new FormData(formInscripcionNueva);
@@ -110,8 +113,7 @@ formInscripcionNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            //console.log(objData);
-            /* if(objData.estatus){
+            if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
                     Swal.fire({
@@ -135,13 +137,14 @@ formInscripcionNueva.onsubmit = function(e){
                 tableInscripciones.api().ajax.reload();
             }else{
                  swal.fire("Error",objData.msg,"error");
-            } */
+            }
         }
+        divLoading.style.display = "none";
         return false;
     }
 }
 
-function fnPlantelSeleccionado(nomConexion){
+/* function fnPlantelSeleccionado(nomConexion){
     fnGrados(nomConexion);
     fnTurnos(nomConexion);
     fnCampaniaActual(nomConexion);
@@ -161,14 +164,13 @@ function fnPlantelSeleccionado(nomConexion){
         }
     }).catch(err => {throw err});
     
-}
+} */
 
 function fnNivelSeleccionado(nivel){
     if(nivel != ''){
         let listCarreras = document.querySelector('#listCarreraNuevo');
-        let url = `${base_url}/Inscripcion/getCarreras?conexion=${nomConexionSeleccionadoModal}&nivel=${nivel}`;
+        let url = `${base_url}/Inscripcion/getCarreras?nivel=${nivel}`;
         fetch(url).then((res) => res.json()).then(resultado =>{
-            //console.log(resultado)
             if(resultado.length > 0){
                 resultado.forEach(carrera => {
                     let option = document.createElement('option');
@@ -215,7 +217,8 @@ function fnGrados(conexion){
         }
     }).catch(err =>{throw err});
 }
-function fnTurnos(conexion){
+
+/* function fnTurnos(conexion){
     let listTurnos = document.querySelector('#listTurnoNuevo');
     let url = `${base_url}/Inscripcion/getTurnos?conexion=${conexion}`;
     fetch(url).then((res) => res.json()).then(resultado =>{
@@ -229,7 +232,7 @@ function fnTurnos(conexion){
             });
         }
     }).catch(err =>{throw err});
-}
+} */
 
 function fnCampaniaActual(conexion){
     let url = `${base_url}/Inscripcion/getCampaniaActual?conexion=${conexion}`;
@@ -464,11 +467,11 @@ function pasarTab(n) {
         }
     }
 }
-function fnPlantelSeleccionadoDatatable(value){
-    var nomConexion = value;
-    var nombrePlantel = document.querySelector('#listPlantelDatatable');
+function fnPlantelSeleccionadoDatatable(){
+    //var nomConexion = value;
+    /*var nombrePlantel = document.querySelector('#listPlantelDatatable');
     var text= nombrePlantel.options[nombrePlantel.selectedIndex].text;
-    document.querySelector('#nombrePlantelDatatable').innerHTML = text;
+    document.querySelector('#nombrePlantelDatatable').innerHTML = text;*/
     /* let url = base_url+"/Inscripcion/getInscripcionesAdmision?conexion="+nomConexion;
     fetch(url).then((res) => res.json()).then(resultado => {
         console.log(resultado);
@@ -481,7 +484,7 @@ function fnPlantelSeleccionadoDatatable(value){
         	"url": " "+base_url+"/Assets/plugins/Spanish.json"
         },
         "ajax":{
-            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision?conexion="+nomConexion,
+            "url": " "+base_url+"/Inscripcion/getInscripcionesAdmision",
             "dataSrc":""
         },
         "columns":[
@@ -695,7 +698,7 @@ function sizeCheckInput(){
 }
 
 function fnNuevaInscripcion(){
-    fnPlantelSeleccionado(document.querySelector('#listPlantelNuevo').value);
+    //fnPlantelSeleccionado(document.querySelector('#listPlantelNuevo').value);
     formInscripcionNueva.reset();
     $('#step1-tab').click(); 
     tabActual = 0;

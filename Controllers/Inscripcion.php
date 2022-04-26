@@ -24,10 +24,10 @@
             $data['page_title'] = "Inscripciones";
             $data['page_content'] = "";
             //$data['planteles'] = $this->model->selectPlanteles($this->nomConexion);
-            //$data['grados'] = $this->model->selectGrados($this->nomConexion);
+            $data['grados'] = $this->model->selectGrados($this->nomConexion);
             $data['subcampanias'] = $this->model->selectSubcampanias($this->nomConexion);
-            //$data['turnos'] = $this->model->selectturnos($this->nomConexion);
-            //$data['nivel_educativos'] = $this->model->selectNivelesEducativos($)
+            $data['turnos'] = $this->model->selectturnos($this->nomConexion);
+            $data['niveles_educativos'] = $this->model->selectNivelesEducativos($this->nomConexion);
             $data['page_functions_js'] = "functions_inscripciones_admision.js";
             $data['rol'] = $this->rol;
             $data['nomConexion'] = $this->nomConexion;
@@ -48,8 +48,8 @@
         }
         //Obtener Lista de Inscripciones(Admision)
         public function getInscripcionesAdmision(){
-            $nomConexion = $_GET['conexion'];
-            if($nomConexion == 'Todos'){
+            //$nomConexion = $_GET['conexion'];
+            /* if($nomConexion == 'Todos'){
                 $arrRes = [];
                 foreach (conexiones as $key => $conexion) {
                     $arrData = $this->model->selectInscripcionesAdmision($key);
@@ -82,6 +82,19 @@
                     $newArray[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$newArray[$i]['total'].'</span></h5>';
                     $newArray[$i]['options'] = '<button type="button"  id="'.$newArray[$i]['id'].'" gr="'.$newArray[$i]['grado'].'" tr="'.$newArray[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
                 }
+            } */
+            $newArray = $this->model->selectInscripcionesAdmision($this->nomConexion);
+            for($i = 0; $i<count($newArray); $i++){
+                $newArray[$i]['plantel'] = $this->nomConexion;
+                $newArray[$i]['numeracion'] = $i+1;
+                //$arrData[$i]['nombre_plantel'] = $arrData[$i]['nombre_plantel'].'('.$arrData[$i]['municipio'].')';
+                if($newArray[$i]['nombre_grupo'] == null){
+                    $newArray[$i]['nombre_grupo'] = "Sin grupo";
+                }else{
+                        
+                }
+                $newArray[$i]['total'] = '<h5><span class="badge badge-secondary pr-2 pl-2">'.$newArray[$i]['total'].'</span></h5>';
+                $newArray[$i]['options'] = '<button type="button"  id="'.$newArray[$i]['id'].'" gr="'.$newArray[$i]['grado'].'" tr="'.$newArray[$i]['id_turno'].'" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalFormListaInscritos" onclick="fnListaInscritos(this)">Ver</button>';
             }
             echo json_encode($newArray,JSON_UNESCAPED_UNICODE);
             die();
@@ -161,7 +174,7 @@
                 if($arrData){
                     $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
                 }else{
-                    $arrResponse = array('estatus' => false, 'mgg' => 'No es posible Actualizar los datos');
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible Actualizar los datos');
                 }
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -176,9 +189,9 @@
         }
         //Obtener Lista de Carreras
         public function getCarreras(){
-            $nomConexion = $_GET['conexion'];
+            //&$nomConexion = $_GET['conexion'];
             $nivel = $_GET['nivel'];
-            $arrData = $this->model->selectCarreras($nivel,$nomConexion);
+            $arrData = $this->model->selectCarreras($nivel,$this->nomConexion);
             echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
             die();
         }

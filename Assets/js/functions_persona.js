@@ -1,5 +1,7 @@
 var tablePersonas;
 var formPersonaNueva =  document.querySelector("#formPersonaNuevo");
+let divLoading = document.querySelector("#divLoading");
+
 document.addEventListener('DOMContentLoaded', function(){
 	tablePersonas = $('#tablePersonas').dataTable( {
 		"aProcessing":true,
@@ -54,6 +56,7 @@ formPersonaNueva.onsubmit = function(e){
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/setPersona';
     var formData = new FormData(formPersonaNueva);
@@ -72,6 +75,8 @@ formPersonaNueva.onsubmit = function(e){
                 swal.fire("Error",objData.msg,"error");
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -112,20 +117,28 @@ function estadoSeleccionado(value){
 }
 function nivelCarreraInteresSeleccionado(value){
     const selCarreraInteres = document.querySelector('#listCarreraInteres');
-    let url = base_url+"/Persona/getCarrerasInteres?idNivel="+value;
-    fetch(url)
-    .then(res => res.json())
-    .then((resultado) => {
+    if(value == ''){
         selCarreraInteres.innerHTML = "<option value=''>Seleccionar</option>";
-        for (let i = 0; i < resultado.length; i++) {
-            opcion = document.createElement('option');
-            opcion.text = resultado[i]['nombre_carrera'];
-            opcion.value = resultado[i]['id'];
-            selCarreraInteres.appendChild(opcion);
-            
-        }
-    })
-    .catch(err =>{throw err});
+    }else{
+        let url = base_url+"/Persona/getCarrerasInteres?idNivel="+value;
+        fetch(url)
+        .then(res => res.json())
+        .then((resultado) => {
+            if(resultado.length != 0){
+                selCarreraInteres.innerHTML = "<option value=''>Seleccionar</option>";
+                for (let i = 0; i < resultado.length; i++) {
+                    opcion = document.createElement('option');
+                    opcion.text = resultado[i]['nombre_carrera'];
+                    opcion.value = resultado[i]['id'];
+                    selCarreraInteres.appendChild(opcion);
+                    
+                }
+            }else{
+                selCarreraInteres.innerHTML = "<option value=''>Seleccionar</option>";
+            }
+        })
+        .catch(err =>{throw err});
+    }
 }
 function nivelCarreraInteresSeleccionadoEdit(value){
     const selCarreraInteres = document.querySelector('#listCarreraInteresEdit');
@@ -198,6 +211,7 @@ function municipioSeleccionadoEdit(value){
 
 function fntEditPersona(idPersona){
     var idPersona = idPersona;
+    divLoading.style.display = "flex";
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/getPersonaEdit/'+idPersona;
     request.open("GET",ajaxUrl,true);
@@ -324,6 +338,8 @@ function fntEditPersona(idPersona){
 
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -339,6 +355,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }
+        divLoading.style.display = "flex";
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = base_url+'/Persona/setPersona';
         var formData = new FormData(formEditPersona);
@@ -358,6 +375,7 @@ var formEditPersona = document.querySelector("#formPersonaEdit");
                         swal.fire("Error", "error", "error");
                     }
                 }
+                divLoading.style.display = "none";
                 return false;
             }
 }
@@ -366,6 +384,7 @@ function fntVerPersona(idPersona){
     var idPersona = idPersona;
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     var ajaxUrl = base_url+'/Persona/getPersonaEdit/'+idPersona;
+    divLoading.style.display = "flex";
     request.open("GET",ajaxUrl,true);
     request.send();
     request.onreadystatechange = function(){
@@ -415,6 +434,8 @@ function fntVerPersona(idPersona){
                 }
             }
         }
+        divLoading.style.display = "none";
+        return false;
     }
 }
 
@@ -433,6 +454,7 @@ function fntDelPersona(id) {
     }). then((result) => {
         if (result.isConfirmed) 
         {
+            divLoading.style.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url+'/Persona/delPersona'; 
             var strData = "idPersona="+id;
@@ -451,6 +473,8 @@ function fntDelPersona(id) {
                         swal.fire("Atención!", objData.msg , "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
         }
     });

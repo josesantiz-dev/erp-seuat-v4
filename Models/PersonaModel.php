@@ -50,7 +50,7 @@
             return $request;
         }
         public function selectNivelesEducativos(string $nomConexion){
-            $sql = "SELECT *FROM t_nivel_educativos";
+            $sql = "SELECT *FROM t_nivel_educativos WHERE estatus = 1";
             $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
@@ -88,7 +88,7 @@
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,$nomConexion,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
                 if($requestAsignCategoria){
-                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,id_plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
                     $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }
@@ -174,7 +174,7 @@
 			return $request;
         }
         public function selectSubcampania(string $nomConexion){
-            $sql = "SELECT *FROM t_subcampania ORDER BY fecha_fin DESC LIMIT 1";
+            $sql = "SELECT *FROM t_subcampania WHERE estatus = 1 ORDER BY fecha_fin DESC LIMIT 1";
             $request = $this->select($sql, $nomConexion);
             return $request;
         }

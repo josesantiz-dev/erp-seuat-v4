@@ -3,20 +3,23 @@
         public function __construct(){
             parent::__construct();
         }
-        /* public function selectInscripcionesAdmision(){
-            $sql = "SELECT ins.id,CONCAT(nombre_persona,' ',ap_paterno,' ',ap_materno) AS nombre_completo,plant.nombre_plantel,plant.municipio,plan.nombre_carrera,sal.nombre_salon,gra.numero_natural,grup.nombre_grupo,per.validacion FROM t_inscripciones AS ins
-            INNER JOIN t_personas AS per ON ins.id_personas = per.id
-            INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
-            INNER JOIN t_salones AS sal ON ins.id_salon = sal.id
-            INNER JOIN t_grados AS gra ON sal.id_grado = gra.id
-            INNER JOIN t_grupos AS grup ON sal.id_grupo = grup.id
-            INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id";
-            $request = $this->select_all($sql);
+        public function selectInscripcionesAdmision(string $nomConexion){
+            $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
+                INNER JOIN t_personas AS per ON ins.id_personas = per.id
+                INNER JOIN t_plan_estudios AS plan ON ins.id_plan_estudios = plan.id
+                INNER JOIN t_nivel_educativos AS niv ON plan.id_nivel_educativo = niv.id
+                INNER JOIN t_organizacion_planes AS orgp ON plan.id_plan = orgp.id
+                LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+                LEFT JOIN t_grados AS gra ON sal.id_grado = gra.id
+                LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
+                INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
+                INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
+                GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
+                $request = $this->select_all($sql, $nomConexion);
             return $request;
-        } */
-        public function selectInscripcionesAdmision($idplantel, string $nomConexion){
-            $idPlantel = $idplantel;
-            if($idPlantel == "Todos"){
+        }
+       /*  public function selectInscripcionesAdmision(string $nomConexion){
+            if($nomConexion == "Todos"){
                 $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,
                 tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
                                 INNER JOIN t_personas AS per ON ins.id_personas = per.id
@@ -31,7 +34,7 @@
                                 INNER JOIN t_historiales AS h ON ins.id_historial = h.id
                                 WHERE h.inscrito = 1
                                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
-                $request = $this->select_all($sql, $nomConexion);
+                $request = $this->select_all($sql, $nomConexion); 
             }else{
                 $sql = "SELECT plan.id,plan.nombre_carrera,niv.nombre_nivel_educativo,ins.grado,grup.nombre_grupo,orgp.nombre_plan,tur.id AS id_turno,tur.nombre_turno, COUNT(*) AS total FROM t_inscripciones AS ins
                 INNER JOIN t_personas AS per ON ins.id_personas = per.id
@@ -43,12 +46,12 @@
                 LEFT JOIN t_grupos AS grup ON sal.id_grupo = grup.id
                 INNER JOIN t_planteles AS plant ON plan.id_plantel = plant.id
                 INNER JOIN t_turnos AS tur ON ins.id_horario = tur.id
-                WHERE plant.id = $idPlantel
                 GROUP BY plan.nombre_carrera,ins.grado,tur.nombre_turno HAVING COUNT(*)>=1";
                 $request = $this->select_all($sql, $nomConexion);
             }
             return $request;
-        }
+        } */
+
         public function selectInscripcionesControlEscolar($idplantel, string $nomConexion){
             $idPlantel = $idplantel;
             if($idPlantel == "Todos"){
@@ -115,7 +118,7 @@
             $emailTutor = $data['txtEmailTutorAgregar'];
 
             $anioActual = date('Y');
-            $siglaPlantel = "TGZ";
+            $siglaPlantel = conexiones[$nomConexion]['NAME'];
 
             $tipoIngreso = "Inscripcion";
             if($grado != 1){
@@ -135,7 +138,7 @@
                 $request_documentos = $this->select($sql_documentos, $nomConexion);
                 if($request_documentos){
                     $idDocumentos = $request_documentos['id'];
-                    $sql_folio_sistema = "SELECT COUNT(*)+1 AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaPlantel%'";
+                    $sql_folio_sistema = "SELECT COUNT(*) AS total FROM t_inscripciones WHERE folio_sistema LIKE '%$siglaPlantel%'";
                     $request_folio_sistema = $this->select($sql_folio_sistema, $nomConexion);
                     $request_folio_sistema_format = str_pad($request_folio_sistema['total']+1 ,5,"0",STR_PAD_LEFT);
                     $folioSistema = $siglaPlantel.$anioActual.($request_folio_sistema_format);
@@ -143,17 +146,23 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,$nomConexion,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_actualizacion,id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,1,1));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser, $nomConexion));
                         if($request_inscripcion){
-                            $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW() WHERE id = $idPersona";
-                            $requestEmpresa = $this->update($sqlEmpresa,$nomConexion,array($empresa));
+                            $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
+                            $requestEmpresa = $this->update($sqlEmpresa,$nomConexion,array($empresa,$idUser));
+                            $sqlUpdateProspecto = "UPDATE t_prospectos SET id_plantel_inscrito = ? WHERE id_persona = $idPersona";
+                            $reqUpdateProspecto = $this->update($sqlUpdateProspecto,$nomConexion,array($nomConexion));
+                            $sqlUpdateAsigCatPersona = "UPDATE t_asignacion_categoria_persona SET fecha_baja = NOW(), estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id_persona = $idPersona AND id_categoria_persona = 1";
+                            $reqUpdateAsigCatPersona = $this->update($sqlUpdateAsigCatPersona,$nomConexion,array(2,$idUser));
+                            $sqlInsertCatPersona = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
+                            $reqInsertCatPersona = $this->insert($sqlInsertCatPersona,$nomConexion,array(0,0,1,$idUser,$idPersona,2));
                         }
                     }
 
                 }
             }
-            return $request_inscripcion;
+            return $reqInsertCatPersona;
         }
         public function selectPlanteles(string $nomConexion){
             $sql = "SELECT *FROM t_planteles WHERE estatus = 1";
@@ -161,12 +170,17 @@
             return $request;
         }
 
-        public function selectCarreras($data, string $nomConexion){
-            $idPlantel = $data;
-            $sql = "SELECT *FROM t_plan_estudios WHERE id_plantel = $idPlantel AND estatus !=0";
+        public function selectNivelesEducativos(string $nomConexion){
+            $sql = "SELECT *FROM t_nivel_educativos WHERE estatus != 0";
             $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
+        public function selectCarreras(int $nivel,string $nomConexion){
+            $sql = "SELECT *FROM t_plan_estudios WHERE id_nivel_educativo = $nivel AND estatus !=0";
+            $request = $this->select_all($sql, $nomConexion);
+            return $request;
+        }
+
         public function selectGrados(string $nomConexion){
             $sql = "SELECT *FROM t_grados";
             $request = $this->select_all($sql, $nomConexion);

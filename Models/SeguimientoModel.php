@@ -68,22 +68,15 @@ class SeguimientoModel extends Mysql{
     }
 
     public function selectProspectos(string $nomConexion){
-        $sql = "SELECT pe.id, 
-        CONCAT(pe.nombre_persona,' ',pe.ap_paterno,' ',pe.ap_materno) as nombre_completo, 
-        cat_per.nombre_categoria,
-        pe.alias, 
-        pe.tel_celular, 
-        plt.nombre_plantel, 
-        crr.nombre_carrera, 
-        med.medio_captacion 
+        $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ', pe.ap_paterno, ' ', pe.ap_materno) as nombre_completo, cat_per.nombre_categoria, pe.alias,
+        pe.tel_celular, pros.plantel_interes, crr_int.nombre_carrera, med.medio_captacion
         FROM t_personas as pe
-        INNER JOIN t_asignacion_categoria_persona as asig_cat_per ON asig_cat_per.id_persona = pe.id 
-        INNER JOIN t_categoria_personas as cat_per ON asig_cat_per.id_categoria_persona = cat_per.id 
-        INNER JOIN t_prospectos AS pros ON pros.id_persona = pe.id
-        LEFT JOIN t_planteles AS plt ON pros.id_plantel_interes = plt.id 
-        LEFT JOIN t_carrera_interes as crr ON pros.id_carrera_interes = crr.id 
-        INNER JOIN t_medio_captacion as med ON med.id = pros.id_medio_captacion 
-        WHERE pe.estatus != 0 AND asig_cat_per.id_categoria_persona = 1 OR asig_cat_per.id_categoria_persona = 5
+        INNER JOIN t_asignacion_categoria_persona as asig_cat ON asig_cat.id_persona = pe.id 
+        INNER JOIN t_categoria_personas as cat_per ON asig_cat.id_categoria_persona = cat_per.id 
+        INNER JOIN t_prospectos as pros ON pros.id_persona = pe.id
+        INNER JOIN t_carrera_interes as crr_int ON pros.id_carrera_interes = crr_int.id 
+        INNER JOIN t_medio_captacion as med ON pros.id_medio_captacion = med.id
+        WHERE pe.estatus != 0 AND asig_cat.id_categoria_persona = 1 OR asig_cat.id_categoria_persona = 5
         ORDER BY pe.id DESC";
         $request = $this->select_all($sql, $nomConexion);
         return $request;

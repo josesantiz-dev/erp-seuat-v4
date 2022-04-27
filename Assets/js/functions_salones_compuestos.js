@@ -153,22 +153,23 @@ document.addEventListener('DOMContentLoaded', function(){
                     let objData = JSON.parse(request.responseText);
                     if(objData.estatus)
                     {
-                        if(rowTable == ""){
-                            tableCiclos.api().ajax.reload();
-                        }else{
-                            htmlEstatus = intEstatus == 1 ?
-                            '<span class="badge badge-dark">Activo</span>' :
-							'<span class="badge badge-secondary">Inactivo</span>';
-							rowTable.cells[1].textContent = strNombre_SalonCompuesto;
-                            rowTable.cells[2].innerHTML = intId_Periodos;
-                            rowTable.cells[3].innerHTML = intId_Grados;
-                            rowTable.cells[4].innerHTML = intId_Grupos;
-                            rowTable.cells[5].innerHTML = intId_Planteles;
-                            rowTable.cells[6].innerHTML = intId_Turnos;
-                            rowTable.cells[7].innerHTML = intId_Salones;
-                            rowTable.cells[8].innerHTML = htmlEstatus;
-							rowTable = "";
-                        }
+                        tableSalonesCompuestos.api().ajax.reload();
+                        // if(rowTable == ""){
+                        //     tableSalonesCompuestos.api().ajax.reload();
+                        // }else{
+                        //     htmlEstatus = intEstatus == 1 ?
+                        //     '<span class="badge badge-dark">Activo</span>' :
+						// 	'<span class="badge badge-secondary">Inactivo</span>';
+						// 	rowTable.cells[1].textContent = strNombre_SalonCompuesto;
+                        //     rowTable.cells[2].innerHTML = intId_Periodos;
+                        //     rowTable.cells[4].innerHTML = intId_Grados;
+                        //     rowTable.cells[5].innerHTML = intId_Grupos;
+                        //     rowTable.cells[6].innerHTML = intId_Planteles;
+                        //     rowTable.cells[7].innerHTML = intId_Turnos;
+                        //     rowTable.cells[8].innerHTML = intId_Salones;
+                        //     rowTable.cells[9].innerHTML = htmlEstatus;
+						// 	rowTable = "";
+                        // }
 
                         $('#ModalFormSalonCompEditar').modal('hide');
                         formSalonesCompuestosUp.reset();

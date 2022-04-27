@@ -46,8 +46,8 @@
                     <th width="7%">#</th>
                     <th>Nombre</th>
                     <th width="17%">Año</th>
-                    <th width="8%">Estatus</th>
                     <th width="17%">Generación</th>
+                    <th width="8%">Estatus</th>
                     <th width="17%">Acciones</th>
                   </tr>
                   </thead>

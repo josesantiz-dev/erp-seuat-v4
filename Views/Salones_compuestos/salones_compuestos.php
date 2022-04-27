@@ -50,7 +50,7 @@
                     <th width="8%">Grados</th>
                     <th width="10%">Grupos</th>
                     <th width="15%">Planteles</th>
-                    <th width="12%">Horarios</th>
+                    <th width="12%">Turnos</th>
                     <th width="10%">Salones</th>
                     <th width="8%">Estatus</th>
                     <th width="17%">Acciones</th>

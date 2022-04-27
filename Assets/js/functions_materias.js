@@ -63,29 +63,40 @@ formMateriaNueva.onsubmit = function(e){
         return false;
     }
     divLoading.getElementsByClassName.display = "flex";
-    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url+'/Materias/setMateria';
-    var formData = new FormData(formMateriaNueva);
-    request.open("POST",ajaxUrl,true);
-    request.send(formData);
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            var objData = JSON.parse(request.responseText);
-            if(objData.estatus){
-                formMateriaNueva.reset();
-                swal.fire("Materia",objData.msg,"success").then((result) =>{
-                    $('#dimissModalNuevo').click();
-                });
-                tableMaterias.api().ajax.reload();
-                
-            }else{
-                swal.fire("Error",objData.msg,"error");
-            }
+    let urlCheckCreditos = `${base_url}/Materias/checkCreditos?credito=${intCreditos}&plan_estudio=${intPlanEstudio}&clasificacion=${strClasificacion}`;
+    fetch(urlCheckCreditos).then((res) => res.json()).then(resultado =>{
+        if(resultado.estatus == false){
+            divLoading.style.display = "none";
+            swal.fire("Atención",resultado.msg,"warning");
+            return false;
+        }else{
+                var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                var ajaxUrl = base_url+'/Materias/setMateria';
+                var formData = new FormData(formMateriaNueva);
+                request.open("POST",ajaxUrl,true);
+                request.send(formData);
+                request.onreadystatechange = function(){
+                    if(request.readyState == 4 && request.status == 200){
+                        var objData = JSON.parse(request.responseText);
+                        if(objData.estatus){
+                            formMateriaNueva.reset();
+                            swal.fire("Materia",objData.msg,"success").then((result) =>{
+                                $('#dimissModalNuevo').click();
+                            });
+                            tableMaterias.api().ajax.reload();
+                            
+                        }else{
+                            swal.fire("Error",objData.msg,"error");
+                        }
+                    }
+                    divLoading.style.display = "none";
+                    return false;
+                }
+
         }
-        divLoading.style.display = "none";
-        return false;
-    }
+    }).catch(err =>{throw err});
 }
+
 
 //Funcion para Ver Materia
 function fntVerMateria(idMateria){
@@ -293,20 +304,24 @@ function fntDelMateria(id) {
 function plantelSeleccionado(id){
     const selLocalidades = document.querySelector('#listPlanEstudioNuevo');
     let url_plan = base_url+"/Materias/getPlanEstudiosNuevo?id="+id;
-    divLoading.getElementsByClassName.display = "flex";
-    fetch(url_plan)
-        .then(res => res.json())
-        .then((resultado) => {
-            document.querySelector('#listPlanEstudioNuevo').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
-            for (let i = 0; i < resultado.length; i++) {
-                opcion = document.createElement('option');
-                opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['rvoe']+')'+' ('+resultado[i]['fecha_vigencia']+')';
-                opcion.value = resultado[i]['id'];
-                selLocalidades.appendChild(opcion);
-            }
-            divLoading.style.display = "none";
-        })
-        .catch(err => { throw err });
+    if(id !=""){
+        divLoading.getElementsByClassName.display = "flex";
+        fetch(url_plan)
+            .then(res => res.json())
+            .then((resultado) => {
+                document.querySelector('#listPlanEstudioNuevo').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
+                for (let i = 0; i < resultado.length; i++) {
+                    opcion = document.createElement('option');
+                    opcion.text = resultado[i]['nombre_carrera']+' ('+resultado[i]['rvoe']+')'+' ('+resultado[i]['fecha_vigencia']+')';
+                    opcion.value = resultado[i]['id'];
+                    selLocalidades.appendChild(opcion);
+                }
+                divLoading.style.display = "none";
+            })
+            .catch(err => { throw err });
+    }else{
+        document.querySelector('#listPlanEstudioNuevo').innerHTML = "<option value=''>Selecciona un Plan de Estudio</option>";
+    }
 }
 
 function plantelSeleccionadoEdit(id){
@@ -327,6 +342,7 @@ function plantelSeleccionadoEdit(id){
         })
         .catch(err => { throw err });
 }
+
 //Funcion para Aceptar solo Numeros en un Input
 function validarNumeroInput(event){
     if(event.charCode >= 48 && event.charCode <= 57){

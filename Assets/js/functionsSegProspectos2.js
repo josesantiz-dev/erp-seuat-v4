@@ -1,5 +1,6 @@
 let tableProspectos
 let tableSegProspectoIndividual
+let tableSeguimientoProspecto = document.querySelector('#tableSeguimientoProspecto')
 // let tableSeguimientoProspecto = document.querySelector('#tableSeguimientoProspecto')
 // const formSeguimientoIndividual = document.querySelector('#formSeguimientoProspectoIndividual')
 // const formEditarDatos = document.querySelector('#formProspectoEdit')
@@ -35,6 +36,7 @@ let tableSegProspectoIndividual
 
 
 document.addEventListener('DOMContentLoaded', function(){
+	console.log('llenar table')
 	tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -69,124 +71,36 @@ document.addEventListener('DOMContentLoaded', function(){
 	    "order": [[ 0, "asc" ]],
 	    "iDisplayLength": 10
     });
-	$('#tableSeguimientoProspecto').DataTable();
 });
 
-
-function ftnAgendar(id){
-	let idAgendar = id
-	document.querySelector('#idPersona').value = idAgendar
-}
+$('#tableSeguimientoProspecto').DataTable();
 
 
-// function validarPersona(){
-
-// 	if(!(strNombre.value == '') && !(strApPaterno.value == '') && !(strApMaterno.value == '') && !(strAlias.value == '') && !(strSexo.value == '') && !(strEdoCivil.value == '') && !(strOcupacion.value == '') && !(strFechaNacimiento.value == '') && !(intEscolaridad.value == '')) {
-
-// 		document.getElementById("cardDatosPer").setAttribute("class", "card card-info mb-3");
-// 		console.log("Hola")
-// 		// document.getElementById("cardDatosPer").setAttribute("data-card-widget", "collapse");
-
-// 	}else{
-
-// 		document.getElementById("cardDatosPer").setAttribute("class", "card card-secondary mb-3 collapsed-card");
-// 		console.log("mundo")
-// 	}
-
+// function ftnAgendar(id){
+// 	let idAgendar = id
+// 	document.querySelector('#idPersona').value = idAgendar
 // }
 
-// function validarResi(){
-
-// 	if(!(strLocalidad.value == '')){
-
-// 		document.getElementById("datosResidencia").setAttribute("class", "card card-info mb-3");
-// 		// document.getElementById("datosResidencia").setAttribute("data-card-widget", "collapse");
-
-// 	}else{
-
-// 		document.getElementById("datosResidencia").setAttribute("class", "card card-secondary mb-3 collapsed-card");
-
-// 	}
-
-// }
-
-// function validarContac(){
-
-// 	if(strTelCel.value != '' && strTelfijo.value != '' && strEmail.value != ''){
-
-// 		document.getElementById("datosContacto").setAttribute("class", "card card-info mb-3");
-// 		// document.getElementById("datosResidencia").setAttribute("data-card-widget", "collapse");
-
-// 	}else{
-
-// 		document.getElementById("datosContacto").setAttribute("class", "card card-secondary mb-3 collapsed-card");
-
-// 	}
-
-// }
-
-// function validarProspecto(){
-
-// 	if(intPlantelProcedencia.value != '' && intPlantelInteres.value != '' && intNivelEstudiosInteres.value != '' && intCarreaInteres.value != ''){
-
-// 		document.getElementById("cardProspecto").setAttribute("class", "card card-info mb-3");
-// 		// document.getElementById("datosResidencia").setAttribute("data-card-widget", "collapse");
-
-// 	}else{
-
-// 		document.getElementById("cardProspecto").setAttribute("class", "card card-secondary mb-3 collapsed-card");
-
-// 	}
-
-// }
-
-// function validarMedio(){
-
-// 	document.getElementById("cardCaptacion").setAttribute("class", "card card-info mb-3");
-
-// 	if(comentario.value != ''){
-
-// 		document.getElementById("cardComent").setAttribute("class", "card card-info mb-3");
-
-// 	}else{
-
-// 		document.getElementById("cardComent").setAttribute("class", "card card-secondary mb-3 collapsed-card");
-
-// 	}
-
-// }
-
-// $('#tableSeguimientoProspecto').DataTable();
 
 // modalAgendarProspectoSeguimiento.addEventListener('submit', (e) =>{
-
 // 	e.preventDefault()
 // 	const agendatLlamada = new FormData(document.getElementById('formAgendar'))
 // 	let url = `${base_url}/Seguimiento/setProgramarAgenda`;
-
 // 	fetch(url, {
 // 		method: 'POST',
 // 		body: agendatLlamada
 // 	})
 // 		.then(res => res.json())
 // 		.then((data) => {
-
-
 // 			if(data.estatus){
-
 // 				$('#cerrarModalAgendaProspectoSeguimiento').click()
 // 				formAgendar.reset()
 // 				swal.fire("Agendado", data.msg, "success")
-
 // 			}else{
-
 // 				swal.fire("Error", data.request , "error")
-
 // 			}
-
 // 		})
 // 		.catch(err => {throw err})
-
 // })
 
 // function nivelSeleccionado(idNivel)

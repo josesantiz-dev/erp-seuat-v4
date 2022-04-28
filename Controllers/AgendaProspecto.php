@@ -2,6 +2,10 @@
 
 class AgendaProspecto extends Controllers{
 
+  private $idUser;
+  private $nomConexion;
+  private $rol;
+
   /*
   *   !!
   *     Comentarios para furas referencias durante la codificacion
@@ -22,6 +26,9 @@ class AgendaProspecto extends Controllers{
       header('Location: '.base_url().'/login');
       die();
     }
+    $this->idUser = $_SESSION['idUser'];
+    $this->nomConexion = $_SESSION['nomConexion'];
+    $this->rol = $_SESSION['claveRol'];
   }
 
   public function AgendaProspecto(){
@@ -35,7 +42,7 @@ class AgendaProspecto extends Controllers{
   // !! Funcion para llenar la tabla principal de la vista !!
   public function getAgendaProspectos(){
 
-    $arrData = $this->model->selectAgendaProspectos();
+    $arrData = $this->model->selectAgendaProspectos($this->nomConexion);
 
     for($i = 0; $i < count($arrData); $i++){
 

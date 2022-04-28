@@ -1,4 +1,5 @@
 let tableProspectos
+let tableSegProspectoIndividual
 let tableSeguimientoProspecto = document.querySelector('#tableSeguimientoProspecto')
 const modalAgendarProspectoSeguimiento = document.querySelector('#ModalAgendarProspectoSeguimiento')
 
@@ -65,3 +66,107 @@ modalAgendarProspectoSeguimiento.addEventListener('submit', (e) =>{
     })
     .catch(err => {throw err})
 })
+
+function fnDarSeguimiento(idPer){
+    let idPersona = idPer
+	let url = `${base_url}/Seguimiento/getPersonaSeguimiento/${idPersona}`
+	let idPers = document.querySelector('#idPersonaSeg')
+	let idProspecto = document.querySelector('#idProspecto')
+	let lblNombre = document.querySelector('#lblNombre')
+	let lblTelefono = document.querySelector('#lblTel_celular')
+	let lblEmail = document.querySelector('#lblEmail')
+	let lblEstado = document.querySelector('#lblEstado')
+	let lblMunicipio = document.querySelector('#lblMunicipio')
+	let lblMedioPublicitario = document.querySelector('#lblMedioPublicitario')
+	let lblNombreComisionista = document.querySelector('#lblNombreComisionista')
+	let lblTelefonoComisionista = document.querySelector('#tel_celular_comisionista')
+	let lblFecha = document.querySelector('#lblFecha')
+	let lblNivelEducativo = document.querySelector('#lblNivelEducativo')
+	let lblCarreraInteres = document.querySelector('#lblCarreraInteres')
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data=>{
+            console.log(data)
+            if(data.response.estatus)
+            {
+                idPers.value = data.datos.id
+				idProspecto.value = data.datos.id_pro
+				lblNombre.textContent = data.datos.nombre_persona
+				lblEstado.textContent = data.datos.estado
+				lblMunicipio.textContent = data.datos.municipio
+				lblTelefono.textContent = data.datos.tel_celular
+				lblEmail.textContent = data.datos.email
+				lblNombreComisionista.textContent = data.datos.nombre_comisionista
+				lblTelefonoComisionista.textContent = data.datos.tel_comisionista
+				lblFecha.textContent = data.datos.fecha_creacion
+				lblMedioPublicitario.textContent = data.datos.medio_captacion
+				lblNivelEducativo.textContent = data.datos.nombre_nivel_educativo
+				lblCarreraInteres.textContent = data.datos.nombre_carrera
+            }
+            tableSegProspectoIndividual = $('#tableSegProspectoIndividual').dataTable( {
+				"aProcessing":true,
+				"aServerSide":true,
+				"language": {
+					"url": " "+base_url+"/Assets/plugins/Spanish.json"
+				},
+				"ajax":{
+					"url": " "+base_url+"/Seguimiento/getPersonaSeguimiento/"+idPersona,
+					"dataSrc":"seguimiento"
+				},
+				"columns":[
+					{"data": "fecha_de_seguimiento"},
+					{"data": "respuesta_rapida"},
+					{"data": "comentario"},
+					{"data": "nombre_asesor"}
+				],
+				"responsive": true,
+				"paging": false,
+				"lengthChange": true,
+				"searching": false,
+				"ordering": false,
+				"info": false,
+				"autoWidth": false,
+				//"scrollY": '42vh',
+				"scrollCollapse": false,
+				"bDestroy": true,
+				"order": [[ 0, "asc" ]],
+				"iDisplayLength": 10
+			});
+
+			$('#tableSegProspectoIndividual').DataTable();
+        })
+}
+
+function fnSeguimientoInvidual(){
+	let idPro = document.querySelector('#idProspecto').value
+	document.querySelector('#idProsInd').value = idPro
+	let respuestas = document.querySelector('#respuestasRapidas1')
+	let respuestas2 = document.querySelector('#respuestasRapidas2')
+	let url = `${base_url}/Seguimiento/getRespuestasRapidas`
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			respuestas.innerHTML = ""
+			respuestas2.innerHTML = ""
+			for (let i = 0; i < data.length; i++) {
+				if(i<8)
+				{
+					respuestas.innerHTML += '<div class="text-danger">'+data[i]['respuesta_rapida']+'</div>'
+				}
+				if(i>9 && i<14)
+				{
+					respuestas2.innerHTML += '<div class="text-info">'+data[i]['respuesta_rapida']+'</div>'
+				}
+				if(i>15 && i<19)
+				{
+					respuestas2.innerHTML += '<div class="text-primary">'+data[i]['respuesta_rapida']+'</div>'
+				}
+				if(i>=19)
+				{
+					respuestas2.innerHTML += '<div class="text-success">'+data[i]['respuesta_rapida']+'</div>'
+				}
+			}
+		})
+		.catch(err => console.log(err))
+}

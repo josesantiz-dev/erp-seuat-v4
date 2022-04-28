@@ -121,10 +121,20 @@ class Seguimiento extends Controllers{
             else{
                 $data['response'] = array('estatus'=>true, 'msg' => $data['datos']);
             }
-            for ($i=0; $i < ; $i++) { 
+            for ($i=0; $i < count($data['seguimiento']); $i++) { 
                 $data['seguimiento'][$i]['respuesta_rapida'] = '<span class="badge badge-warning">'.$data['seguimiento'][$i]['respuesta_rapida'].'</span>';
             }
         }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getRespuestasRapidas()
+    {
+        $arrData = $this->model->selectRespuestasRapidas($this->nomConexion);
+        for ($i=0; $i < count($arrData); $i++) { 
+            $arrData[$i]['respuesta_rapida'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['identificador'].'" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['respuesta_rapida'].'<br>';
+        }
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
 }
 ?>

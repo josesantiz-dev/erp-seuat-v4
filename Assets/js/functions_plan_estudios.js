@@ -308,7 +308,7 @@ function fntVerPlanEstudios(idPlanEstudio) {
                 document.querySelector('#listTunoRvoeVer').querySelector('option[value="' + objData.plan_estudio.turno + '"]').selected = true;
                 let x = "";
                 objData.clasificaciones.forEach(element => {
-                    x += '<span class="badge badge-secondary mr-2">' + element.nombre_clasificacion_materia + '</span>';
+                    x += `<span class="badge badge-secondary mr-2">${element.nombre_clasificacion_materia} (${element.total_creditos} créditos)</span>`;
                 });
                 document.querySelector('#clasificacionesVer').innerHTML = x;
                 document.querySelector('#txtPerfilIngresoVer').value = objData.plan_estudio.perfil_ingreso;
@@ -371,7 +371,6 @@ function fntEditPlanEstudios(idPlanEstudio) {
                 document.querySelector('#txtPerfilIngresoEdit').value = objData.plan_estudio.perfil_ingreso;
                 document.querySelector('#txtPerfilEgresoEdit').value = objData.plan_estudio.perfil_egreso;
                 document.querySelector('#txtCampoLaboralEdit').value = objData.plan_estudio.campo_laboral;
-
             } else {
                 swal.fire("Error", objData.msg, "error");
             }
@@ -413,13 +412,21 @@ formEditPlanEstudios.onsubmit = function (e) {
         return false;
     }
     let isCredito = false;
+    let sumCreditosClasificacion = 0;
     arrClasificacion.forEach(element => {
+        if(element.estatus == 1){
+            sumCreditosClasificacion += parseInt(element.creditos);
+        }
         if (element.creditos == 0) {
             isCredito = true;
         }
     });
     if (isCredito) {
         swal.fire("Atención", "Uno de las clasificaciones tiene valor cero", "warning");
+        return false;
+    }
+    if(sumCreditosClasificacion > parseInt(strTotalCreditos)){
+        swal.fire("Atención", "La sumatoria de todos los créditos de las clasificaciones agregadas es mayor que el total de créditos ingresado", "warning");
         return false;
     }
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');

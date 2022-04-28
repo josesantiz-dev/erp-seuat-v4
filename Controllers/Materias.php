@@ -158,7 +158,63 @@
                     $requestData['msg'] = "La sumatoria de los creditos de las materias es mayor que el total del credito asignado a la clasificación asignada";
                 }else{
                     $requestData['estatus'] = true;
+                    $requestData['creditosUtilizados'] = $sumCreditosUtilizados;
+                    $requestData['totalCreditos'] = $totalCreditoClasificacion;
                     $requestData['msg'] = "";
+                }
+            }else{
+                if($clasificacion == 6){
+                    $requestData['estatus'] = true;
+                    $requestData['msg'] = "";
+                }else{
+                    $requestData['estatus'] = false;
+                    $requestData['msg'] = "No existe la clasificación seleccionada, por favor agregar en el plan de estudios";
+                }
+            }
+            echo json_encode($requestData,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function checkCreditosEdit(){
+            $clasificacion = intval($_GET['clasificacion']);
+            $creditoActual = intval($_GET['creditoActual']);
+            $credito = intval($_GET['creditoNuevo']);
+            $plnEstudio = intval($_GET['plan_estudio']);
+            $idClasifActual = intval($_GET['idClasifActual']);
+            $arrData = $this->model->selectPlanEstudio($plnEstudio, $this->nomConexion);
+            $arrDataClasificaciones = $this->model->selectClasificacionPlanEstudio($plnEstudio,$this->nomConexion);
+            $arrDataCreditoClasificacion = $this->model->selectCreditoClasificacionPlanEstudio($plnEstudio,$clasificacion,$this->nomConexion);
+            //$arrData = $this->model->selectClasificacionPlanEstudio($planEstudio, $this->nomConexion);
+            $totalCreditoClasificacion = 0;
+            $sumCreditosUtilizados = 0;
+            $exist = false;
+            foreach ($arrDataClasificaciones as $key => $clasif) {
+                if(intval($clasif['id_clasificacion_materias']) == $clasificacion){
+                    $exist = true;
+                    $totalCreditoClasificacion = $clasif['total_creditos'];
+                    break;
+                }
+            }
+            for ($i=0; $i < count($arrDataCreditoClasificacion); $i++) { 
+                $sumCreditosUtilizados += $arrDataCreditoClasificacion[$i]['creditos'];
+            }
+            if($exist){
+                if($idClasifActual == $clasificacion){
+                    if($totalCreditoClasificacion < $sumCreditosUtilizados-$creditoActual+$credito){
+                        $requestData['estatus'] = false;
+                        $requestData['msg'] = "La sumatoria de los creditos de las materias es mayor que el total del credito asignado a la clasificación asignada";
+                    }else{
+                        $requestData['estatus'] = true;
+                        $requestData['msg'] = "";
+                    }
+                }else{
+                    if($totalCreditoClasificacion <$sumCreditosUtilizados+$credito){
+                        $requestData['estatus'] = false;
+                        $requestData['msg'] = "La sumatoria de los creditos de las materias es mayor que el total del credito asignado a la clasificación asignada";
+                    }else{
+                        $requestData['estatus'] = true;
+                        $requestData['msg'] = "";
+                    }
                 }
             }else{
                 if($clasificacion == 6){

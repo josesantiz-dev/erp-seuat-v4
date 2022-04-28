@@ -1,4 +1,6 @@
 var tableMaterias;
+let creditoSelecMateria = 0;
+let idClasifMAteriaActualSelec = 0;
 var formMateriaNueva = document.querySelector("#formMateriaNueva");
 var formMateriadit = document.querySelector("#formMateriaEdit");
 let divLoading = document.querySelector("#divLoading");
@@ -60,6 +62,10 @@ formMateriaNueva.onsubmit = function(e){
 
     if(strNombre == '' || strClave == '' || intHoraTeoria == '' || intHoraPractica == '' || intCreditos == '' || strTipo == '' || strPlantel == '' || intGrado == '' || intPlanEstudio == '' || strClasificacion == ''){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
+        return false;
+    }
+    if(intCreditos == 0){
+        swal.fire("Atención","Los créditos no pueden tener un valor de <b>cero</b>","warning");
         return false;
     }
     divLoading.getElementsByClassName.display = "flex";
@@ -156,7 +162,7 @@ function fntEditMateria(idMateria){
                 document.querySelector('#txtHorasTeoriaEdit').value = objData.hrs_teoria;
                 document.querySelector('#txtHorasPracticaEdit').value = objData.hrs_practicas;
                 document.querySelector('#txtCreditosEdit').value = objData.creditos;
-
+                creditoSelecMateria = objData.creditos;
                 if(objData.tipo == 'Ordinaria')
                 {
                     var optionSelect = '<option value="2" selected class="notBlock">Ordinaria</option>';
@@ -199,6 +205,7 @@ function fntEditMateria(idMateria){
                     })
                     .catch(err => { throw err });
                     document.querySelector('#listClasificacionEdit').querySelector('option[value="'+objData.id_clasificacion_materia+'"]').selected = true;
+                    idClasifMAteriaActualSelec = objData.id_clasificacion_materia;
 
                 if(objData.estatus == 1)
                 {
@@ -223,6 +230,7 @@ function fntEditMateria(idMateria){
 //Enviar datos de Materia Edit
 formMateriaEdit.onsubmit = function(e){
     e.preventDefault();
+    let totalCreditoActual = creditoSelecMateria;
     var strNombre = document.querySelector('#txtNombreEdit').value;
     var strClave = document.querySelector('#txtClaveEdit').value;
     var intHoraTeoria = document.querySelector('#txtHorasTeoriaEdit').value;
@@ -238,28 +246,40 @@ formMateriaEdit.onsubmit = function(e){
         swal.fire("Atención","Atención todos los campos son obligatorios","warning");
         return false;
     }
-    divLoading.getElementsByClassName.display = "flex";
-    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url+'/Materias/setMateria';
-    var formData = new FormData(formMateriaEdit);
-    request.open("POST",ajaxUrl,true);
-    request.send(formData);
-    request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-            var objData = JSON.parse(request.responseText);
-            if(objData.estatus){
-                formMateriaEdit.reset();
-                swal.fire("Materia",objData.msg,"success").then((result) =>{
-                    $('#dimissModalEdit').click();
-                });
-                tableMaterias.api().ajax.reload();
-            }else{
-                swal.fire("Error",objData.msg,"error");
-            }
-        }
-        divLoading.style.display = "none";
+    if(intCreditos == 0){
+        swal.fire("Atención","Los créditos no pueden tener un valor de <b>cero</b>","warning");
         return false;
     }
+    divLoading.getElementsByClassName.display = "flex";
+    let urlCheckCreditos = `${base_url}/Materias/checkCreditosEdit?idClasifActual=${idClasifMAteriaActualSelec}&creditoActual=${totalCreditoActual}&creditoNuevo=${intCreditos}&plan_estudio=${intPlanEstudio}&clasificacion=${strClasificacion}`;
+    fetch(urlCheckCreditos).then((res) => res.json()).then(resultado =>{
+        if(resultado.estatus){
+            var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = base_url+'/Materias/setMateria';
+            var formData = new FormData(formMateriaEdit);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    var objData = JSON.parse(request.responseText);
+                    if(objData.estatus){
+                        formMateriaEdit.reset();
+                        swal.fire("Materia",objData.msg,"success").then((result) =>{
+                            $('#dimissModalEdit').click();
+                        });
+                        tableMaterias.api().ajax.reload();
+                    }else{
+                        swal.fire("Error",objData.msg,"error");
+                    }
+                }
+                divLoading.style.display = "none";
+                return false;
+            }
+        }else{
+            swal.fire("Atención",resultado.msg,"warning");
+            return false;
+        }
+    }).catch(err => {throw err});
 }
 
 //Funcion para Eliminar Materia

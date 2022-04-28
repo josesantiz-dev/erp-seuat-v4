@@ -221,7 +221,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardAdmision" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -236,7 +236,7 @@
                                     Dashboard Prospección
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-header">
                             <h6>DIRC</h6>
@@ -303,7 +303,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Admisión</h6>
                         </li>
                         <li class="nav-item">
@@ -324,7 +324,7 @@
                         </li>
                         <li class="nav-header">
                             <h6>Prospección</h6>
-                        </li> 
+                        </li>  -->
                         <!--  <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="server"></i>
@@ -349,7 +349,7 @@
                   </p>
               </a>
           </li> -->
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layout"></i>
                                 <p>
@@ -427,10 +427,10 @@
                                     Reinscripción
                                 </p>
                             </a>
-                        </li> 
+                        </li>  -->
 
 
-                        <li class="nav-item">
+                       <!--  <li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
                   <i class="ml-3 mr-2" data-feather="bar-chart"></i>
                   <p>
@@ -473,7 +473,7 @@
                       Salones Compuestos
                   </p>
               </a>
-          </li>
+          </li> -->
  
                         <!--<li class="nav-item">
               <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
@@ -507,7 +507,7 @@
                   </p>
               </a>
           </li>-->
-                        <li class="nav-header">
+                       <!--  <li class="nav-header">
                             <h6>Servicios</h6>
                         </li>
                         <li class="nav-item">
@@ -550,9 +550,9 @@
                                 </p>
                             </a>
                         </li>
+ -->
 
-
-                        <li class="nav-header">
+                        <!-- <li class="nav-header">
                             <h6>Ingresos y Egresos</h6>
                         </li>
                         <li class="nav-item">
@@ -631,7 +631,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
 
 
                     </ul>

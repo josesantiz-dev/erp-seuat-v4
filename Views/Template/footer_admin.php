@@ -2,7 +2,7 @@
   <footer class="main-footer text-sm">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      <a href="#">Soporte | </a> <a href="#">Levantar Ticket | </a> Versión v1.0.0Alpha
+      <a href="#">Soporte | </a> <a href="#">Levantar Ticket | </a> Versión v1.0.1Alpha
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2020-<?php echo date('Y'); ?> <a href="https://seuat.mx">ERP SEUAT</a>.</strong> Todos los derechos reservados.

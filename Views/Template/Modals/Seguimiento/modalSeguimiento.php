@@ -80,9 +80,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">
-                                    <a href="#" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-user"></i> Ver perfil
-                                    </a>
+                                    <button type="button" class="btn btn-sm btn-primary" disabled><i class="fas fa-user"></i> Ver perfil</button>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +88,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 text-right">
-                        <button id="btnInscripcion" class="btn btn-xl btn-success icono-color-principal btn-inline">
+                        <button id="btnInscripcion" class="btn btn-xl btn-success icono-color-principal btn-inline" disabled>
                             <i class="fas fa-user-plus"></i>Inscribir
                         </button>
                     </div>

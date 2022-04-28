@@ -4,6 +4,7 @@
     getModal("Seguimiento/modalAgendarProspecto",$data);
     getModal("Seguimiento/modalEditarDatos",$data);
     getModal("Seguimiento/modalSeguimiento",$data);
+    getModal("Seguimiento/modalSeguimientoIndividual",$data);
 ?>
 
 <div class="wrapper">

@@ -22,6 +22,8 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Seguimiento de prospección";
         $data['page_title'] = "Seguimiento de prospección";
         $data['page_functions_js'] = "functions_SegProspectos.js";
+        $data['lvls'] = $this->model->selectEscolaridad($this->nomConexion);
+        $data['estados'] = $this->model->selectEstados($this->nomConexion);
         $this->views->getView($this,"seguimiento_prospectos",$data);
     }
 
@@ -135,6 +137,41 @@ class Seguimiento extends Controllers{
             $arrData[$i]['respuesta_rapida'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['identificador'].'" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['respuesta_rapida'].'<br>';
         }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function setSeguimientoProspectoIndividual(){
+        if(isset($_POST['idProsInd']))
+        {
+            $intIdPro = intval($_POST['idProsInd']);
+        }
+        $intResp = intval($_POST['rad']);
+        $strComent = strClean($_POST['txtComentarioSegInd']);
+        $arrData = $this->model->insertSeguimientoProspectoInd($intResp, $strComent, $intIdPro, $this->nomConexion);
+        if($arrData == TRUE)
+        {
+            $arrResponse = array('estatus' => true, 'msg' => 'Se ha añadido el seguimiento');
+        }
+        else
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'Error, no puede agregarse el seguimiento');
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getProspecto(int $idPers)
+    {
+        $id = $idPers;
+        $arrData = $this->model->selectProspecto($id,$this->nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getMunicipios(){
+        $idEstado = $_GET['idestado'];
+        $arrData = $this->model->selectMunicipios($idEstado);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
     }
 }
 ?>

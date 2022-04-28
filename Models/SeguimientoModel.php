@@ -95,7 +95,7 @@ class SeguimientoModel extends Mysql{
         $sql = "SELECT per.id as per_id, per.nombre_persona, per.ap_paterno, per.ap_materno,
         per.tel_celular,
         per.email,
-        pro.id_plantel_interes,
+        pro.plantel_interes,
         pro.id_nivel_carrera_interes,
         pro.id_carrera_interes,
         pro.id as pro_id

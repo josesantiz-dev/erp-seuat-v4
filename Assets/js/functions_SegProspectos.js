@@ -2,6 +2,7 @@ let tableProspectos
 let tableSegProspectoIndividual
 let tableSeguimientoProspecto = document.querySelector('#tableSeguimientoProspecto')
 const modalAgendarProspectoSeguimiento = document.querySelector('#ModalAgendarProspectoSeguimiento')
+const formSeguimientoIndividual = document.querySelector('#formSeguimientoProspectoIndividual')
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
@@ -139,7 +140,9 @@ function fnDarSeguimiento(idPer){
 }
 
 function fnSeguimientoInvidual(){
+	
 	let idPro = document.querySelector('#idProspecto').value
+	console.log(idPro)
 	document.querySelector('#idProsInd').value = idPro
 	let respuestas = document.querySelector('#respuestasRapidas1')
 	let respuestas2 = document.querySelector('#respuestasRapidas2')
@@ -169,4 +172,60 @@ function fnSeguimientoInvidual(){
 			}
 		})
 		.catch(err => console.log(err))
+}
+
+formSeguimientoIndividual.addEventListener('submit', (e) =>{
+	e.preventDefault()
+	const datos = new FormData(document.querySelector('#formSeguimientoProspectoIndividual'))
+	let url = `${base_url}/Seguimiento/setSeguimientoProspectoIndividual`
+	fetch(url,{
+		method: 'POST',
+		body: datos
+	})
+		.then(response => response.json())
+		.then(data =>{
+			if(data.estatus)
+			{
+				$('#cancelarModalSegInd').click()
+				formSeguimientoIndividual.reset()
+				swal.fire('Seguimiento', data.msg,'success')
+				tableSegProspectoIndividual.api().ajax.reload()
+			}
+			else
+			{
+				swal.fire('Error', data.msg,'error')
+			}
+		})
+})
+
+function fnEditarDatosProspecto(idPer){
+	let idPersona = idPer
+	let url = `${base_url}/Seguimiento/getProspecto/${idPersona}`
+	let intIdPros = document.querySelector('#idProspectoEdit')
+	let intIdPers = document.querySelector('#idPersonaEdit')
+	let txtNombreEdit = document.querySelector('#txtNombreEdit')
+	let txtApellidoPEdit = document.querySelector('#txtApellidoPatEdit')
+	let txtApellidoMEdit = document.querySelector('#txtApellidoMatEdit')
+	let txtTelCelular = document.querySelector('#txtTelefonoCelEdit')
+	let txtCorreo = document.querySelector('#txtEmail')
+	let slctPltInt = document.querySelector('#slctPlantelEdit')
+	let slctNvlInt = document.querySelector('#slctNivelEstudiosEdit')
+	let slctCrrInt = document.querySelector('#slctCarreraEdit')
+
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			intIdPros.value = data.pro_id
+			intIdPers.value = data.per_id
+			txtNombreEdit.value = data.nombre_persona
+			txtApellidoPEdit.value = data.ap_paterno
+			txtApellidoMEdit.value = data.ap_materno
+			txtTelCelular.value = data.tel_celular
+			txtCorreo.value = data.email
+			slctPltInt.value = data.id_plantel_interes
+			slctNvlInt.value = data.id_nivel_carrera_interes
+			slctCrrInt.value = data.id_carrera_interes
+		})
+		//.catch(err => console.log(err))
 }

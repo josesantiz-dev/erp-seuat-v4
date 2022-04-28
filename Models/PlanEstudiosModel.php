@@ -126,11 +126,15 @@
                         $arreglo = "es cero";
                         $sqlClasificacion = "UPDATE t_plan_x_clasificacion SET total_creditos = ?, estatus = ? WHERE id = $value->id";
                         $requestClasificacion = $this->update($sqlClasificacion,$nomConexion,array($value->creditos,$value->estatus));
+                        $estatusUp = true;
                     }else{
                         $sqlClasificacion = "INSERT INTO t_plan_x_clasificacion(id_plan_estudios,id_clasificacion_materias,total_creditos,estatus) VALUES (?,?,?,?)";
                         $requestClasificacion = $this->insert($sqlClasificacion,$nomConexion,array($idPlanEstudiosEdit,$value->id_clasificacion,$value->creditos,$value->estatus));
+                        $estatusUp = true;
                     }
                 } 
+            }else{
+                $estatusUp = false;
             }
             return $requestClasificacion;
         }

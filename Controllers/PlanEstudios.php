@@ -80,7 +80,7 @@ class PlanEstudios extends Controllers
             if ($arrData) {
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
             } else {
-                $arrResponse = array('estatus' => false, 'mgg' => 'No es posible actualizar los datos.');
+                $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos.');
             }
         }
         if ($idPlanEstudiosNuevo == 1) {

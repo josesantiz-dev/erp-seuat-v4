@@ -335,6 +335,7 @@ function fntEditPlanEstudios(idPlanEstudio) {
         if (request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
             if (objData) {
+                console.log(objData)
                 document.querySelector("#idEdit").value = objData.plan_estudio.id;
                 document.querySelector('#txtNombreEdit').value = objData.plan_estudio.nombre_carrera;
                 document.querySelector('#txtNombrecortoEdit').value = objData.plan_estudio.nombre_carrera_corto;
@@ -603,7 +604,7 @@ function mostrarClasificacionesEdit() {
             let classf = document.querySelector('#clasificacionesEdit');
             let nuevoclassf = document.createElement('div');
             nuevoclassf.setAttribute('class', 'row');
-            nuevoclassf.innerHTML = "<div class='alert alert-light col-md-12 row' role='alert'><div class='col-md-5 row'><div class='alert-icon'><i class='fas fa-fw fa-bookmark'></i></div><div class='alert-message'> " + element.nombre_clasificacion + "</div></div><div class='col-md-2'><div class='alert-message'><input type='number' id='numCredEdit" + element.id_clasificacion + "' class='form-control form-control-sm' placeholder='creditos' value='" + element.creditos + "' min='0' onkeyup='fnCambiarCreditosEdit(" + element.id_clasificacion + ")' ></div></div><div class='col-md-5 d-flex flex-row-reverse'><a class='btn' onclick='elminarClasificacionEdit(" + element.id_clasificacion + ")'><i class='fas fa-trash text-danger'></i></a></div></div>";
+            nuevoclassf.innerHTML = "<div class='alert alert-light col-md-12 row' role='alert'><div class='col-md-5 row'><div class='alert-icon'><i class='fas fa-fw fa-bookmark'></i></div><div class='alert-message'> " + element.nombre_clasificacion + "</div></div><div class='col-md-2'><div class='alert-message'><label><small>Créditos</small></label><input type='number' id='numCredEdit" + element.id_clasificacion + "' class='form-control form-control-sm' placeholder='creditos' value='" + element.creditos + "' min='0' onkeyup='fnCambiarCreditosEdit(" + element.id_clasificacion + ")' ></div></div><div class='col-md-5 d-flex flex-row-reverse'><a class='btn' onclick='elminarClasificacionEdit(" + element.id_clasificacion + ")'><i class='fas fa-trash text-danger'></i></a></div></div>";
             classf.appendChild(nuevoclassf);
         }
     });

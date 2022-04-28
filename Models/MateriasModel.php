@@ -126,5 +126,23 @@
 			}
 			return $request;
         }
+        public function selectPlanEstudio(int $plnEstudio, String $nomConexion){
+            $sql = "SELECT *FROM t_plan_estudios WHERE id = $plnEstudio";
+            $request = $this->select($sql,$nomConexion);
+            return $request;
+        }
+        /////////////////
+        public function selectClasificacionPlanEstudio(int $idPlanEstudio, string $nomConexion){
+            $sql = "SELECT x.id,x.estatus,x.id_clasificacion_materias,x.id_plan_estudios,c.nombre_clasificacion_materia,x.total_creditos FROM t_plan_x_clasificacion AS x 
+            INNER JOIN t_clasificacion_materias AS c ON x.id_clasificacion_materias = c.id WHERE x.id_plan_estudios = $idPlanEstudio AND x.estatus = 1";
+            $request = $this->select_all($sql, $nomConexion);
+            return $request;
+        }
+        public function selectCreditoClasificacionPlanEstudio(int $idPlanEstudio,int $idClasificacion,String $nomConexion){
+            $sql = "SELECT *FROM t_materias AS m
+            WHERE m.id_plan_estudios = $idPlanEstudio AND m.id_clasificacion_materia = $idClasificacion";
+            $request = $this->select_all($sql,$nomConexion);
+            return $request;
+        }
     }
 ?>    

@@ -84,7 +84,7 @@
                     $requestClasificacion = $this->insert($sqlClasificacion,$nomConexion,array($requestPlanEstudio,$value->id_clasificacion,$value->creditos,$value->estatus));
                 }
             }
-            return $requestPlanEstudio;
+            return $requestClasificacion;
         }
 
         public function updatePlanEstudios($idPlanEstudiosEdit, $data,$arreglo, string $nomConexion){

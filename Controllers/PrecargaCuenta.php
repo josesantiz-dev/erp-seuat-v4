@@ -112,7 +112,8 @@
 					$arrData[$i]['options'] = '<button type="button" class="btn btn-primary btn-xs" n="'.$arrData[$i]['nombre_servicio'].'" c="'.$arrData[$i]['codigo_servicio'].'" onclick="fnSeleccionarServicio(this,'.$arrData[$i]['id'].','.$arrData[$i]['precio_unitario'].')">Agregar</button>';
 				}
 			}else{
-				$arrData = null;
+				// $arrData = null; estaba antes
+				$arrData = true;
 			}
 			echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
 			die();

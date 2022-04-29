@@ -1,4 +1,10 @@
 var formPlanEstudiosNuevo = document.querySelector("#formPlanEstudiosNueva");
+let listClasificacionNuevo = document.querySelector('#listAgClasificacionNuevo');
+let btnAgregarClasificacion = document.querySelector('#btn_agregar_clasificacion');
+let checkAgregarClasificacion = document.querySelector('#check_clasificacion');
+let listClasificacionEdit = document.querySelector('#listAgClasificacionEdit');
+let btnAgregarClasificacionEdit = document.querySelector('#btn_agregar_clasificacion_edit');
+let checkAgregarClasificacionEdit = document.querySelector('#check_clasificacion_edit');
 document.getElementById("btnAnterior").style.display = "none";
 document.getElementById("btnAnteriorEdit").style.display = "none";
 document.getElementById("btnSiguiente").style.display = "none";
@@ -11,6 +17,10 @@ mostrarTab(tabActual);
 mostrarTabEdit(tabActualEdit);
 var tablePlanEstudios;
 let arrClasificacion = [];
+listClasificacionNuevo.disabled = true;
+btnAgregarClasificacion.disabled = true;
+listClasificacionEdit.disabled = true;
+btnAgregarClasificacionEdit.disabled = true;
 
 
 //Datatable
@@ -226,7 +236,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
-    if(arrClasificacion.length == 0){
+    if(arrClasificacion.length == 0 && checkAgregarClasificacion.checked == true){
         swal.fire("Atención", "El campo de clasificación no puede estar vacío", "warning");
         return false;
     }
@@ -264,7 +274,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
                 arrClasificacion = [];
             } else {
                 swal.fire("Error", objData.msg, "error");
-            }
+            } 
         }
         return false;
     }
@@ -335,7 +345,6 @@ function fntEditPlanEstudios(idPlanEstudio) {
         if (request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
             if (objData) {
-                console.log(objData)
                 document.querySelector("#idEdit").value = objData.plan_estudio.id;
                 document.querySelector('#txtNombreEdit').value = objData.plan_estudio.nombre_carrera;
                 document.querySelector('#txtNombrecortoEdit').value = objData.plan_estudio.nombre_carrera_corto;
@@ -358,6 +367,17 @@ function fntEditPlanEstudios(idPlanEstudio) {
                 document.querySelector('#txtFechaOtorgamientoEdit').value = objData.plan_estudio.fecha_otorgamiento;
                 document.querySelector('#txtFechaActualizacionEdit').value = objData.plan_estudio.fecha_actualizacion_rvoe;
                 document.querySelector('#listTunoRvoeEdit').querySelector('option[value="' + objData.plan_estudio.turno + '"]').selected = true;
+                if(objData.plan_estudio.aplica_clasificacion == 1){
+                    checkAgregarClasificacionEdit.checked = true;
+                    checkAgregarClasificacionEdit.disabled = true;
+                    listClasificacionEdit.disabled = false;
+                    btnAgregarClasificacionEdit.disabled = false;
+                }else{
+                    checkAgregarClasificacionEdit.checked = false;
+                    checkAgregarClasificacionEdit.disabled = false;
+                    listClasificacionEdit.disabled = true;
+                    btnAgregarClasificacionEdit.disabled = true;
+                }
                 let classf = document.querySelector('#clasificacionesEdit').innerHTML = "";
                 arrClasificacion = [];
                 objData.clasificaciones.forEach(element => {
@@ -365,7 +385,7 @@ function fntEditPlanEstudios(idPlanEstudio) {
                     let classf = document.querySelector('#clasificacionesEdit');
                     let nuevoclassf = document.createElement('div');
                     nuevoclassf.setAttribute('class', 'row');
-                    nuevoclassf.innerHTML = "<div class='alert alert-light col-md-12 row' role='alert'><div class='col-md-5 row'><div class='alert-icon'><i class='fas fa-fw fa-bookmark'></i></div><div class='alert-message'> " + element.nombre_clasificacion_materia + "</div></div><div class='col-md-2'><div class='alert-message'><input type='number' id='numCredEdit" + element.id_clasificacion_materias + "' class='form-control form-control-sm' placeholder='creditos' value='" + element.total_creditos + "' min='0' onkeyup='fnCambiarCreditosEdit(" + element.id_clasificacion_materias + ")' ></div></div><div class='col-md-5 d-flex flex-row-reverse'><a class='btn' onclick='elminarClasificacionEdit(" + element.id_clasificacion_materias + ")'><i class='fas fa-trash text-danger'></i></a></div></div>";
+                    nuevoclassf.innerHTML = "<div class='alert alert-light col-md-12 row' role='alert'><div class='col-md-5 row'><div class='alert-icon'><i class='fas fa-fw fa-bookmark'></i></div><div class='alert-message'> " + element.nombre_clasificacion_materia + "</div></div><div class='col-md-2'><div class='alert-message'><label><small>Créditos</small></label><input type='number' id='numCredEdit" + element.id_clasificacion_materias + "' class='form-control form-control-sm' placeholder='creditos' value='" + element.total_creditos + "' min='0' onkeyup='fnCambiarCreditosEdit(" + element.id_clasificacion_materias + ")' ></div></div><div class='col-md-5 d-flex flex-row-reverse'><a class='btn' onclick='elminarClasificacionEdit(" + element.id_clasificacion_materias + ")'><i class='fas fa-trash text-danger'></i></a></div></div>";
                     classf.appendChild(nuevoclassf);
                     arrClasificacion.push(arrClasf);
                 });
@@ -414,6 +434,10 @@ formEditPlanEstudios.onsubmit = function (e) {
     }
     let isCredito = false;
     let sumCreditosClasificacion = 0;
+    if(arrClasificacion.length == 0 && checkAgregarClasificacion.checked == true){
+        swal.fire("Atención", "El campo de clasificación no puede estar vacío", "warning");
+        return false;
+    }
     arrClasificacion.forEach(element => {
         if(element.estatus == 1){
             sumCreditosClasificacion += parseInt(element.creditos);
@@ -438,7 +462,8 @@ formEditPlanEstudios.onsubmit = function (e) {
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
-            if (objData.estatus) {
+            console.log(objData)
+            /* if (objData.estatus) {
                 $('#ModalFormEditPlanEstudios').modal("hide");
                 formEditPlanEstudios.reset();
                 swal.fire("Plan de estudios", objData.msg, "success").then((result) => {
@@ -447,7 +472,7 @@ formEditPlanEstudios.onsubmit = function (e) {
                 tablePlanEstudios.api().ajax.reload();
             } else {
                 swal.fire("Error", "error", "error");
-            }
+            } */
         }
         return false;
     }
@@ -643,4 +668,24 @@ function btnPlanEstudioNuevo() {
     document.querySelector('#clasificaciones').innerHTML = "";
     $('#step1-tab').click();
     tabActual = 0;
+}
+
+function fnCheckClasificacion(value){
+    if(checkAgregarClasificacion.checked == true){
+        listClasificacionNuevo.disabled = false;
+        btnAgregarClasificacion.disabled = false;
+    }else{
+        listClasificacionNuevo.disabled = true;
+        btnAgregarClasificacion.disabled = true;
+        arrClasificacion = [];
+    }
+}
+function fnCheckClasificacionEdit(value){
+    if(checkAgregarClasificacionEdit.checked == true){
+        listClasificacionEdit.disabled = false;
+        btnAgregarClasificacionEdit.disabled = false;
+    }else{
+        listClasificacionEdit.disabled = true;
+        btnAgregarClasificacionEdit.disabled = true;
+    }
 }

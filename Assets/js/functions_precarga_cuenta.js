@@ -89,14 +89,15 @@ function fnNivelSeleccionadoDatatable(value){
 }
 
 function fnEditServicio(value,id){
-    formEditServicio.reset();
+    console.log(value)
+    /* formEditServicio.reset();
     let nombreServicio = value.getAttribute('n');
     let idServicio = id;
     let precioUnitario = value.getAttribute('p');
     document.querySelector('#txtNombre_servicio_edit').textContent = nombreServicio;
     document.querySelector('#intId_servicio_edit').value = idServicio;
     document.querySelector('#intPrecio_actual_edit').value = formatoMoneda(precioUnitario);
-    document.querySelector('#intId_precio_unitario').value = precioUnitario;
+    document.querySelector('#intId_precio_unitario').value = precioUnitario; */
 }
 
 
@@ -183,9 +184,10 @@ function mostrarServiciosTabla(){
     let contador = 0;
     document.querySelector('#tableServicioss').innerHTML = "";
     arrDatosNew.forEach(element => {
+        console.log(element)
         contador += 1;
         document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="far fa-eye ml-3"></i></a></td></tr>';
-        console.log(contador);
+        //console.log(contador);
     });
 }
 
@@ -240,7 +242,7 @@ function fnSeleccionarServicio(value,id,precio){
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
     let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
     arrDatosNew.push(arrValue);
-    console.log(arrDatosNew);
+    //console.log(arrDatosNew);
     mostrarServiciosTabla();
 }
 //Function para dar formato un numero a Moneda

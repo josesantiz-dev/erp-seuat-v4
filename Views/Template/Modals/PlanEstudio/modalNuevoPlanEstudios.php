@@ -139,7 +139,7 @@
                                                 <label>Fecha actualización</label>
                                                 <input type="date" id="txtFechaActualizacionNuevo" name="txtFechaActualizacionNuevo" class="form-control form-control-sm"  value="" min="<?php //echo date('Y-m-d')?>" max=""  >
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-5">
                                                 <label>Turno</label>
                                                 <select class="form-control form-control-sm" id="listTunoRvoeNuevo" name="listTunoRvoeNuevo"  >
                                                 <option value="">Selecciona un turno</option>
@@ -148,7 +148,7 @@
                                                 <option value="mixto">Mixto</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group row col-md-8">
+                                            <div class="form-group row col-md-7">
                                                 <div class="col-md-10">
                                                     <label>Agregar clasificaciones</label>
                                                     <select class="form-control form-control-sm" id="listAgClasificacionNuevo" name="listAgClasificacionNuevo">
@@ -163,7 +163,13 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2 d-flex align-items-end">
-                                                    <button type="button" class="btn btn-primary btn-sm" onclick="fnAgregarClasificacion()"><i class="fas fa-plus">Agregar</i></button>
+                                                    <button type="button" class="btn btn-primary btn-sm" id="btn_agregar_clasificacion" onclick="fnAgregarClasificacion()"><i class="fas fa-plus">Agregar</i></button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="check_clasificacion" onclick="fnCheckClasificacion(value)" value="">
+                                                    <label for="check_clasificacion" class="custom-control-label">click si aplica clasificaciones</label>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12" id="clasificaciones">

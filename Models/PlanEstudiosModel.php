@@ -71,20 +71,30 @@
                 case 1:
                     $tipoREVOE = "Federal";
             }
-            $sqlPlanEstudio = "INSERT INTO t_plan_estudios(nombre_carrera,nombre_carrera_corto,perfil_egreso,duracion_carrera,materias_totales,total_horas,total_creditos,clave_profesiones,
-                    tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,fecha_creacion,fecha_actualizacion,id_plan,
+            $aplicaCalsificacion = (count($arreglo)>0)?true:false;
+            if($aplicaCalsificacion == true){
+                $sqlPlanEstudio = "INSERT INTO t_plan_estudios(nombre_carrera,nombre_carrera_corto,perfil_egreso,duracion_carrera,materias_totales,total_horas,total_creditos,clave_profesiones,
+                    tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_plan,
                     id_plantel,id_nivel_educativo,id_categoria_carrera,id_modalidad,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
-            $requestPlanEstudio = $this->insert($sqlPlanEstudio,$nomConexion,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
-                        $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,$idPlan,$idPlantel,$idNiveleducativo,
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
+                $requestPlanEstudio = $this->insert($sqlPlanEstudio,$nomConexion,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
+                        $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,1,$idPlan,$idPlantel,$idNiveleducativo,
                     $idCategoriaCarrera,$idModalidad,$idUser,$idUser,$fechaActualizacion));
-            if($requestPlanEstudio){
                 foreach ($arreglo as $key => $value) {
-                  $sqlClasificacion = "INSERT INTO t_plan_x_clasificacion(id_plan_estudios,id_clasificacion_materias,total_creditos,estatus) VALUES (?,?,?,?)";
+                    $sqlClasificacion = "INSERT INTO t_plan_x_clasificacion(id_plan_estudios,id_clasificacion_materias,total_creditos,estatus) VALUES (?,?,?,?)";
                     $requestClasificacion = $this->insert($sqlClasificacion,$nomConexion,array($requestPlanEstudio,$value->id_clasificacion,$value->creditos,$value->estatus));
-                }
+                }   
+                return $requestClasificacion; 
+            }else{
+                $sqlPlanEstudio = "INSERT INTO t_plan_estudios(nombre_carrera,nombre_carrera_corto,perfil_egreso,duracion_carrera,materias_totales,total_horas,total_creditos,clave_profesiones,
+                tipo_rvoe,rvoe,turno,fecha_vigencia,calificacion_minima,fecha_otorgamiento,perfil_ingreso,campo_laboral,estatus,aplica_clasificacion,fecha_creacion,fecha_actualizacion,id_plan,
+                id_plantel,id_nivel_educativo,id_categoria_carrera,id_modalidad,id_usuario_creacion,id_usuario_actualizacion,fecha_actualizacion_rvoe) 
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?,?)";
+                $requestPlanEstudio = $this->insert($sqlPlanEstudio,$nomConexion,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
+                        $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,0,$idPlan,$idPlantel,$idNiveleducativo,
+                    $idCategoriaCarrera,$idModalidad,$idUser,$idUser,$fechaActualizacion));
+                return $requestPlanEstudio;    
             }
-            return $requestClasificacion;
         }
 
         public function updatePlanEstudios($idPlanEstudiosEdit, $data,$arreglo, string $nomConexion){

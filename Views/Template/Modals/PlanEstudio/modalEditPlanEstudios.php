@@ -164,7 +164,13 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2 d-flex align-items-end">
-                                                    <button type="button" class="btn btn-primary btn-sm" onclick="fnAgregarClasificacionEdit()"><i class="fas fa-plus">Agregar</i></button>
+                                                    <button type="button" class="btn btn-primary btn-sm" id="btn_agregar_clasificacion_edit" onclick="fnAgregarClasificacionEdit()"><i class="fas fa-plus">Agregar</i></button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="check_clasificacion_edit" onclick="fnCheckClasificacionEdit(value)" value="">
+                                                    <label for="check_clasificacion_edit" class="custom-control-label">click si aplica clasificaciones</label>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12" id="clasificacionesEdit">

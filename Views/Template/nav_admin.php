@@ -17,11 +17,11 @@
         <a href="#" class="nav-link">Home</a>
       </li>-->
             </ul>
-
             <!-- SEARCH FORM -->
             <form class="form-inline ml-3">
                 <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Buscar"
+                        aria-label="Search">
                     <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                             <i class="fas fa-search"></i>
@@ -30,13 +30,16 @@
                 </div>
             </form>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><h4>PLANTEL:  <b><span><?php echo($_SESSION['plantel']) ?></span></b></h4></li>
+                <li class="nav-item">
+                    <h4>PLANTEL: <b><span><?php echo($_SESSION['plantel']) ?></span></b></h4>
+                </li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item d-flex align-items-center"><i class="fas fa-record-vinyl" style="color:#00c853"></i>&nbspConectado</li>
+                <li class="nav-item d-flex align-items-center"><i class="fas fa-record-vinyl"
+                        style="color:#00c853"></i>&nbspConectado</li>
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -198,13 +201,11 @@
         </div>
       </div>-->
 
-                <!-- Sidebar Menu -->
+
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar nav-legacy text-sm nav-compact flex-column"
                         data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -212,7 +213,7 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                        </li> -->
+                        </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardDirc" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
@@ -221,7 +222,7 @@
                                 </p>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/DashboardAdmision" class="nav-link active">
                                 <i class="ml-3 mr-2" data-feather="grid"></i>
                                 <p>
@@ -236,15 +237,13 @@
                                     Dashboard Prospección
                                 </p>
                             </a>
-                        </li> -->
-
+                        </li>
                         <li class="nav-header">
                             <h6>DIRC</h6>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Plantel" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layout"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Planteles
                                 </p>
@@ -261,7 +260,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/CategoriaCarrera" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="server"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Categorias Carreras
                                 </p>
@@ -270,7 +268,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/NivelEducativo" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="tag"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Nivel Educativo
                                 </p>
@@ -279,7 +276,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Plan" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layout"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Org. plan de programas
                                 </p>
@@ -288,7 +284,6 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/PlanEstudios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="server"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Plan de Estudios
                                 </p>
@@ -297,13 +292,12 @@
                         <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Materias" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layers"></i>
-                                <!--<i class="nav-icon fas fa-university"></i>-->
                                 <p>
                                     Materias
                                 </p>
                             </a>
                         </li>
-                        <!-- <li class="nav-header">
+                        <li class="nav-header">
                             <h6>Admisión</h6>
                         </li>
                         <li class="nav-item">
@@ -324,32 +318,32 @@
                         </li>
                         <li class="nav-header">
                             <h6>Prospección</h6>
-                        </li>  -->
-                        <!--  <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="server"></i>
-                  <p>
-                      Campanias
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="calendar"></i>
-                  <p>
-                      Subcampanias
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Seguimiento" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="fast-forward"></i>
-                  <p>
-                      Seguimiento
-                  </p>
-              </a>
-          </li> -->
-                        <!-- <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Campania" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="server"></i>
+                                <p>
+                                    Campanias
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Subcampania" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="calendar"></i>
+                                <p>
+                                    Subcampanias
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Seguimiento" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="fast-forward"></i>
+                                <p>
+                                    Seguimiento
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?php echo BASE_URL ?>/Categoria_servicios" class="nav-link">
                                 <i class="ml-3 mr-2" data-feather="layout"></i>
                                 <p>
@@ -427,87 +421,80 @@
                                     Reinscripción
                                 </p>
                             </a>
-                        </li>  -->
-
-
-                       <!--  <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="bar-chart"></i>
-                  <p>
-                      Generaciones
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Ciclos/ciclos" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="circle"></i>
-                  <p>
-                      Ciclos
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Periodos/periodos" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="thermometer"></i>
-                  <p>
-                      Periodos
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="award"></i>
-                  <p>
-                      Grados
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Salones_compuestos/salones_compuestos" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="archive"></i>
-                  <p>
-                      Salones Compuestos
-                  </p>
-              </a>
-          </li> -->
- 
-                        <!--<li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="twitch"></i>
-                  <p>
-                      Salones
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Turnos/turno" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="clock"></i>
-                  <p>
-                      Turnos
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="clock"></i>
-                  <p>
-                      Grados
-                  </p>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a href="<?php echo BASE_URL ?>/Secciones/secciones" class="nav-link">
-                  <i class="ml-3 mr-2" data-feather="clock"></i>
-                  <p>
-                      Secciones
-                  </p>
-              </a>
-          </li>-->
-                       <!--  <li class="nav-header">
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Generacion/generacion" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="bar-chart"></i>
+                                <p>
+                                    Generaciones
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Ciclos/ciclos" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="circle"></i>
+                                <p>
+                                    Ciclos
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Periodos/periodos" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="thermometer"></i>
+                                <p>
+                                    Periodos
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="award"></i>
+                                <p>
+                                    Grados
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Salones_compuestos/salones_compuestos" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="archive"></i>
+                                <p>
+                                    Salones Compuestos
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Salones/salon" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="twitch"></i>
+                                <p>
+                                    Salones
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Turnos/turno" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="clock"></i>
+                                <p>
+                                    Turnos
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Grados/grados" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="clock"></i>
+                                <p>
+                                    Grados
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo BASE_URL ?>/Secciones/secciones" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="clock"></i>
+                                <p>
+                                    Secciones
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-header">
                             <h6>Servicios</h6>
                         </li>
                         <li class="nav-item">
@@ -550,9 +537,7 @@
                                 </p>
                             </a>
                         </li>
- -->
-
-                        <!-- <li class="nav-header">
+                        <li class="nav-header">
                             <h6>Ingresos y Egresos</h6>
                         </li>
                         <li class="nav-item">
@@ -611,32 +596,28 @@
                                 </p>
                             </a>
                         </li>
-                            <li class="nav-header">
-                                <h6>Administración</h6>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="ml-3 mr-2" data-feather="settings"></i>
-                                    <p>
-                                        Configuración
-                                        <i class="right fas fa-angle-left"></i>
-                                        <span class="right badge bg-primary">Nuevo</span>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="roles" class="nav-link">
-                                            <i class="ml-3 mr-2" data-feather="circle"></i>
-                                            <p>Roles y permisos</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li> -->
-
-
+                        <li class="nav-header">
+                            <h6>Administración</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="ml-3 mr-2" data-feather="settings"></i>
+                                <p>
+                                    Configuración
+                                    <i class="right fas fa-angle-left"></i>
+                                    <span class="right badge bg-primary">Nuevo</span>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="roles" class="nav-link">
+                                        <i class="ml-3 mr-2" data-feather="circle"></i>
+                                        <p>Roles y permisos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
         </aside>

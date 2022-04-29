@@ -61,7 +61,7 @@
                                     <select class="form-control" name="slctNivelEstudiosEdit" id="slctNivelEstudiosEdit" onchange="nivelSeleccionado(value)">
                                         <option value="">Seleccionar...</option>
                                         <?php
-                                        foreach ($data['niveles'] as $value) {
+                                        foreach ($data['nivel_estudios_interes'] as $value) {
                                         ?>
                                             <option value="<?= $value['id'] ?>"><?= $value['nombre_nivel_educativo'] ?></option>
                                         <?php
@@ -77,7 +77,7 @@
                                     <select class="form-control" name="slctCarreraEdit" id="slctCarreraEdit">
                                         <option value="">Seleccionar...</option>
                                         <?php
-                                        foreach ($data['carreras'] as  $value) {
+                                        foreach ($data['carrera_interes'] as  $value) {
                                         ?>
                                             <option value="<?= $value['id'] ?>"><?= $value['nombre_carrera'] ?></option>
                                         <?php

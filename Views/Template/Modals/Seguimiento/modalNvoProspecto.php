@@ -151,7 +151,7 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Nivel de estudios de interés</label>
-                                            <select class="form-control form-control-sm" name="slctCarreraNvo" id="slctCarreraNvo">
+                                            <select class="form-control form-control-sm" name="slctNivelEstudios" id="slctNivelEstudios" onchange="nvlSeleccionadoPros(value)">
                                                 <option value="">Seleccionar...</option>
                                                 <?php
                                                 foreach ($data['nivel_estudios_interes'] as $key => $nivel) {?>
@@ -163,14 +163,8 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Carrera de interés</label>
-                                            <select class="form-control form-control-sm" name="slctCarreraNvo" id="slctCarreraNvo">
-                                                <option value="">Seleccionar...</option>
-                                                <?php
-                                                foreach ($data['carrera_interes'] as $key => $carrera) {?>
-                                                    <option value="<?= $carrera['id']?>"><?php echo($carrera['nombre_carrera']) ?></option>
-                                                <?php
-                                                }
-                                                ?>
+                                            <select class="form-control form-control-sm" name="slctCarreraNuevoPro" id="slctCarreraNuevoPro">
+                                                
                                             </select>
                                         </div>
                                     </div>

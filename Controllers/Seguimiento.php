@@ -22,7 +22,9 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Seguimiento de prospección";
         $data['page_title'] = "Seguimiento de prospección";
         $data['page_functions_js'] = "functions_SegProspectos.js";
-        $data['lvls'] = $this->model->selectEscolaridad($this->nomConexion);
+        $data['escolaridad'] = $this->model->selectEscolaridad($this->nomConexion);
+        $data['nivel_estudios_interes'] = $this->model->selectNivelInteres($this->nomConexion);
+        $data['carrera_interes'] = $this->model->selectCarreraInteres($this->nomConexion);
         $data['estados'] = $this->model->selectEstados($this->nomConexion);
         $this->views->getView($this,"seguimiento_prospectos",$data);
     }
@@ -169,7 +171,32 @@ class Seguimiento extends Controllers{
 
     public function getMunicipios(){
         $idEstado = $_GET['idestado'];
-        $arrData = $this->model->selectMunicipios($idEstado);
+        $arrData = $this->model->selectMunicipios($idEstado,$this->nomConexion);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getLocalidades(){
+        $idMunicipio = $_GET['idmunicipio'];
+        $arrData = $this->model->selectLocalidades($idMunicipio, $this->nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getMedioCaptacion()
+    {
+        $arrData = $this->model->selectMedioCaptacion($this->nomConexion);
+        for ($i=0; $i < count($arrData); $i++) { 
+            $arrData[$i]['med_capInput'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['id'].'" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['medio_captacion'].'<br>';
+        }
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getCarrera()
+    {
+        $idNivel = $_GET['idNivel'];
+        $arrData = $this->model->selectCarrera($idNivel, $this->nomConexion);
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }

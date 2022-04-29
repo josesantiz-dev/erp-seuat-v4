@@ -41,6 +41,13 @@ class SeguimientoModel extends Mysql{
         parent::__construct();
     }
 
+    public function selectMedioCaptacion(string $nomConexion)
+    {
+        $sql = "SELECT * FROM t_medio_captacion";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
+    }
+
     public function selectPlanteles(string $nomConexion){
         $sql = "SELECT id, nombre_plantel FROM t_planteles";
         $request = $this->select_all($sql,$nomConexion);

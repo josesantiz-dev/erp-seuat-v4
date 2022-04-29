@@ -3,6 +3,8 @@ let tableSegProspectoIndividual
 let tableSeguimientoProspecto = document.querySelector('#tableSeguimientoProspecto')
 const modalAgendarProspectoSeguimiento = document.querySelector('#ModalAgendarProspectoSeguimiento')
 const formSeguimientoIndividual = document.querySelector('#formSeguimientoProspectoIndividual')
+const slctCrr = document.querySelector('#slctCarreraEdit')
+const slctCrrNvo = document.querySelector('#slctCarreraNuevoPro')
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
@@ -139,6 +141,40 @@ function fnDarSeguimiento(idPer){
         })
 }
 
+function estadoSeleccionado(value){
+	const selMunicipio = document.querySelector('#listMunicipioNuevo')
+	let url = base_url+"/Seguimiento/getMunicipios?idestado="+value
+	fetch(url)
+		.then(res => res.json())
+		.then((resultado) => {
+			selMunicipio.innerHTML = ""
+			for (let i = 0; i < resultado.length; i++) {
+				opcion = document.createElement('option')
+				opcion.text = resultado[i]['nombre']
+				opcion.value = resultado[i]['id']
+				selMunicipio.appendChild(opcion)
+			}
+		})
+		.catch(err => {throw err})
+}
+
+function municipioSeleccionado(value){
+	const selLocalidades = document.querySelector('#listLocalidadNuevo')
+	let url = base_url+"/Seguimiento/getLocalidades?idmunicipio="+value
+	fetch(url)
+		.then(res => res.json())
+		.then((resultado) => {
+			selLocalidades.innerHTML = ""
+			for (let i = 0; i < resultado.length; i++) {
+				opcion = document.createElement('option')
+				opcion.text = resultado[i]['nombre']
+				opcion.value = resultado[i]['id']
+				selLocalidades.appendChild(opcion)
+			}
+		})
+		.catch(err => {throw err})
+}
+
 function fnSeguimientoInvidual(){
 	
 	let idPro = document.querySelector('#idProspecto').value
@@ -227,5 +263,80 @@ function fnEditarDatosProspecto(idPer){
 			slctNvlInt.value = data.id_nivel_carrera_interes
 			slctCrrInt.value = data.id_carrera_interes
 		})
-		//.catch(err => console.log(err))
+		.catch(err => console.log(err))
+}
+
+function fnNuevoProspecto()
+{
+	let captacion1 = document.querySelector('#captacion1')
+	let captacion2 = document.querySelector('#captacion2')
+	let captacion3 = document.querySelector('#captacion3')
+	let url = `${base_url}/Seguimiento/getMedioCaptacion`
+	fetch(url)
+		.then(response => response.json())
+		.then(data =>{
+			captacion1.innerHTML = ""
+			captacion2.innerHTML = ""
+			captacion3.innerHTML = ""
+			for (let i = 0; i < data.length; i++) {
+				if (i<6) {
+					captacion1.innerHTML += '<div class="text-success">'+data[i]['med_capInput']+'</div>'
+				}
+				else if(i<12){
+					captacion2.innerHTML += '<div class="text-success">'+data[i]['med_capInput']+'</div>'
+				}
+				else
+				{
+					captacion3.innerHTML += '<div class="text-success">'+data[i]['med_capInput']+'</div>'
+				}
+			}
+		})
+		.catch(err => console.log(err))
+}
+
+function nivelSeleccionado(idNivel)
+{
+	let url = base_url+'/Seguimiento/getCarrera?idNivel='+idNivel;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			slctCrr.innerHTML = ""
+			for (let i = 0; i < data.length; i++) {
+				if(data[i]['id'] == "" && data[i]['nombre_carrera'] == "")
+				{
+					slctCrr.text="Seleccione..."
+					slctCrr.value=""
+				}
+				else{
+					opc1 = document.createElement('option')
+					opc1.text = data[i]['nombre_carrera']
+					opc1.value = data[i]['id']
+					slctCrr.appendChild(opc1)
+				}
+			}
+		})
+		.catch(err => {throw err})
+}
+
+function nvlSeleccionadoPros(idNivel)
+{
+	let url = base_url+'/Seguimiento/getCarrera?idNivel='+idNivel
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			slctCrrNvo.innerHTML = ""
+			for (let i = 0; i < data.length; i++) {
+				if(data[i]['id'] == "" && data[i]['nombre_carrera'] == ""){
+					slctCrrNvo.text = "Seleccione..."
+					slctCrrNvo.value = ""
+				}
+				else
+				{
+					opc1 = document.createElement('option')
+					opc1.text = data[i]['nombre_carrera']
+					opc1.value = data[i]['id']
+					slctCrrNvo.appendChild(opc1)
+				}
+			}
+		})
 }

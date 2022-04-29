@@ -34,6 +34,7 @@ class Seguimiento extends Controllers{
         $arrData = $this->model->selectProspectos($this->nomConexion);
         for ($i=0; $i < count($arrData) ; $i++) { 
             $arrData[$i]['numeracion'] = $i + 1;
+            $arrData[$i]['nom_plantel_interes'] = conexiones[$arrData[$i]['plantel_interes']]['NAME'];
             if($arrData[$i]['nombre_categoria'] == 'Prospecto')
             {
                 $arrData[$i]['nombre_completo'] = $arrData[$i]['nombre_completo'].' <span class="badge badge-success">'. $arrData[$i]['nombre_categoria'] .'</span>';

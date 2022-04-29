@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "nombre_completo"},
             {"data": "alias"},
 			{"data": "tel_celular"},
-			{"data": "plantel_interes"},
+			{"data": "nom_plantel_interes"},
 			{"data": "nombre_carrera"},
 			{"data": "medio_captacion"},
 			{"data": "options"}

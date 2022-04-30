@@ -76,12 +76,12 @@ class PlanEstudios extends Controllers
         }
 
         if ($idPlanEstudiosEdit != 0) {
-            /* $arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit, $data, $arreglo, $this->nomConexion);
+            $arrData = $this->model->updatePlanEstudios($idPlanEstudiosEdit, $data, $arreglo, $this->nomConexion);
             if ($arrData) {
                 $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente.');
             } else {
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos.');
-            } */
+            }
         }
         if ($idPlanEstudiosNuevo == 1) {
             $arrData = $this->model->insertPlanEstudios($data, $arreglo, $this->nomConexion);
@@ -91,7 +91,7 @@ class PlanEstudios extends Controllers
                 $arrResponse = array('estatus' => false, 'msg' => 'No es posible almacenar los datos');
             }
         }
-        echo json_encode($arreglo, JSON_UNESCAPED_UNICODE);
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
 

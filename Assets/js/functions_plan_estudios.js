@@ -232,7 +232,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
     var strCampLab = document.querySelector('#txtCampoLaboralNuevo').value;
     if (strNombre == '' || strNombreCorto == '' || strPlantel == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
         strTotalHrs == '' || strCalMin == '' || strModalidad == '' || strTotalCreditos == '' || strPlan == '' ||
-        strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == '' || strFechaActualizacion == '' || strPErfilIng == '' || strPerfilEgr == '') {
+        strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == '' || strPErfilIng == '' || strPerfilEgr == '') {
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
@@ -257,7 +257,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
         return false;
     }
     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = base_url + '/PlanEstudios/setPlanEstudios/' + arr;
+    var ajaxUrl = base_url + '/PlanEstudios/setPlanEstudios/'+arr;
     var formData = new FormData(formPlanEstudiosNuevo);
     request.open("POST", ajaxUrl, true);
     request.send(formData);
@@ -274,7 +274,7 @@ formPlanEstudiosNuevo.onsubmit = function (e) {
                 arrClasificacion = [];
             } else {
                 swal.fire("Error", objData.msg, "error");
-            } 
+            }
         }
         return false;
     }
@@ -428,7 +428,7 @@ formEditPlanEstudios.onsubmit = function (e) {
 
     if (strNombre == '' || strNombreCorto == '' || strPlantel == '' || strCampLab == '' || strNivelEd == '' || strCat == '' || strDuracion == '' || strMattotal == '' ||
         strTotalHrs == '' || strCalMin == '' || strModalidad == '' || strEstatus == '' || strTotalCreditos == '' || strPlan == '' ||
-        strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == '' || strFechaEstTermino == '' || turnoRVOE == '' || strPErfilIng == '' || strPerfilEgr == '') {
+        strTipoRVOE == '' || strRVOE == '' || strVigencia == '' || strFechaOtor == ''  || turnoRVOE == '' || strPErfilIng == '' || strPerfilEgr == '') {
         swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
         return false;
     }
@@ -462,8 +462,7 @@ formEditPlanEstudios.onsubmit = function (e) {
     request.onreadystatechange = function () {
         if (request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
-            console.log(objData)
-            /* if (objData.estatus) {
+            if (objData.estatus) {
                 $('#ModalFormEditPlanEstudios').modal("hide");
                 formEditPlanEstudios.reset();
                 swal.fire("Plan de estudios", objData.msg, "success").then((result) => {
@@ -471,8 +470,8 @@ formEditPlanEstudios.onsubmit = function (e) {
                 });
                 tablePlanEstudios.api().ajax.reload();
             } else {
-                swal.fire("Error", "error", "error");
-            } */
+                swal.fire("Error", objData.msg, "error");
+            }
         }
         return false;
     }

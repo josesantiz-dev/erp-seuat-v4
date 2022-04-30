@@ -8,13 +8,13 @@
 		private $arrValues;
 	    function __construct()
 		{
-            foreach (conexiones as $key => $conexion) {
+        	foreach (conexiones as $key => $conexion) {
                 $this->conexion[$key] = new Conexion();
                 $this->conexion[$key] = $this->conexion[$key]->conect($key);
             }
 		}
 
-		/* public function conexion($conn){
+/* 		public function conexion($conn){
             $conne = new Conexion();
             $conne = $conne->conect($conn);
             return $conne;
@@ -34,7 +34,7 @@
 			}else{
 				$lastInsert = 0;
 			}
-			return $lastInsert;
+			return $this->conexion[$bd]->lastInsertId();
 		}
 
 		//Buscar un registro

@@ -83,7 +83,7 @@
     </div>
     <!-- /.login-card-body -->
   </div>
-  <div class="text-muted text-center" style="padding-top:4px;"><small>Dirección de Medios Virtuales y Sistemas © </small></div>
+  <div class="text-muted text-center" style="padding-top:4px;"><small>Dirección de Medios Virtuales y Sistemas ©  <?php echo VERSION_NAME ?></small></div>
 </div>
 <!-- /.login-box -->
 

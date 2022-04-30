@@ -2,6 +2,7 @@
     headerAdmin($data);
     getModal("PrecargaCuenta/modalEditarServicio",$data);
     getModal("PrecargaCuenta/modalBuscarServicios",$data);
+    getModal("PrecargaCuenta/modalEditarPrecarga",$data);
     /*
     getModal("Inscripcion/modalEditInscripcion",$data);
     getModal("Inscripcion/modalListaInscritos",$data); */
@@ -156,7 +157,7 @@
                                                     <th scope="col">Nombre</th>
                                                     <th scope="col">Precio unitario</th>
                                                     <th scope="col">Nuevo precio</th>
-                                                    <th scope="col">Acciones</th>
+                                                    <th scope="col" width="17%">Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tableServicioss">
@@ -168,6 +169,35 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-title" id="nombrePlantelDatatable"></h2>
+                                <p class="card-text">
+                                <table id="tablePrecargaCuenta" class="table table-bordared table-hover table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Cobro_total</th>
+                                            <th>Fecha_limite_cobro</th>
+                                            <th>Servicios</th>
+                                            <th>Plan estudios</th>
+                                            <th>Periodos</th>
+                                            <th>Grados</th>
+                                            <th>Estatus</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -81,13 +81,13 @@
 		public function setPrecarga($args){
 			$params = explode(",",$args);
 			$idPlantel = intval($params[0]);
-			$idNivel = intval($params[1]);
-			$idPeriodo = intval($params[2]);
-			$idGrado = intval($params[3]);
-			$idServicio = intval($params[4]);
-            $precioNuevo = $params[5];
-            $fechaLimitePago = $params[6];
-            $idPlanEstudios = $params[7];
+			$idPlanEstudios = $params[1];
+			$idNivel = intval($params[2]);
+			$idPeriodo = intval($params[3]);
+			$idGrado = intval($params[4]);
+			$idServicio = intval($params[5]);
+            $precioNuevo = $params[6];
+            $fechaLimitePago = $params[7];
             if(empty($idPlantel) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{

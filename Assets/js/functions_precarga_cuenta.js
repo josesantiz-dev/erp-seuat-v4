@@ -88,15 +88,16 @@ function fnNivelSeleccionadoDatatable(value){
     fnPlantelSeleccionadoDatatable(idPlantel, nivel);
 }
 
-function fnEditServicio(value,id){
+function fnEditServicio(value,id_servicio){
     formEditServicio.reset();
     let nombreServicio = value.getAttribute('n');
-    let idServicio = id;
+    let idServicio = id_servicio;
     let precioUnitario = value.getAttribute('p');
     document.querySelector('#txtNombre_servicio_edit').textContent = nombreServicio;
     document.querySelector('#intId_servicio_edit').value = idServicio;
     document.querySelector('#intPrecio_actual_edit').value = formatoMoneda(precioUnitario);
     document.querySelector('#intId_precio_unitario').value = precioUnitario;
+    // console.log(nombreServicio,idServicio);
 }
 
 
@@ -114,7 +115,7 @@ formEditServicio.onsubmit = function(e){
     }
     document.querySelector('#np-'+idServicio).textContent = formatoMoneda(parseInt(nuevoPrecio).toFixed(2));
     arrDatosNew.forEach(servicios => {
-        if(servicios.id == idServicio){
+        if(servicios.id_servicio == idServicio){
             servicios.precio_nuevo = parseInt(nuevoPrecio).toFixed(2);
             servicios.fecha_limite_pago = fechaLimitePago;
         }
@@ -153,11 +154,13 @@ function fnGuardarPrecarga(){
     let newArrDatos = [];
     arrDatosNew.forEach(element => {
         if(element.hasOwnProperty('precio_nuevo') || element.hasOwnProperty('fecha_limite_pago')){
-            let arr = {'id':element.id,'precio_nuevo':element.precio_nuevo,'fecha_limite_pago':element.fecha_limite_pago};
+            let arr = {'id':element.id_servicio,'precio_nuevo':element.precio_nuevo,'fecha_limite_pago':element.fecha_limite_pago};
             newArrDatos.push(arr);
+            console.log(arr);
             num += 1;
         }
     });
+    // console.log(arrDatosNew);
     if(arrDatosNew.length == num){
         //console.log(newArrDatos);
         /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
@@ -165,13 +168,14 @@ function fnGuardarPrecarga(){
                 console.log(resultado);
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
-            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id}/${element.precio_nuevo}/${element.fecha_limite_pago}`;
+            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.precio_nuevo}/${element.fecha_limite_pago}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado){
                     swal.fire("Atención", "Datos guardados correctamente", "success");
                 }
             }).catch(err => {throw err});
         });
+        console.log(arrDatosNew);
     }else{
         swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
         return false;
@@ -184,9 +188,9 @@ function mostrarServiciosTabla(){
     document.querySelector('#tableServicioss').innerHTML = "";
     arrDatosNew.forEach(element => {
         contador += 1;
-        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="far fa-eye ml-3"></i></a></td></tr>';
-        console.log(contador);
+        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="far fa-eye ml-3"></i></a></td></tr>';
     });
+    // console.log(arrDatosNew);
 }
 
 function buscarServicio(){
@@ -240,7 +244,7 @@ function fnSeleccionarServicio(value,id,precio){
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
     let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
     arrDatosNew.push(arrValue);
-    console.log(arrDatosNew);
+    // console.log(idServicio);
     mostrarServiciosTabla();
 }
 //Function para dar formato un numero a Moneda

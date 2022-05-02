@@ -201,5 +201,40 @@ class Seguimiento extends Controllers{
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function setProspecto()
+    {
+        $data = $_POST;
+        $intIdPersonaNueva = 0;
+        $intIdPersonaEdit = 0;
+        if(isset($_POST['idNuevo'])){
+            $intIdPersonaNueva = intval($_POST['idNuevo']);
+        }
+        if(isset($_POST['idEdit'])){
+            $intIdPersonaEdit = intval($_POST['idEdit']);
+        }
+        if($intIdPersonaNueva == 1){
+            $id_subcampania = $this->model->selectSubcampania($this->nomConexion);
+            if($id_subcampania){
+                $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
+                if($arrData){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
+                }
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
+            }
+        }
+        if($intIdPersonaEdit !=0){
+            $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$this->nomConexion);
+            if($arrData){
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
+            }else{
+                $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
+            }
+        }
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
 }
 ?>

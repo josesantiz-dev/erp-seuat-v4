@@ -227,6 +227,8 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
+    //checar proceso
+
     public function insertProspecto(string $nombre, string $apellidoPa, string $apellidoMa, string $alias, string $edoCivil, string $ocupacion, string $fechaNacimiento, int $escolaridad, string $sexo, int $localidad,string $telcel, string $telFi, string $email, string $plantelProcedencia, int $plantelInteres, int $nivelEstudiosInteres, int $carreaInteres,int $medioCaptacion, string $comentario, int $idSubcampania, string $nomConexion){
 
       $request = "";

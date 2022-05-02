@@ -24,11 +24,11 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Apellido Paterno</label>
-                                            <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Apellido paterno" maxlength="70">
+                                            <input type="text" id="txtApellidoPaNuevo" name="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Apellido paterno">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Apellido Materno</label>
-                                            <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control form-control-sm" placeholder="Apellido materno" maxlength="70">
+                                            <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control form-control-sm" placeholder="Apellido materno">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Sexo</label>
@@ -40,11 +40,11 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>Alias</label>
-                                            <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Alias">
+                                            <input type="text" id="txtAlias" name="txtAlias" class="form-control form-control-sm" placeholder="Alias">
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label>Edad</label>
-                                            <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Edad">
+                                            <input type="text" name="txtEdadNuevo" id="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad">
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Estado civil</label>
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>Ocupación</label>
-                                            <input type="text" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Ocupación">
+                                            <input type="text" name="txtOcupacion" id="txtOcupacion" class="form-control form-control-sm" placeholder="Ocupación">
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>Escolaridad</label>
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label>Fecha de nacimiento</label>
-                                            <input type="date" name="txtApellidoPaNuevo" id="txtApellidoPaNuevo" class="form-control form-control-sm" placeholder="Apellido paterno">
+                                            <input type="date" name="txtFechaNacimientoNuevo" id="txtFechaNacimientoNuevo" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Email</label>
-                                            <input type="email" id="txtEmailNuevo" name="txtEmailNuevo" class="form-control form-control-sm" placeholder="Email" maxlength="50">
+                                            <input type="email" id="txtEmailNuevo" name="txtEmailNuevo" class="form-control form-control-sm" placeholder="Ej. correo@correo.com" maxlength="50">
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="card-body row">
                                         <label for="txtObservacion">Comentarios:</label>
-                                        <textarea id="txtObservacion" name="txtObservacion" class="form-control form-control-sm" placeholder="Observación" maxlength="200" required></textarea>
+                                        <textarea id="txtObservacionPros" name="txtObservacionPros" class="form-control form-control-sm" placeholder="Observación" maxlength="200" required></textarea>
                                     </div>
                                 </div>
                             </div>

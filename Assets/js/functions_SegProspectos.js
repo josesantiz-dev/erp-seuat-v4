@@ -5,6 +5,7 @@ const modalAgendarProspectoSeguimiento = document.querySelector('#ModalAgendarPr
 const formSeguimientoIndividual = document.querySelector('#formSeguimientoProspectoIndividual')
 const slctCrr = document.querySelector('#slctCarreraEdit')
 const slctCrrNvo = document.querySelector('#slctCarreraNuevoPro')
+const formProspectoNuevo = document.querySelector('#formPersonaNuevo')
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
@@ -340,3 +341,19 @@ function nvlSeleccionadoPros(idNivel)
 			}
 		})
 }
+
+formProspectoNuevo.addEventListener('submit', (e) =>{
+	e.preventDefault()
+	let url = `${base_url}/Seguimiento/setProspecto`
+	const datos = new FormData(document.querySelector('#formPersonaNuevo'))
+	console.log(url)
+	fetch(url,{
+		method:'POST',
+		body:datos
+	})
+		.then(response => response.json())
+		.then(data =>{
+			console.log(datos.get('txtNombreNuevo'))
+			console.log(data)
+		})
+})

@@ -3,7 +3,7 @@
 	class Mysql extends Conexion
 	{
 
-        public $conexion = [];
+       	public $conexion = [];
 		private $strquery;
 		private $arrValues;
 	    function __construct()
@@ -14,12 +14,12 @@
             }
 		}
 
-/* 		public function conexion($conn){
+		/* public function conexion($conn){
             $conne = new Conexion();
             $conne = $conne->conect($conn);
             return $conne;
-        } */
-
+        } 
+ */
 
 		//Insertar un registro
 		public function insert(string $query,string $bd, array $arrValues)
@@ -34,7 +34,7 @@
 			}else{
 				$lastInsert = 0;
 			}
-			return $this->conexion[$bd]->lastInsertId();
+			return $lastInsert;
 		}
 
 		//Buscar un registro

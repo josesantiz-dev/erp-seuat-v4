@@ -93,7 +93,7 @@
                 $requestPlanEstudio = $this->insert($sqlPlanEstudio,$nomConexion,array($nombrePlanEstudios,$nombreCorto,$perfilEgreso,$duracionCarrera,$materiasTotales,$totalHoras,$totalCreditos,$claveProfesiones,
                         $tipoREVOE,$REVOE,$turnoRVOE,$vigenciaREVOE,$calificacionMinima,$fechaOtorgamiento,$perfilIngreso,$campoLaboral,1,0,$idPlan,$idPlantel,$idNiveleducativo,
                     $idCategoriaCarrera,$idModalidad,$idUser,$idUser,$fechaActualizacion));
-                return $requestPlanEstudio; 
+                return $requestPlanEstudio;
             }
         }
 

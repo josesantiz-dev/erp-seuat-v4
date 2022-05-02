@@ -677,6 +677,7 @@ function fnCheckClasificacion(value){
         listClasificacionNuevo.disabled = true;
         btnAgregarClasificacion.disabled = true;
         arrClasificacion = [];
+        mostrarClasificaciones();
     }
 }
 function fnCheckClasificacionEdit(value){

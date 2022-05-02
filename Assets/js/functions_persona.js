@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
             "dataSrc":""
         },
         "columns":[
-            {"data":"id"},
+            {"data":"numeracion"},
             {"data":"alias"},
             {"data":"nombre_persona"},
 			{"data":"apellidos"},

@@ -40,21 +40,52 @@
             die();
         }
 
-        public function exportarcsv(){
-            error_reporting(0);
-            $delimiter = ',';
-            $filename = 'prospectos.csv';
-            $f = fopen('php://memory','w');
-            $fields = array('nombre','apellidos');
-            fputcsv($f,$fields,$delimiter);
-            for ($i=0; $i < 10; $i++) { 
-                $lineData = array('jose','santiz');
-                fputcsv($f,$lineData,$delimiter);
+
+        public  function  exportarcsv($data){
+            $arrPersona = json_decode(base64_decode($data));
+            $arrColumn = $this->model->selectColumnTable($this->nomConexion);
+            $fields = [];
+            $follioTransfer = ''.$this->n
+            foreach ($arrColumn as $key => $value) {
+                array_push($fields,$value['Field']);
             }
-            fseek($f, 0);
-            header('Content-type: text/csv');
-            header('Content-Disposition: attachment; filename="' . $filename . '";');
-            fpassthru($f);
+            array_push($fields,'nom_conexion');
+            array_push($fields,'folio_transferencia');
+            $arrDatos = [];
+            for ($i=0; $i < count($arrPersona); $i++) { 
+                $idPersona = $arrPersona[$i]->id_persona;
+                $estatus = $arrPersona[$i]->estatus;
+                if($estatus == 1){
+                    $arrData = $this->model->selectPersona($idPersona,$this->nomConexion);
+                }
+                $lineData = [];
+                foreach ($arrData as $key => $value) {
+                    array_push($lineData,$value);
+                }
+                array_push($lineData,$this->nomConexion);
+                array_push($lineData,''.$this->nomConexion.date('Ymdgis').'');
+                array_push($arrDatos,$lineData);
+            }
+            $newArray = [];
+            array_push($newArray,$fields);
+            foreach ($arrDatos as $key => $value) {
+                array_push($newArray,$value);
+            }
+            $data['data'] = $newArray;
+            $data['folio'] = 
+            echo json_encode($newArray, JSON_UNESCAPED_UNICODE);
+            die();
+        } 
+        
+        public function setTransferencia($data){
+            $arrPersona = json_decode(base64_decode($data));
+            if(count($arrPersona)> 0){
+                foreach ($arrPersona as $key => $value) {
+                    $response = $this->model->updatePersonaTrans($value->id_persona,$this->nomConexion,$follioTransfer);
+                }
+            }
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 ?>

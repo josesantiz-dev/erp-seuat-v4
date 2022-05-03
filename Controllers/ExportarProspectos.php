@@ -45,7 +45,7 @@
             $arrPersona = json_decode(base64_decode($data));
             $arrColumn = $this->model->selectColumnTable($this->nomConexion);
             $fields = [];
-            $follioTransfer = ''.$this->n
+            $follioTransfer = ''.$this->nomConexion.date('Ymdgis').'';
             foreach ($arrColumn as $key => $value) {
                 array_push($fields,$value['Field']);
             }
@@ -63,7 +63,7 @@
                     array_push($lineData,$value);
                 }
                 array_push($lineData,$this->nomConexion);
-                array_push($lineData,''.$this->nomConexion.date('Ymdgis').'');
+                array_push($lineData,''.$follioTransfer);
                 array_push($arrDatos,$lineData);
             }
             $newArray = [];
@@ -71,20 +71,22 @@
             foreach ($arrDatos as $key => $value) {
                 array_push($newArray,$value);
             }
-            $data['data'] = $newArray;
-            $data['folio'] = 
-            echo json_encode($newArray, JSON_UNESCAPED_UNICODE);
+            $datos['data'] = $newArray;
+            $datos['folio'] = $follioTransfer;
+            echo json_encode($datos, JSON_UNESCAPED_UNICODE);
             die();
         } 
         
-        public function setTransferencia($data){
+        public function setTransferencia(){
+            $data = $_GET['datos'];
+            $follioTransfer = $_GET['folio'];
             $arrPersona = json_decode(base64_decode($data));
             if(count($arrPersona)> 0){
                 foreach ($arrPersona as $key => $value) {
                     $response = $this->model->updatePersonaTrans($value->id_persona,$this->nomConexion,$follioTransfer);
                 }
             }
-            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrPersona, JSON_UNESCAPED_UNICODE);
             die();
         }
     }

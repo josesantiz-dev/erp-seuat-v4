@@ -51,7 +51,7 @@ function fnSeleccionarProspectoExportar(value,id){
         arrProspectosExportar[idPersona] = value;
     }
 }
-
+console.log(conexiones())
 function btnExportarProspectos(){
     let arrNewData = [];
     arrProspectosExportar.forEach(persona => {
@@ -59,13 +59,45 @@ function btnExportarProspectos(){
             arrNewData.push(persona);
         }
     });
+    if(arrNewData.length <= 0){
+        swal.fire("Atención", "Selecciona un alumno a exportar", "warning");
+        return false;
+    }
+    Swal.fire({
+        title: 'Selecciona un plantel a exportar',
+        input: 'select',
+        inputOptions: {
+          '1': 'Tier 1',
+          '2': 'Tier 2',
+          '3': 'Tier 3'
+        },
+        inputPlaceholder: 'required',
+        showCancelButton: true,
+        inputValidator: function (value) {
+          return new Promise(function (resolve, reject) {
+            if (value !== '') {
+              resolve();
+            } else {
+              resolve('You need to select a Tier');
+            }
+          });
+        }
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'success',
+            html: 'You selected: ' + result.value
+          });
+        }
+      });
+
     let url = `${base_url}/ExportarProspectos/exportarcsv/${convStrToBase64(JSON.stringify(arrNewData))}`;
     fetch(url)
     .then((res) => res.json())
     .then(resultado =>{
         if(resultado){
-            exportToCsv('prospectos-csv.csv',resultado)
-            let urltr = `${base_url}/ExportarProspectos/setTransferencia/${convStrToBase64(JSON.stringify(arrNewData))}`;
+            exportToCsv('prospectos-csv.csv',resultado.data)
+            let urltr = `${base_url}/ExportarProspectos/setTransferencia?datos=${convStrToBase64(JSON.stringify(arrNewData))}&folio=${resultado.folio}`;
             fetch(urltr)
             .then((res) => res.json())
             .then(transferencia =>{

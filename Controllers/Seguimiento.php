@@ -204,37 +204,48 @@ class Seguimiento extends Controllers{
 
     public function setProspecto()
     {
-        $data = $_POST;
-        $intIdPersonaNueva = 0;
-        $intIdPersonaEdit = 0;
-        if(isset($_POST['idNuevo'])){
-            $intIdPersonaNueva = intval($_POST['idNuevo']);
+        $intIdProspecto = intval($_POST['idNuevo']);
+        $strNombre = $_POST['txtNombreNuevo'];
+        $strApePat = $_POST['txtApellidoPaNuevo'];
+        $strApeMat = $_POST['txtApellidoMaNuevo'];
+        $strSexo = $_POST['listSexoNuevo'];
+        $strAlias = $_POST['txtAlias'];
+        $intEdad = $_POST['txtEdadNuevo'];
+        $strEdoCivil = $_POST['listEstadoCivilNuevo'];
+        $strOcupacion = $_POST['txtOcupacion'];
+        $strEscolaridad = $_POST['slctEscolaridad'];
+        $strFechaNac = $_POST['txtFechaNacimientoNuevo'];
+        $intLocalidad = $_POST['listLocalidadNuevo'];
+        $intTel = $_POST['txtTelCelNuevo'];
+        $intTelFijo = $_POST['txtTelFiNuevo'];
+        $strEmail = $_POST['txtEmailNuevo'];
+        $strPlantelProc = $_POST['txtPlantelProcedencia'];
+        $strPlantelInt = $_POST['slctPlantelNvo'];
+        $strNivel = $_POST['slctNivelEstudios'];
+        $strCarrera = $_POST['slctCarreraNuevoPro'];
+        $intMedio = $_POST['rad'];
+        $strComentario = $_POST['txtObservacionPros'];
+
+        if($intIdProspecto == 0)
+        {
+            $requestProspecto = $this->model->insertProspecto($strNombre, $strApePat, $strApeMat, $strAlias, $strEdoCivil, $strOcupacion, $strFechaNac, $strEscolaridad, $intEdad ,$strSexo, $intLocalidad, $intTel, $intTelFijo, $strEmail, $strPlantelProc, $strPlantelInt, $strNivel, $strCarrera, $intMedio, $strComentario, $this->nomConexion);
+            $option = 1;
         }
-        if(isset($_POST['idEdit'])){
-            $intIdPersonaEdit = intval($_POST['idEdit']);
-        }
-        if($intIdPersonaNueva == 1){
-            $id_subcampania = $this->model->selectSubcampania($this->nomConexion);
-            if($id_subcampania){
-                $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
-                if($arrData){
-                    $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
-                }else{
-                    $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
-                }
-            }else{
-                $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
+
+        if($requestProspecto > 0)
+        {
+            if($option == 1)
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'Ha ingresado un nuevo prospecto');
             }
         }
-        if($intIdPersonaEdit !=0){
-            $arrData = $this->model->updatePersona($intIdPersonaEdit,$data,$this->idUser,$this->nomConexion);
-            if($arrData){
-                $arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
-            }else{
-                $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
-            }
+        else
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos o probablemente existe un registro con el mismo nombre');
         }
-        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
     }
 }
 ?>

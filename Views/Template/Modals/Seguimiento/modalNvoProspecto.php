@@ -139,10 +139,10 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label>Plantel de interés</label>
-                                            <select class="form-control form-control-sm" name="slctCarreraNvo" id="slctCarreraNvo">
+                                            <select class="form-control form-control-sm" name="slctPlantelNvo" id="slctPlantelNvo">
                                                 <option value="">Seleccionar...</option>
-                                                <?php foreach(conexiones as $key => $conexion){?>
-                                                    <option value="<?php echo $key?>"><?php echo $conexion['NAME']; ?></option>
+                                                <?php foreach (conexiones as $key => $conexion) { ?>
+                                                    <option value="<?php echo $key ?>"><?php echo $conexion['NAME']; ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -153,8 +153,8 @@
                                             <select class="form-control form-control-sm" name="slctNivelEstudios" id="slctNivelEstudios" onchange="nvlSeleccionadoPros(value)">
                                                 <option value="">Seleccionar...</option>
                                                 <?php
-                                                foreach ($data['nivel_estudios_interes'] as $key => $nivel) {?>
-                                                    <option value="<?= $nivel['id']?>"><?php echo($nivel['nombre_nivel_educativo']) ?></option>
+                                                foreach ($data['nivel_estudios_interes'] as $key => $nivel) { ?>
+                                                    <option value="<?= $nivel['id'] ?>"><?php echo ($nivel['nombre_nivel_educativo']) ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -163,7 +163,7 @@
                                         <div class="form-group col-md-3">
                                             <label>Carrera de interés</label>
                                             <select class="form-control form-control-sm" name="slctCarreraNuevoPro" id="slctCarreraNuevoPro">
-                                                
+
                                             </select>
                                         </div>
                                     </div>

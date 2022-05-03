@@ -353,7 +353,6 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 	})
 		.then(response => response.json())
 		.then(data =>{
-			console.log(datos.get('txtNombreNuevo'))
 			console.log(data)
 		})
 })

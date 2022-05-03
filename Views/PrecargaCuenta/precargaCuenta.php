@@ -3,6 +3,7 @@
     getModal("PrecargaCuenta/modalEditarServicio",$data);
     getModal("PrecargaCuenta/modalBuscarServicios",$data);
     getModal("PrecargaCuenta/modalEditarPrecarga",$data);
+    getModal("PrecargaCuenta/modalVerPrecarga",$data);
     /*
     getModal("Inscripcion/modalEditInscripcion",$data);
     getModal("Inscripcion/modalListaInscritos",$data); */

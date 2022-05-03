@@ -129,6 +129,48 @@ formEditServicio.onsubmit = function(e){
 
 }
 
+// function fnDelServicio(id_servicio){
+//     let arrDatosNew = [];
+//     arrDatosNew.forEach(element => {
+
+//     });
+//     // var row = $(this).closest("tr").get(0);
+//     // tableServicioss.fnDeleteRow(tableServicioss.fnGetPosition(row));
+// }
+
+//ELIMINAR SERVICIOS AGREGADOS
+function fnDelServicio(value) {
+    document.querySelector('#tableServicioss').innerHTML = "";
+    let nuevoArr = [];
+    arrDatosNew.forEach(element => {
+        let arrValue;
+        if (element.id_servicio != value) {
+            arrValue = {id_servicio: element.id_servicio, codigo: element.codigo, nombre_servicio: element.nombre_servicio, precio_unitario: element.precio_unitario, nuevo_precio: element.nuevo_precio, fecha_limite_pago: element.fecha_limite_pago};
+            nuevoArr.push(arrValue);
+            // console.log(arrServic);
+        }
+    });
+    arrDatosNew = nuevoArr;
+    console.log (arrDatosNew)
+    mostrarServiciosTabla();
+}
+
+
+function fnVerServicio(value,id_servicio,nuevoPrecio){
+    // formEditServicio.reset();
+    let nombreServicio = value.getAttribute('n');
+    let idServicio = id_servicio;
+    let precioUnitario = value.getAttribute('p');
+    document.querySelector('#txtNombre_servicio_ver').textContent = nombreServicio;
+    document.querySelector('#intId_servicio_ver').value = idServicio;
+    document.querySelector('#intPrecio_actual_ver').value = formatoMoneda(precioUnitario);
+    document.querySelector('#intId_precio_unitario').value = precioUnitario;
+    document.querySelector('#intNuevo_precio_ver').value;
+    document.querySelector('#intNuevo_precio_ver').value = nuevoPrecio;
+    // document.querySelector('#txtFecha_limite_pago').value = precioUnitario;
+    // console.log(nombreServicio,idServicio);
+}
+
 function fnGuardarPrecarga(){
     let grado = document.querySelector('#selectGrado').value;
     let periodo = document.querySelector('#selectPeriodo').value;
@@ -161,7 +203,7 @@ function fnGuardarPrecarga(){
         if(element.hasOwnProperty('precio_nuevo') || element.hasOwnProperty('fecha_limite_pago')){
             let arr = {'id':element.id_servicio,'precio_nuevo':element.precio_nuevo,'fecha_limite_pago':element.fecha_limite_pago};
             newArrDatos.push(arr);
-            console.log(arr);
+            // console.log(arr);
             num += 1;
         }
     });
@@ -180,7 +222,7 @@ function fnGuardarPrecarga(){
                 }
             }).catch(err => {throw err});
         });
-        console.log(arrDatosNew);
+        // console.log(arrDatosNew);
     }else{
         swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
         return false;
@@ -188,12 +230,39 @@ function fnGuardarPrecarga(){
 
 }
 
+function fnSeleccionarServicio(value,id,precio){
+    document.querySelector('#busquedaServicio').value = "";
+    $('.cerrarModalEdit').click();
+    buscarServicio();
+    let nombreServicio = value.getAttribute('n');
+    let codigoServicio = value.getAttribute('c');
+    let idServicio = id;
+    let precioUnitario = precio;
+    document.querySelector('#txtNombre_servicio').value = nombreServicio;
+    if(idServicio == idServicio){
+        let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
+        let serv = false;
+        arrDatosNew.forEach(element => {
+            if(element.id_servicio == idServicio){
+                serv = true;
+            }
+        });
+        if (serv == false) {
+            arrDatosNew.push(arrValue);
+        }else{
+            swal.fire("Atención", "Este servicio ya esta agregado", "warning").then((result) => {
+            });
+        }
+        mostrarServiciosTabla();
+    }
+}
+
 function mostrarServiciosTabla(){
     let contador = 0;
     document.querySelector('#tableServicioss').innerHTML = "";
     arrDatosNew.forEach(element => {
         contador += 1;
-        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
+        document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnVerServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_ver_servicio"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
     });
     // console.log(arrDatosNew);
 }
@@ -247,10 +316,22 @@ function fnSeleccionarServicio(value,id,precio){
     let idServicio = id;
     let precioUnitario = precio;
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
-    let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
-    arrDatosNew.push(arrValue);
-    // console.log(idServicio);
-    mostrarServiciosTabla();
+    if(idServicio == idServicio){
+        let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
+        let v = false;
+        arrDatosNew.forEach(element => {
+            if(element.id_servicio == idServicio){
+                v = true;
+            }
+        });
+        if (v == false) {
+            arrDatosNew.push(arrValue);
+        }else{
+            swal.fire("Atención", "Este servicio ya esta agregado", "warning").then((result) => {
+            });
+        }
+        mostrarServiciosTabla();
+    }
 }
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){

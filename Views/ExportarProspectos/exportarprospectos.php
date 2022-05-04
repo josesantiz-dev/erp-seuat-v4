@@ -1,7 +1,7 @@
 <?php
     headerAdmin($data);
-    /* getModal("Persona/modalNuevaPersona",$data);
-    getModal("Persona/modalEditPersona",$data);
+    getModal("ExportarProspectos/modalExportarProspectos",$data);
+    /*getModal("Persona/modalEditPersona",$data);
     getModal("Persona/modalVerPersona",$data); */
 ?>
 <div id="contentAjax"></div>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" onclick="btnExportarProspectos()"><i class="fas fa-file-download"></i>&nbsp&nbspExportar</button>
+                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" onclick="fnExportarProspectos()"><i class="fas fa-file-download"></i>&nbsp&nbspExportar</button>
                         </ol>
                     </div>
                 </div>

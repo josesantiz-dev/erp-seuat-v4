@@ -22,9 +22,14 @@
             $request = $this->select_all($sql,$nomConexion);
             return $request;
         }
-        public function updatePersonaTrans(int $idPersona, string $nomConexion,string $folioTransferencia){
-            $sql = "UPDATE t_prospectos SET folio_transferencia = ? WHERE id_persona = $idPersona";
-            $request = $this->update($sql,$nomConexion,array($folioTransferencia));
+        public function updatePersonaTrans(int $idPersona, string $nomConexion,string $folioTransferencia,string $plantel){
+            $sql = "UPDATE t_prospectos SET folio_transferencia = ?, plantel_transferido = ? WHERE id_persona = $idPersona";
+            $request = $this->update($sql,$nomConexion,array($folioTransferencia,$plantel));
+            return $request;
+        }
+        public function updatePersona(int $idPersona, string $nomConexion){
+            $sql = "UPDATE t_personas SET estatus = ? WHERE id = $idPersona";
+            $request = $this->update($sql,$nomConexion,array(2));
             return $request;
         }
     }

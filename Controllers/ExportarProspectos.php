@@ -41,8 +41,9 @@
         }
 
 
-        public  function  exportarcsv($data){
-            $arrPersona = json_decode(base64_decode($data));
+        public  function  exportarcsv(){
+            $arrPersona = json_decode(base64_decode($_GET['data']));
+            $plantelExportar = $_GET['plantel'];
             $arrColumn = $this->model->selectColumnTable($this->nomConexion);
             $fields = [];
             $follioTransfer = ''.$this->nomConexion.date('Ymdgis').'';
@@ -51,6 +52,7 @@
             }
             array_push($fields,'nom_conexion');
             array_push($fields,'folio_transferencia');
+            array_push($fields,'plantel_destino');
             $arrDatos = [];
             for ($i=0; $i < count($arrPersona); $i++) { 
                 $idPersona = $arrPersona[$i]->id_persona;
@@ -64,6 +66,7 @@
                 }
                 array_push($lineData,$this->nomConexion);
                 array_push($lineData,''.$follioTransfer);
+                array_push($lineData,''.$plantelExportar);
                 array_push($arrDatos,$lineData);
             }
             $newArray = [];
@@ -80,13 +83,23 @@
         public function setTransferencia(){
             $data = $_GET['datos'];
             $follioTransfer = $_GET['folio'];
+            $plantel = $_GET['plantel'];
             $arrPersona = json_decode(base64_decode($data));
             if(count($arrPersona)> 0){
                 foreach ($arrPersona as $key => $value) {
-                    $response = $this->model->updatePersonaTrans($value->id_persona,$this->nomConexion,$follioTransfer);
+                    $response = $this->model->updatePersonaTrans($value->id_persona,$this->nomConexion,$follioTransfer,$plantel);
+                    if($response){
+                        $arrEstatus = $this->model->updatePersona($value->id_persona,$this->nomConexion);
+                        if($arrEstatus){
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos exportados y actualizados correctamente');
+                        }else{
+                            $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
+                        }
+                    }
                 }
+                
             }
-            echo json_encode($arrPersona, JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             die();
         }
     }

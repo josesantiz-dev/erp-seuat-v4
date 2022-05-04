@@ -1,6 +1,8 @@
 let divAlertExportProspectos = document.querySelector('.alert_select_prospectos');
 divAlertExportProspectos.style.display = "none";
+let formExportarProspectos = document.querySelector('#form_exportar_prospectos');
 let arrProspectosExportar = [];
+let arrNewData = [];
 document.addEventListener('DOMContentLoaded', function(){
 	tableGeneraciones = $('#table_exportar_prospectos').dataTable( {
 		"aProcessing":true,
@@ -51,9 +53,67 @@ function fnSeleccionarProspectoExportar(value,id){
         arrProspectosExportar[idPersona] = value;
     }
 }
-console.log(conexiones())
+function fnExportarProspectos(){
+    arrProspectosExportar.forEach(persona => {
+        if(persona.estatus == 1){
+            arrNewData.push(persona);
+        }
+    });
+    if(arrNewData.length <= 0){
+        swal.fire("Atención", "Selecciona un alumno a exportar", "warning");
+        return false;
+    }else{
+        $('#modal_exportar_prospectos').modal('show');
+    }
+}
+$(".cerrarModal").click(function(){
+	$("#modal_exportar_prospectos").modal('hide')
+});
+
+formExportarProspectos.onsubmit = function(e){
+    e.preventDefault();
+    let selectPlantel = document.querySelector('#select_planteles').value;
+    if(selectPlantel == ''){
+        swal.fire("Atención","Selecciona un plantel a exportar","warning");
+        return false;
+    }
+    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var ajaxUrl = `${base_url}/ExportarProspectos/exportarcsv?data=${convStrToBase64(JSON.stringify(arrNewData))}&plantel=${selectPlantel}`;
+    var formData = new FormData(formExportarProspectos);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            var objData = JSON.parse(request.responseText);
+            if(objData){
+                exportToCsv('prospectos-csv.csv',objData.data)
+                let urltr = `${base_url}/ExportarProspectos/setTransferencia?datos=${convStrToBase64(JSON.stringify(arrNewData))}&folio=${objData.folio}&plantel=${selectPlantel}`;
+                fetch(urltr)
+                .then((res) => res.json())
+                .then(transferencia =>{
+                    if(transferencia.estatus){
+                        swal.fire("Persona", transferencia.msg, "success").then((result) =>{
+                            $("#modal_exportar_prospectos").modal('hide')
+                        }); 
+                    }else{
+                        swal.fire("Error",transferencia.msg,"error");
+                        return false;
+                    }
+                }).catch(err => {throw err});
+            }
+            /* if(objData.estatus){
+
+            }else{
+                 swal.fire("Error",objData.msg,"error");
+            } */
+        }
+        divLoading.style.display = "none";
+        return false;
+    }
+}
+
 function btnExportarProspectos(){
-    let arrNewData = [];
+/*     let arrNewData = [];
     arrProspectosExportar.forEach(persona => {
         if(persona.estatus == 1){
             arrNewData.push(persona);
@@ -63,34 +123,6 @@ function btnExportarProspectos(){
         swal.fire("Atención", "Selecciona un alumno a exportar", "warning");
         return false;
     }
-    Swal.fire({
-        title: 'Selecciona un plantel a exportar',
-        input: 'select',
-        inputOptions: {
-          '1': 'Tier 1',
-          '2': 'Tier 2',
-          '3': 'Tier 3'
-        },
-        inputPlaceholder: 'required',
-        showCancelButton: true,
-        inputValidator: function (value) {
-          return new Promise(function (resolve, reject) {
-            if (value !== '') {
-              resolve();
-            } else {
-              resolve('You need to select a Tier');
-            }
-          });
-        }
-      }).then(function (result) {
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: 'success',
-            html: 'You selected: ' + result.value
-          });
-        }
-      });
-
     let url = `${base_url}/ExportarProspectos/exportarcsv/${convStrToBase64(JSON.stringify(arrNewData))}`;
     fetch(url)
     .then((res) => res.json())
@@ -102,13 +134,13 @@ function btnExportarProspectos(){
             .then((res) => res.json())
             .then(transferencia =>{
                 console.log(transferencia);
-                /* swal.fire("Persona", "Datos exportados correctamente,", "success").then((result) =>{
+                swal.fire("Persona", "Datos exportados correctamente,", "success").then((result) =>{
                     //$('#dimissModalEdit').click();
-                }); */
+                }); 
             }).catch(err => {throw err});
         }
     })
-    .catch(err => {throw err}); 
+    .catch(err => {throw err});  */
 }
 //Function para convertir un string  a  Formato Base64
 function convStrToBase64(str){

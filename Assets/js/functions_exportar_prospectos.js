@@ -1,10 +1,12 @@
 let divAlertExportProspectos = document.querySelector('.alert_select_prospectos');
 divAlertExportProspectos.style.display = "none";
 let formExportarProspectos = document.querySelector('#form_exportar_prospectos');
+let tablePersonas = "";
 let arrProspectosExportar = [];
 let arrNewData = [];
+divAlertExportProspectos.style.display = "flex";
 document.addEventListener('DOMContentLoaded', function(){
-	tableGeneraciones = $('#table_exportar_prospectos').dataTable( {
+	tablePersonas = $('#table_exportar_prospectos').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
         "language": {
@@ -92,6 +94,9 @@ formExportarProspectos.onsubmit = function(e){
                 .then((res) => res.json())
                 .then(transferencia =>{
                     if(transferencia.estatus){
+                        tablePersonas.api().ajax.reload();
+                        arrProspectosExportar = [];
+                        arrNewData = [];
                         swal.fire("Persona", transferencia.msg, "success").then((result) =>{
                             $("#modal_exportar_prospectos").modal('hide')
                         }); 
@@ -101,51 +106,12 @@ formExportarProspectos.onsubmit = function(e){
                     }
                 }).catch(err => {throw err});
             }
-            /* if(objData.estatus){
-
-            }else{
-                 swal.fire("Error",objData.msg,"error");
-            } */
         }
         divLoading.style.display = "none";
         return false;
     }
 }
 
-function btnExportarProspectos(){
-/*     let arrNewData = [];
-    arrProspectosExportar.forEach(persona => {
-        if(persona.estatus == 1){
-            arrNewData.push(persona);
-        }
-    });
-    if(arrNewData.length <= 0){
-        swal.fire("Atención", "Selecciona un alumno a exportar", "warning");
-        return false;
-    }
-    let url = `${base_url}/ExportarProspectos/exportarcsv/${convStrToBase64(JSON.stringify(arrNewData))}`;
-    fetch(url)
-    .then((res) => res.json())
-    .then(resultado =>{
-        if(resultado){
-            exportToCsv('prospectos-csv.csv',resultado.data)
-            let urltr = `${base_url}/ExportarProspectos/setTransferencia?datos=${convStrToBase64(JSON.stringify(arrNewData))}&folio=${resultado.folio}`;
-            fetch(urltr)
-            .then((res) => res.json())
-            .then(transferencia =>{
-                console.log(transferencia);
-                swal.fire("Persona", "Datos exportados correctamente,", "success").then((result) =>{
-                    //$('#dimissModalEdit').click();
-                }); 
-            }).catch(err => {throw err});
-        }
-    })
-    .catch(err => {throw err});  */
-}
-//Function para convertir un string  a  Formato Base64
-function convStrToBase64(str){
-    return window.btoa(unescape(encodeURIComponent( str ))); 
-}
 function exportToCsv(filename, rows) {
     var processRow = function (row) {
         var finalVal = '';
@@ -185,4 +151,8 @@ function exportToCsv(filename, rows) {
             document.body.removeChild(link);
         }
     }
+}
+//Function para convertir un string  a  Formato Base64
+function convStrToBase64(str){
+    return window.btoa(unescape(encodeURIComponent( str ))); 
 }

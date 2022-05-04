@@ -8,7 +8,7 @@
             p.direccion,p.estatus,c.nombre_categoria FROM t_personas AS p
             LEFT JOIN t_asignacion_categoria_persona AS ac ON ac.id_persona = p.id
             INNER JOIN t_categoria_personas AS c ON ac.id_categoria_persona = c.id
-            WHERE p.estatus != 0 AND ac.id_categoria_persona = 1 ORDER BY p.id DESC";
+            WHERE p.estatus = 1  AND ac.id_categoria_persona = 1 ORDER BY p.id DESC";
             $request = $this->select_all($sql, $nomConexion);
             return $request;
         }

@@ -15,9 +15,9 @@
                     <label for="txtNombre_Grado">Plantel</label>
                     <select class="custom-select" required id="select_planteles">
                         <option value="">Seleccionar...</option>
-                        <?php foreach (conexiones as $key => $conexion) { ?>
+                        <?php foreach (conexiones as $key => $conexion) { if($key != $data['conexion']){?>
                             <option value="<?php echo $key ?>"><?php echo $conexion['NAME'] ?></option>
-                        <?php } ?>
+                        <?php } } ?>
                     </select>
                   </div>
                 </div>

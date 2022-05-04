@@ -15,13 +15,13 @@
                     </div>
                     <div class="col-sm-5">
                         <ol class="breadcrumb float-sm-right btn-block">
-                            <button type="button" class="btn btn-inline btn-primary btn-sm btn-block" onclick="fnExportarProspectos()"><i class="fas fa-file-download"></i>&nbsp&nbspExportar</button>
+                            <button type="button" class="btn btn-inline btn-primary btn-block" onclick="fnExportarProspectos()"><i class="fas fa-file-download"></i>&nbsp&nbspExportar</button>
                         </ol>
                     </div>
                 </div>
             </div>
             <div class="alert alert-warning alert-dismissible fade show alert_select_prospectos" role="alert">
-                <strong>Atención!</strong> selecciona las personas a exportar.
+                <strong>Atención!</strong>&nbspselecciona a las personas a exportar.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

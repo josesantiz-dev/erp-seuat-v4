@@ -21,7 +21,7 @@
             $data['page_id'] = '';
             $data['page_tag'] = "Exportar prospectos";
             $data['page_title'] = "Exportar prospectos";
-            $data['page_content'] = "";
+            $data['conexion'] = $this->nomConexion;
             $data['page_functions_js'] = "functions_exportar_prospectos.js";
             $this->views->getView($this,"exportarprospectos",$data);
         }
@@ -46,7 +46,8 @@
             $plantelExportar = $_GET['plantel'];
             $arrColumn = $this->model->selectColumnTable($this->nomConexion);
             $fields = [];
-            $follioTransfer = ''.$this->nomConexion.date('Ymdgis').'';
+            $nomenclatura = explode('_',$this->nomConexion);
+            $follioTransfer = ''.$nomenclatura[1].date('Ymdgis').'';
             foreach ($arrColumn as $key => $value) {
                 array_push($fields,$value['Field']);
             }
@@ -89,7 +90,7 @@
                 foreach ($arrPersona as $key => $value) {
                     $response = $this->model->updatePersonaTrans($value->id_persona,$this->nomConexion,$follioTransfer,$plantel);
                     if($response){
-                        $arrEstatus = $this->model->updatePersona($value->id_persona,$this->nomConexion);
+                        $arrEstatus = $this->model->updatePersona($value->id_persona,$this->nomConexion,$this->idUser);
                         if($arrEstatus){
                             $arrResponse = array('estatus' => true, 'msg' => 'Datos exportados y actualizados correctamente');
                         }else{

@@ -203,49 +203,73 @@ class Seguimiento extends Controllers{
     }
 
     public function setProspecto()
-    {
-        $intIdProspecto = intval($_POST['idNuevo']);
-        $strNombre = $_POST['txtNombreNuevo'];
-        $strApePat = $_POST['txtApellidoPaNuevo'];
-        $strApeMat = $_POST['txtApellidoMaNuevo'];
-        $strSexo = $_POST['listSexoNuevo'];
-        $strAlias = $_POST['txtAlias'];
-        $intEdad = $_POST['txtEdadNuevo'];
-        $strEdoCivil = $_POST['listEstadoCivilNuevo'];
-        $strOcupacion = $_POST['txtOcupacion'];
-        $strEscolaridad = $_POST['slctEscolaridad'];
-        $strFechaNac = $_POST['txtFechaNacimientoNuevo'];
-        $intLocalidad = $_POST['listLocalidadNuevo'];
-        $intTel = $_POST['txtTelCelNuevo'];
-        $intTelFijo = $_POST['txtTelFiNuevo'];
-        $strEmail = $_POST['txtEmailNuevo'];
-        $strPlantelProc = $_POST['txtPlantelProcedencia'];
-        $strPlantelInt = $_POST['slctPlantelNvo'];
-        $strNivel = $_POST['slctNivelEstudios'];
-        $strCarrera = $_POST['slctCarreraNuevoPro'];
-        $intMedio = $_POST['rad'];
-        $strComentario = $_POST['txtObservacionPros'];
-
-        if($intIdProspecto == 0)
-        {
-            $requestProspecto = $this->model->insertProspecto($strNombre, $strApePat, $strApeMat, $strAlias, $strEdoCivil, $strOcupacion, $strFechaNac, $strEscolaridad, $intEdad ,$strSexo, $intLocalidad, $intTel, $intTelFijo, $strEmail, $strPlantelProc, $strPlantelInt, $strNivel, $strCarrera, $intMedio, $strComentario, $this->nomConexion);
-            $option = 1;
+    {    
+        $strNombreNvo = $_POST['txtNombreNuevo'];
+        $strApePatNvo = $_POST['txtApellidoPaNuevo'];
+        $strApeMatNvo = $_POST['txtApellidoMaNuevo'];
+        $strSexoNvo = $_POST['listSexoNuevo'];
+        $strAliasNvo = $_POST['txtAlias'];
+        $intEdadNvo = $_POST['txtEdadNuevo'];
+        $strEdoCivilNvo = $_POST['listEstadoCivilNuevo'];
+        $strOcupacionNvo = $_POST['txtOcupacion'];
+        $intEscolaridadNvo = $_POST['slctEscolaridad'];
+        $strFechaNacNvo = $_POST['txtFechaNacimientoNuevo'];
+        $intLocalidadNvo = $_POST['listLocalidadNuevo'];
+        $intTelNvo = $_POST['txtTelCelNuevo'];
+        $intTelFijoNvo = $_POST['txtTelFiNuevo'];
+        $strEmailNvo = $_POST['txtEmailNuevo'];
+        $strPlantelProcNvo = $_POST['txtPlantelProcedencia'];
+        $strPlantelIntNvo = $_POST['slctPlantelNvo'];
+        $strNivelNvo = $_POST['slctNivelEstudios'];
+        $intCarreraNvo = $_POST['slctCarreraNuevoPro'];
+        $intMedioNvo = $_POST['rad'];
+        $strComentarioNvo = $_POST['txtObservacionPros'];
+        
+        $intIdPersonaNueva = 0;
+        $intIdPersonaEdit = 0;
+        if(isset($_POST['idNuevo'])){
+            $intIdPersonaNueva = intval($_POST['idNuevo']);
+        }
+        if(isset($_POST['idPersonaEdit'])){
+            $intIdPersonaEdit = intval($_POST['idPersonaEdit']);
         }
 
-        if($requestProspecto > 0)
+        if($intIdPersonaNueva == 0)
         {
-            if($option == 1)
+            $idSubcampana = $this->model->selectSubcampania($this->nomConexion); 
+            if($idSubcampana)
             {
-                $arrResponse = array('estatus' => true, 'msg' => 'Ha ingresado un nuevo prospecto');
+                $arrProspecto = $this->model->insertProspecto($strNombreNvo, $strApePatNvo, $strApeMatNvo, $strAliasNvo, $strEdoCivilNvo, $strOcupacionNvo, $strFechaNacNvo, $intEscolaridadNvo, $intEdadNvo, $strSexoNvo, $intLocalidadNvo, $intTelNvo, $intTelFijoNvo, $strEmailNvo, $strPlantelProcNvo, $strPlantelIntNvo, $strNivelNvo, $intCarreraNvo, $intMedioNvo, $strComentarioNvo, $idSubcampana['id'], $this->idUser, $this->nomConexion);
+                if($arrProspecto)
+                {
+                    $arrResponse = array('estatus' => true, 'msg' => 'Se ha dado de alta un nuevo prospecto');
+                }
+                else
+                {
+                    $arrResponse = array('estatus' => false, 'msg' => 'No se pudieron guardar los datos');
+                }
+            }
+            else
+            {
+                $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampaña activa');
             }
         }
-        else
+        /*if($intIdPersonaEdit != 0)
         {
-            $arrResponse = array('estatus' => false, 'msg' => 'No es posible actualizar los datos o probablemente existe un registro con el mismo nombre');
-        }
-
+            $arrData = $this->model->updateProspecto();
+            if($arrData)
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+            }
+            else
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
+            }
+        }*/
         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+
 }
 ?>

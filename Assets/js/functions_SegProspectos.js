@@ -353,6 +353,20 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 	})
 		.then(response => response.json())
 		.then(data =>{
-			console.log(data)
+			if(data.estatus)
+			{
+				$('#ModalNuevoProspecto').click()
+				formProspectoNuevo.reset()
+				$('#ModalNuevoProspecto').modal('hide')
+				swal.fire('Nuevo prospecto creado', data.msg,'success')
+				tableProspectos.api().ajax.reload()
+			}
+			else
+			{
+				swal.fire('Error',err,'error')
+			}
 		})
+		/*.catch(function(err){
+			swal.fire('Error',err,'error')
+		})*/
 })

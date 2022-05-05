@@ -35,6 +35,7 @@ class SeguimientoModel extends Mysql{
     public $strFechaNacimiento;
     public $intEscolaridad;
     public $intIdSubcampania;
+    public $nomConx;
 
 
     public function __construct(){
@@ -226,7 +227,7 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    public function insertProspecto($nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub, int $idUsr, string $nomConexion)
+    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub, int $idUsr, string $nomConexion)
     {
         $this->strNombrePers = $nom;
         $this->strApePat = $apeP;
@@ -250,21 +251,24 @@ class SeguimientoModel extends Mysql{
         $this->strComentario = $coment;
         $this->intIdUsuario = $idUsr;
         $this->intIdSubcampania = $idSub;
+        $this->nomConx = $nomConexion;
 
-        $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, id_localidad, tel_celular, tel_fijo, email, id_usuario_creacion, id_rol, fecha_creacion) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())";
-        $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strSexo, $this->strAlias, $this->intEdad, $this->strEstadoCivil, $this->strOcupacion, $this->intEscolaridad, $this->strFechaNacimiento, $this->intLocalidad, $this->strTelCel, $this->strTelfijo, $this->strEmail, $this->intIdUsuario, 1);
-        $requestPersona = $this->insert($sqlPersona,$nomConexion,$arrData);
+        $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion, id_rol) 
+        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,?)";
+        $arrPersona = array($this->$strNombrePers);
+
+        $requestPersona = $this->insert($sqlPersona,$this->nomConx,$arrData);
         if($requestPersona)
         {
             $idPersona = $requestPersona;
-            $sqlAsignacion = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) values(NOW(),?,?,?,NOW(),?,?,?)";
-            $arrDataAsig = array(0,0,1,$idUser, $idPersona,$idCategoriaPersona);
-            $requestAsig = $this->insert($sqlAsignacion,$nomConexion,$arrDataAsig);
+            $sqlAsignacion = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) values(NOW(),0,0,1,NOW(),?,?,1)";
+            $arrDataAsig = array($this->$intIdUsuario, $idPersona);
+            $requestAsig = $this->insert($sqlAsignacion,$this->nomConx,$arrDataAsig);
             if($requestAsig)
             {
-                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona)";
-                $arrDataProspecto = array($plantelProcedencia,$observaciones,$plantelNuevo,$nivel,$carrera,$medio,$iPersona);
-                $requestProspecto = $this->insert($sqlProspecto,$nomConexion,$arrDataProspecto);
+                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
+                $arrDataProspecto = array($this->strPlantelProcedencia, $this->strComentario, $this->strPltInteres, $this->intIdNvlCarrInte, $this->intIdCarrInte, $this->intMedioCaptacion, $idPersona);
+                $requestProspecto = $this->insert($sqlProspecto,$this->nomConx,$arrDataProspecto);
             }
         }
         return $requestProspecto;

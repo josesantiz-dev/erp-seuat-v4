@@ -12,6 +12,7 @@
                     <form id="formPersonaNuevo" name="formPersonaNuevo">
                         <input type="hidden" id="idNuevo" name="idNuevo" value="">
                         <div class="card-body">
+                            <small class="text-muted pb-4">Los campos con asterisco (<span class="required">*</span>) son obligatorios..</small>
                             <div class="row">
                                 <div class="card card-secondary col-md-12 p-0">
                                     <div class="card-header">
@@ -19,7 +20,7 @@
                                     </div>
                                     <div class="card-body row">
                                         <div class="form-group col-md-3">
-                                            <label for="txtNombreNuevo">Nombre</label>
+                                            <label for="txtNombreNuevo">Nombre <span class="required">*</span></label>
                                             <input type="text" id="txtNombreNuevo" name="txtNombreNuevo" class="form-control form-control-sm" placeholder="Nombre" maxlength="45" required>
                                         </div>
                                         <div class="form-group col-md-3">
@@ -31,7 +32,7 @@
                                             <input type="text" id="txtApellidoMaNuevo" name="txtApellidoMaNuevo" class="form-control form-control-sm" placeholder="Apellido materno">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label>Sexo</label>
+                                            <label>Sexo <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="listSexoNuevo" name="listSexoNuevo">
                                                 <option value="">Elige sexo</option>
                                                 <option value="H">H</option>
@@ -39,15 +40,15 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label>Alias</label>
+                                            <label>Alias <span class="required">*</span></label>
                                             <input type="text" id="txtAlias" name="txtAlias" class="form-control form-control-sm" placeholder="Alias">
                                         </div>
                                         <div class="form-group col-md-1">
-                                            <label>Edad</label>
+                                            <label>Edad <span class="required">*</span></label>
                                             <input type="text" name="txtEdadNuevo" id="txtEdadNuevo" class="form-control form-control-sm" placeholder="Edad">
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label>Estado civil</label>
+                                            <label>Estado civil <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="listEstadoCivilNuevo" name="listEstadoCivilNuevo" required>
                                                 <option value="">Elije estado civil</option>
                                                 <option value="Soltero">Soltero(a)</option>
@@ -55,11 +56,11 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label>Ocupación</label>
+                                            <label>Ocupación <span class="required">*</span></label>
                                             <input type="text" name="txtOcupacion" id="txtOcupacion" class="form-control form-control-sm" placeholder="Ocupación">
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label>Escolaridad</label>
+                                            <label>Escolaridad <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctEscolaridad" id="slctEscolaridad">
                                                 <option value="">Seleccionar...</option>
                                                 <?php
@@ -72,7 +73,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-2">
-                                            <label>Fecha de nacimiento</label>
+                                            <label>Fecha de nacimiento <span class="required">*</span></label>
                                             <input type="date" name="txtFechaNacimientoNuevo" id="txtFechaNacimientoNuevo" class="form-control form-control-sm">
                                         </div>
                                     </div>
@@ -83,7 +84,7 @@
                                     </div>
                                     <div class="card-body row">
                                         <div class="form-group col-md-4">
-                                            <label for="listEstadoNuevo">Estado </label>
+                                            <label for="listEstadoNuevo">Estado <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="listEstadoNuevo" name="listEstadoNuevo" onchange="estadoSeleccionado(value)" required>
                                                 <option value="">Selecciona un Estado</option>
                                                 <?php
@@ -96,13 +97,13 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="listMunicipioNuevo">Municipio</label>
+                                            <label for="listMunicipioNuevo">Municipio <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="listMunicipioNuevo" name="listMunicipioNuevo" onchange="municipioSeleccionado(value)" required>
                                                 <option value="">Selecciona un Municipio</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="listLocalidadNuevo">Localidad</label>
+                                            <label for="listLocalidadNuevo">Localidad <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" id="listLocalidadNuevo" name="listLocalidadNuevo" required>
                                                 <option value="">Selecciona una Localidad</option>
                                             </select>
@@ -115,15 +116,15 @@
                                     </div>
                                     <div class="card-body row">
                                         <div class="form-group col-md-4">
-                                            <label>Telefono Celular</label>
+                                            <label>Telefono Celular<span class="required">*</span></label>
                                             <input type="text" id="txtTelCelNuevo" name="txtTelCelNuevo" class="form-control form-control-sm" placeholder="Telefono celular" maxlength="10">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>Telefono Fijo</label>
+                                            <label>Telefono Fijo <span class="required">*</span></label>
                                             <input type="text" id="txtTelFiNuevo" name="txtTelFiNuevo" class="form-control form-control-sm" placeholder="Telefono fijo" maxlength="10">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>Email</label>
+                                            <label>Email <span class="required">*</span></label>
                                             <input type="email" id="txtEmailNuevo" name="txtEmailNuevo" class="form-control form-control-sm" placeholder="Ej. correo@correo.com" maxlength="50">
                                         </div>
                                     </div>
@@ -134,11 +135,11 @@
                                     </div>
                                     <div class="card-body row">
                                         <div class="form-group col-md-3">
-                                            <label>Escuela Procedencia</label>
+                                            <label>Escuela Procedencia <span class="required">*</span></label>
                                             <input type="text" id="txtPlantelProcedencia" name="txtPlantelProcedencia" class="form-control form-control-sm" placeholder="Plantel de Procedencia" name="" required>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label>Plantel de interés</label>
+                                            <label>Plantel de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctPlantelNvo" id="slctPlantelNvo">
                                                 <option value="">Seleccionar...</option>
                                                 <?php foreach (conexiones as $key => $conexion) { ?>
@@ -149,7 +150,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label>Nivel de estudios de interés</label>
+                                            <label>Nivel de estudios de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctNivelEstudios" id="slctNivelEstudios" onchange="nvlSeleccionadoPros(value)">
                                                 <option value="">Seleccionar...</option>
                                                 <?php
@@ -161,7 +162,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label>Carrera de interés</label>
+                                            <label>Carrera de interés <span class="required">*</span></label>
                                             <select class="form-control form-control-sm" name="slctCarreraNuevoPro" id="slctCarreraNuevoPro">
 
                                             </select>
@@ -172,7 +173,11 @@
                                     <div class="card-header">
                                         <h5 class="card-title mb-0"><i class="fas fa-thumbs-up"></i> &nbsp;Medio de captación</h5>
                                     </div>
+                                    <div class="row">
+                                        <h6 class="col-md-12">Elija uno de los siguientes medios de captación <span class="required">*</span></h6>
+                                    </div>
                                     <div class="card-body row">
+
                                         <div class="col-md-4">
                                             <div id="captacion1" class="form-check">
 
@@ -195,7 +200,7 @@
                                         <h5 class="card-title mb-0"><i class="fas fa-comment-alt"></i> &nbsp; Comentarios</h5>
                                     </div>
                                     <div class="card-body row">
-                                        <label for="txtObservacion">Comentarios:</label>
+                                        <label for="txtObservacion">Comentarios: <span class="required">*</span></label>
                                         <textarea id="txtObservacionPros" name="txtObservacionPros" class="form-control form-control-sm" placeholder="Observación" maxlength="200" required></textarea>
                                     </div>
                                 </div>

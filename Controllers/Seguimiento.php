@@ -204,9 +204,9 @@ class Seguimiento extends Controllers{
 
     public function setProspecto()
     {    
-        $strNombreNvo = $_POST['txtNombreNuevo'];
-        $strApePatNvo = $_POST['txtApellidoPaNuevo'];
-        $strApeMatNvo = $_POST['txtApellidoMaNuevo'];
+        $strNombreNvo = strClean($_POST['txtNombreNuevo']);
+        $strApePatNvo = strClean($_POST['txtApellidoPaNuevo']);
+        $strApeMatNvo = strClean($_POST['txtApellidoMaNuevo']);
         $strSexoNvo = $_POST['listSexoNuevo'];
         $strAliasNvo = $_POST['txtAlias'];
         $intEdadNvo = $_POST['txtEdadNuevo'];

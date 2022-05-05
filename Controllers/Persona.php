@@ -136,5 +136,53 @@
 			}
 			die();
         }
+
+        public function setUploadCsvProspecto($args){
+            $arrValues = json_decode($args);
+            if(count($arrValues) > 0){
+                foreach ($arrValues as $key => $value) {
+                    if($value->id != ''){
+                        //Insertar persona masiva
+                        $id = intval($value->id);
+                        $nombrePersona = strClean($value->nombre_persona);
+                        $apPaterno = ($value->ap_paterno == '')?null:strClean($value->ap_paterno);
+                        $apMaterno = ($value->ap_materno == '')?null:strClean($value->ap_materno);
+                        $alias = strClean($value->alias);
+                        $direccion = ($value->direccion == '')?null:strClean($value->direccion);
+                        $edad = ($value->edad == '')?null:intval($value->edad);
+                        $sexo = strClean($value->sexo);
+                        $cp = ($value->cp == '')?null:intval($value->cp);
+                        $colonia = ($value->colonia == '')?null:strClean($value->colonia);
+                        $telCelular = ($value->tel_celular == '')?null:strClean($value->tel_celular);
+                        $telFijo = ($value->tel_fijo == '')?null:strClean($value->tel_fijo);
+                        $email = ($value->email == '')?null:strClean($value->email);
+                        $edoCivil = ($value->edo_civil == '')?null:strClean($value->edo_civil);
+                        $ocupacion = ($value->ocupacion == '')?null:strClean($value->ocupacion);
+                        $idLocalidad = intval($value->id_localidad);
+                        $curp = ($value->curp == '')?null:strClean($value->curp);
+                        $fechaNacimiento = ($value->fecha_nacimiento == '')?null:strClean($value->fecha_nacimiento);
+                        $estatus = 1;
+                        $idRol = 1;
+                        $idEscolaridad = ($value->id_escolaridad == '')?null:intval($value->id_escolaridad);
+                        $escuelaProcedencia = ($value->escuela_procedencia == '')?null:strClean($value->escuela_procedencia);
+                        $observaciones = null;
+                        $plantelInteres = ($value->plantel_interes == '')?null:strClean($value->plantel_interes);
+                        $nivelCarreraInteres = ($value->id_nivel_carrera_interes == '')?null:intval($value->id_nivel_carrera_interes);
+                        $carreraInteres = ($value->id_carrera_interes == '')?null:intval($value->id_carrera_interes);
+                        $medioCaptacion = ($value->id_medio_captacion == '')?null:intval($value->id_medio_captacion);
+                        $idsubcampania = ($value->id_subcampania == '')?null:intval($value->id_subcampania);
+                        $plantelOrigen = strClean($value->nom_conexion);
+                        $folioTransferencia = strClean($value->folio_transferencia);
+                        $response = $this->model->insertPersonaCSV($id, $nombrePersona, $apPaterno, $apMaterno, $alias, $direccion, $edad, $sexo, $cp, $colonia, $telCelular, $telFijo, $email, $edoCivil, $ocupacion, $idLocalidad, $curp, $fechaNacimiento, $estatus, $idRol, $idEscolaridad, $escuelaProcedencia, $plantelInteres, $nivelCarreraInteres, $carreraInteres, $medioCaptacion, $idsubcampania, $plantelOrigen, $folioTransferencia, $this->idUser, $this->nomConexion);
+                        if(!$response){
+                            $arrResponse = array('estatus' => false, 'msg' => 'Error al importar.');
+                        }
+                    }
+                }
+                $arrResponse = array('estatus' => true, 'msg' => 'Se ha importado correctamente.');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
     }
 ?>

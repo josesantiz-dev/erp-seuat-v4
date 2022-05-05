@@ -156,3 +156,4 @@ function exportToCsv(filename, rows) {
 function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
 }
+

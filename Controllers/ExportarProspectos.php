@@ -49,7 +49,7 @@
             $nomenclatura = explode('_',$this->nomConexion);
             $follioTransfer = ''.$nomenclatura[1].date('Ymdgis').'';
             foreach ($arrColumn as $key => $value) {
-                array_push($fields,$value['Field']);
+                array_push($fields,$key);
             }
             array_push($fields,'nom_conexion');
             array_push($fields,'folio_transferencia');

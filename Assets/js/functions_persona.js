@@ -1,6 +1,8 @@
 var tablePersonas;
 var formPersonaNueva =  document.querySelector("#formPersonaNuevo");
 let divLoading = document.querySelector("#divLoading");
+let formImportarProspectos = document.querySelector('#form_importar_prospectos');
+let urlFetchUloadProspecto = `${base_url}/Persona/setUploadCsvProspecto/`;
 
 document.addEventListener('DOMContentLoaded', function(){
 	tablePersonas = $('#tablePersonas').dataTable( {
@@ -478,6 +480,73 @@ function fntDelPersona(id) {
             }
         }
     });
+}
+function convCSVToArray(str, delimiter = ","){
+    const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
+    const rows = str.slice(str.indexOf("\n")+1).split("\n");
+    const arr = rows.map(function (row){
+        const values = row.split(delimiter);
+        const e1 = headers.reduce(function (objetc, header, index){
+            objetc[header] = values[index];
+            return objetc;
+        }, {});
+        return e1;
+    });
+    return arr;
+}
+
+formImportarProspectos.addEventListener("submit", function(e){
+    e.preventDefault();
+    const fileInput = document.querySelector('#file_csv_importar_prospectos').files[0];
+    const reader = new FileReader();
+    reader.onload = function(e){
+        const text = e.target.result;
+        const data = convCSVToArray(text);
+        fetch(urlFetchUloadProspecto+JSON.stringify(data))
+        .then((res) => res.json())
+        .then(resultado =>{
+            if(resultado.estatus){
+                $('#modal_importar_prospectos').modal("hide");
+                formImportarProspectos.reset();
+                swal.fire("Persona", resultado.msg, "success").then((result) =>{
+                    $('.close').click();
+                });
+                tablePersonas.api().ajax.reload(); 
+            }else{
+                swal.fire("Error", resultado.msg, "error");
+            }
+        }).catch(err => {throw err});
+    };
+    reader.readAsText(fileInput);
+});
+
+//Cuando se agregar un archivo csv
+$('#file_csv_importar_prospectos').on('change',function(e){
+    //var fileName = $(this).val();
+    $(this).next('#label_input_csv').html(e.target.files[0].name);
+    const fileInput = document.querySelector('#file_csv_importar_prospectos').files[0];
+    //Vista previa
+    const reader = new FileReader();
+    reader.onload = function(e){
+        const text = e.target.result;
+        const data = convCSVToArray(text);
+        let table = document.querySelector('#table_personas_modal_preview');
+        let numeracion = 0;
+        table.innerHTML = "<tr><th>#</th><th>Alias</th><th>Nombres</th><th>Apellido paterno</th><th>Apellido materno</th><th>Email</th><th>Telefono celular</th><th>Dirección</th></tr>";
+        data.forEach(element => {
+            if(element.id != ''){
+                numeracion += 1;
+                table.innerHTML += `<tr><td>${numeracion}</td><td>${element.alias}</td><td>${element.nombre_persona}</td><td>${element.ap_paterno}</td><td>${element.ap_materno}</td><td>${element.email}</td><td>${element.tel_celular}</td><td>${element.direccion}</td></tr>`;
+            }
+        });
+    };
+    reader.readAsText(fileInput);
+})
+
+function fnBtnImportarProspectos(){
+    formImportarProspectos.reset();
+    document.querySelector('#label_input_csv').textContent = "Seleccione un archivo csv...";
+    document.querySelector('#table_personas_modal_preview').innerHTML = "";
 }
 
 //Funcion para Aceptar solo Numeros en un Input

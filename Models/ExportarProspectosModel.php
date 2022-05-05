@@ -13,17 +13,27 @@
             return $request;
         }
         public function selectPersona(int $idPersona, string $nomConexion){
-            $sql = "SELECT *FROM t_personas WHERE id = $idPersona LIMIT 1";
+            //$sql = "SELECT *FROM t_personas WHERE id = $idPersona LIMIT 1";
+            $sql = "SELECT per.id, per.nombre_persona,per.ap_paterno,per.ap_materno,per.alias,per.direccion,per.edad,per.sexo,per.cp,per.colonia,per.tel_celular,per.tel_fijo,
+            per.email,per.edo_civil,per.ocupacion,per.id_localidad,per.curp,per.fecha_nacimiento,per.estatus,per.nombre_empresa,per.id_rol,per.id_escolaridad,
+            per.id_datos_fiscales,pr.escuela_procedencia,pr.observaciones,pr.folio_transferencia,pr.plantel_de_origen,pr.plantel_a_transferir,pr.id_plantel_inscrito,
+            pr.plantel_interes,pr.id_nivel_carrera_interes,pr.id_carrera_interes,pr.id_medio_captacion,pr.id_subcampania FROM t_personas AS per
+            INNER JOIN t_prospectos AS pr ON pr.id_persona = per.id WHERE per.id = $idPersona LIMIT 1";
             $request = $this->select($sql,$nomConexion);
             return $request;
         }
         public function selectColumnTable(string $nomConexion){
-            $sql = "SHOW COLUMNS FROM t_personas";
-            $request = $this->select_all($sql,$nomConexion);
+            //$sql = "SHOW COLUMNS FROM t_personas";
+            $sql = "SELECT per.id, per.nombre_persona,per.ap_paterno,per.ap_materno,per.alias,per.direccion,per.edad,per.sexo,per.cp,per.colonia,per.tel_celular,per.tel_fijo,
+            per.email,per.edo_civil,per.ocupacion,per.id_localidad,per.curp,per.fecha_nacimiento,per.estatus,per.nombre_empresa,per.id_rol,per.id_escolaridad,
+            per.id_datos_fiscales,pr.escuela_procedencia,pr.observaciones,pr.folio_transferencia,pr.plantel_de_origen,pr.plantel_a_transferir,pr.id_plantel_inscrito,
+            pr.plantel_interes,pr.id_nivel_carrera_interes,pr.id_carrera_interes,pr.id_medio_captacion,pr.id_subcampania FROM t_personas AS per
+            INNER JOIN t_prospectos AS pr ON pr.id_persona = per.id LIMIT 1";
+            $request = $this->select($sql,$nomConexion);
             return $request;
         }
         public function updatePersonaTrans(int $idPersona, string $nomConexion,string $folioTransferencia,string $plantel){
-            $sql = "UPDATE t_prospectos SET folio_transferencia = ?, plantel_transferido = ? WHERE id_persona = $idPersona";
+            $sql = "UPDATE t_prospectos SET folio_transferencia = ?, plantel_a_transferir = ? WHERE id_persona = $idPersona";
             $request = $this->update($sql,$nomConexion,array($folioTransferencia,$plantel));
             return $request;
         }

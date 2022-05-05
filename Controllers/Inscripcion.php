@@ -158,7 +158,11 @@
             //Nueva
             if($intIdInscripcionNueva == 0){
                 if($_POST['idSubcampaniaNuevo'] != ''){
-                    $arrData = $this->model->insertInscripcion($data,$_SESSION['idUser'], $this->nomConexion);
+                    $idPersona = $data['idPersonaSeleccionada'];
+                    $arrProspecto = $this->model->selectProspecto($idPersona,$this->nomConexion);
+                    $folioTransferencia = ($arrProspecto['folio_transferencia'] == '')?null:$arrProspecto['folio_transferencia'];
+                    $plantelOrigen = ($arrProspecto['plantel_de_origen'] == '')?null:$arrProspecto['plantel_de_origen'];
+                    $arrData = $this->model->insertInscripcion($data,$folioTransferencia,$plantelOrigen,$_SESSION['idUser'], $this->nomConexion);
                     if($arrData){
                         $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                     }else{

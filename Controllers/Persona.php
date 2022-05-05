@@ -85,11 +85,11 @@
                 $id_subcampania = $this->model->selectSubcampania($this->nomConexion);
                 if($id_subcampania){
                     $arrData = $this->model->insertPersona($data,$this->idUser,$id_subcampania['id'], $this->nomConexion);
-                    if($arrData){
+                    /* if($arrData){
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente');
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar los datos');
-                    }
+                    } */
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampania activa');
                 }
@@ -102,7 +102,7 @@
                     $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
                 }
             }
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         }
 
         public function getMunicipios(){

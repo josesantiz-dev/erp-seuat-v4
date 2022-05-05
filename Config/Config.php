@@ -12,23 +12,26 @@
 	const conexiones = array(
 		'bd_tuxg' => array( //base datos Tuxtla
             'NAME' => 'Tuxtla',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'TUXG',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_tuxtla',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
 			'DB_CHARSET' => 'utf8'
 		),
-		'bd_tapa' => array( //base datos Tapachula
+ 		'bd_tapa' => array( //base datos Tapachula
             'NAME' => 'Tapachula',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'TAPA',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_tapachula',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
 			'DB_CHARSET' => 'utf8'
 		),
-		'bd_camp' => array( //base datos Campeche	
+ 		'bd_camp' => array( //base datos Campeche	
 			'NAME' => 'Campeche',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'CAMP',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_campeche',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -36,7 +39,8 @@
         ),
         'bd_tapi' => array( //base datos Tapilula	
 			'NAME' => 'Tapilula',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'TAPI',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_tapilula',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -44,15 +48,17 @@
 		),
         'bd_refo' => array( //base datos Reforma	
 			'NAME' => 'Reforma',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'REFO',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_reforma',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
 			'DB_CHARSET' => 'utf8'
 		),
         'bd_yaja' => array( //base datos Yajalon
-			'NAME' => 'Yajalon',	
-			'DB_HOST'=>'192.168.8.193',
+			'NAME' => 'Yajalon',
+			'SIGLA' => 'YAJA',	
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_yajalon',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -60,7 +66,8 @@
 		),
         'bd_oaxa' => array( //base datos Oaxaca	
 			'NAME' => 'Oaxaca',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'OAXA',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_oaxaca',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -68,7 +75,8 @@
 		),
         'bd_pale' => array( //base datos Palenque	
 			'NAME' => 'Palenque',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'PALE',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_palenque',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -76,7 +84,8 @@
 		),
         'bd_comi' => array( //base datos Comitan	
 			'NAME' => 'Comitán',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'COMI',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_comitan',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',
@@ -84,7 +93,8 @@
 		),
         'bd_chet' => array( //base datos Chetumal	
 			'NAME' => 'Chetumal',
-			'DB_HOST'=>'192.168.8.193',
+			'SIGLA' => 'CHET',
+			'DB_HOST'=>'192.168.8.207',
 			'DB_NAME' => 'erpseuat_chetumal',
 			'DB_USER' => 'usr_seuat',
 			'DB_PASSWORD' => 'seuat21',

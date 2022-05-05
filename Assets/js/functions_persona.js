@@ -67,7 +67,8 @@ formPersonaNueva.onsubmit = function(e){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
-            if(objData.estatus){
+            console.log(objData)
+            /* if(objData.estatus){
                 formPersonaNueva.reset();
                 swal.fire("Persona",objData.msg,"success").then((result) =>{
                     $('#dimissModalNuevo').click();
@@ -75,7 +76,7 @@ formPersonaNueva.onsubmit = function(e){
                 tablePersonas.api().ajax.reload();
             }else{
                 swal.fire("Error",objData.msg,"error");
-            }
+            } */
         }
         divLoading.style.display = "none";
         return false;

@@ -103,7 +103,7 @@
             return $request;
         }
 
-        public function insertInscripcion($data,$idUser, string $nomConexion){
+        public function insertInscripcion($data, $folioTransferencia, $plantelOrigen, $idUser, string $nomConexion){
             $idPersona = $data['idPersonaSeleccionada'];
             $idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
@@ -118,7 +118,7 @@
             $emailTutor = $data['txtEmailTutorAgregar'];
 
             $anioActual = date('Y');
-            $siglaPlantel = conexiones[$nomConexion]['NAME'];
+            $siglaPlantel = conexiones[$nomConexion]['SIGLA'];
 
             $tipoIngreso = "Inscripcion";
             if($grado != 1){
@@ -146,8 +146,8 @@
                     $sql_historial = "INSERT INTO t_historiales(aperturado,inscrito,egreso,pasante,titulado,baja,matricula_interna,matricula_externa,fecha_inscrito,fecha_egreso,fecha_pasante,fecha_titulado,fecha_baja) VALUES(?,?,?,?,?,?,?,?,NOW(),?,?,?,?)";
                     $request_historial = $this->insert($sql_historial,$nomConexion,array(0,1,0,0,0,0,null,null,null,null,null,null));
                     if($request_historial){
-                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
-                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser, $nomConexion));
+                        $sql_inscripcion = "INSERT INTO t_inscripciones(folio_impreso,folio_sistema,tipo_ingreso,grado,promedio,id_horario,id_plan_estudios,id_personas,id_tutores,id_documentos,id_subcampania,id_salon_compuesto,id_historial,id_usuario_creacion,fecha_creacion,id_plantel_prospectado,folio_transferencia) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?)";
+                        $request_inscripcion = $this->insert($sql_inscripcion,$nomConexion,array($folioSistema,$folioSistema,$tipoIngreso,$grado,null,$turno,$idCarrera,$idPersona,$idTutor,$idDocumentos,$idSubcampania,$idSalon,$request_historial,$idUser, $plantelOrigen,$folioTransferencia));
                         if($request_inscripcion){
                             $sqlEmpresa = "UPDATE t_personas SET nombre_empresa = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idPersona";
                             $requestEmpresa = $this->update($sqlEmpresa,$nomConexion,array($empresa,$idUser));
@@ -286,6 +286,12 @@
                 $sql = "UPDATE t_historiales SET inscrito = ?,pospuesto = ?,fecha_pospuesto = NOW() WHERE id= $idHistorial";
                 $request = $this->update($sql,$nomConexion,array(0,1));
             }
+            return $request;
+        }
+
+        public function selectProspecto(int $idPersona, string $nomConexion){
+            $sql = "SELECT *FROM t_prospectos WHERE id_persona = $idPersona LIMIT 1";
+            $request = $this->select($sql,$nomConexion);
             return $request;
         }
     }

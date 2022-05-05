@@ -109,8 +109,8 @@
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,$nomConexion,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
                 if($requestAsignCategoria){
-                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
-                    $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,$observacion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                    $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,$observacion,$nomConexion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }
             return $requestProspecto;
@@ -204,7 +204,7 @@
             $sqlPersona = "INSERT INTO t_personas(nombre_persona,ap_paterno,ap_materno,alias,direccion,edad,sexo,cp,colonia,tel_celular,tel_fijo,email,edo_civil,ocupacion,id_localidad,curp,fecha_nacimiento,estatus,fecha_creacion,id_usuario_creacion,id_rol,id_escolaridad) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,?,?)";
             $requestPersona = $this->insert($sqlPersona,$nomConexion,array($nombrePersona,$apPaterno,$apMaterno,$alias,$direccion,$edad,$sexo,$cp,$colonia,$telCelular,$telFijo,$email,$edoCivil,$ocupacion,$idLocalidad,$curp,$fechaNacimiento,$estatus,$idUser,$idRol,$idEscolaridad));
             $categoriaPersona = 1; //1 = Prospecto
-            if($requestPersona){
+            /* if($requestPersona){
                 $idPersona = $requestPersona;
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,$nomConexion,array(0,0,1,$idUser,$idPersona,$categoriaPersona));
@@ -212,8 +212,8 @@
                     $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,folio_transferencia,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?,?,?)";
                     $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,null,$folioTransferencia,$plantelOrigen,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$idsubcampania,$idPersona));
                 }
-            }
-            return $requestProspecto;
+            } */
+            return $categoriaPersona;
         }
     }
 ?>

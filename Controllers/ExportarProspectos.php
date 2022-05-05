@@ -92,7 +92,8 @@
                     if($response){
                         $arrEstatus = $this->model->updatePersona($value->id_persona,$this->nomConexion,$this->idUser);
                         if($arrEstatus){
-                            $arrResponse = array('estatus' => true, 'msg' => 'Datos exportados y actualizados correctamente');
+                            $arrResponse = array('estatus' => true, 'msg' => 'Datos exportados correctamente, y se actualizaron el estatus de
+                            las personas como <b>Transferido</b> al plantel <b>'.conexiones[$plantel]['NAME'].'</b>');
                         }else{
                             $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
                         }

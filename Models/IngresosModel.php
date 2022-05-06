@@ -6,13 +6,13 @@
 			parent::__construct();
 		}
         //Lista de ingresos
-        public function selectIngresos(){
+        public function selectIngresos(string $nomConexion){
             $sql = "SELECT *FROM t_ingresos";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Obtener datos persona
-        public function selectPersonasModal($data){
+        public function selectPersonasModal($data, string $nomConexion){
             $sql = "SELECT per.id,CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) AS nombre,
             ins.id AS id_inscripcion,pln.nombre_carrera,ins.grado,ins.id_salon_compuesto,gr.nombre_grupo FROM t_personas AS per
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
@@ -21,23 +21,23 @@
             INNER JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
             INNER JOIN t_grupos AS gr ON sal.id_grado = gr.id
             WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Obtener estatus del estado de cuenta
-        public function selectStatusEstadoCuenta(int $idPersonaSeleccionada){
+        public function selectStatusEstadoCuenta(int $idPersonaSeleccionada, string $nomConexion){
             $sql = "SELECT *FROM t_estado_cuenta WHERE id_persona = $idPersonaSeleccionada";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Obtener lista de Servicios
-        public function selectServicios(int $idPersona, int $idGrado){
+        public function selectServicios(int $idPersona, int $idGrado, string $nomConexion){
             $sqlSerEdoCta = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,cs.colegiatura FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicio = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicio = cs.id
             WHERE ec.id_persona = $idPersona AND p.id_grado = $idGrado";
-            $requestServEdoCta = $this->select_all($sqlSerEdoCta);
+            $requestServEdoCta = $this->select_all($sqlSerEdoCta, $nomConexion);
             $arrayServ = [];
             foreach ($requestServEdoCta as $key => $value) {
                 if($value['colegiatura'] != 1){
@@ -46,59 +46,59 @@
             }
             //$sql = "SELECT *FROM t_servicios WHERE codigo_servicio NOT LIKE '%COL%'";
             $sqlOtrosServ = "SELECT *FROM t_servicios AS s WHERE s.aplica_edo_cuenta != 1";
-            $requestOtrosServ = $this->select_all($sqlOtrosServ);
+            $requestOtrosServ = $this->select_all($sqlOtrosServ, $nomConexion);
             foreach ($requestOtrosServ as $key => $value) {
                 array_push($arrayServ,$value);
             }
             return $arrayServ;
         }
         //Obtener lista de Colegiaturas
-        public function selectColegiaturas(int $idPersona, int $idGrado){
+        public function selectColegiaturas(int $idPersona, int $idGrado, string $nomConexion){
             $sql = "SELECT ec.id AS id_edo_cta,p.id AS id_precarga,s.nombre_servicio,s.precio_unitario,ec.pagado FROM t_estado_cuenta AS ec
             INNER JOIN t_precarga AS p ON ec.id_precarga = p.id
             INNER JOIN t_servicios AS s ON p.id_servicio = s.id
             INNER JOIN t_categoria_servicios AS cs ON s.id_categoria_servicio = cs.id
             WHERE ec.id_persona = $idPersona AND p.id_grado = $idGrado AND cs.colegiatura = 1";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Lista de Promociones por Servicio
-        public function selecPromociones(int $idServicio){
+        public function selecPromociones(int $idServicio, string $nomConexion){
             $sql = "SELECT *FROM t_servicios AS ser INNER JOIN t_promociones AS prom ON prom.id_servicio = ser.id WHERE ser.id = $idServicio";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Obtener carrera del Alumno
-        public function selectCarreraAlumno(int $idPersonaSeleccionada){
+        public function selectCarreraAlumno(int $idPersonaSeleccionada, string $nomConexion){
             $sql = "SELECT id_plan_estudios FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;    
         }
         //Obtener grado del Alumno
-        public function selectGradoAlumno(int $idPersonaSeleccionada){
+        public function selectGradoAlumno(int $idPersonaSeleccionada, string $nomConexion){
             $sql = "SELECT grado FROM t_inscripciones WHERE id_personas = $idPersonaSeleccionada LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request; 
         }
         //Obtener periodo del Alumno
-        public function selectPeriodoAlumno(int $idPersonaSeleccionada){
+        public function selectPeriodoAlumno(int $idPersonaSeleccionada, string $nomConexion){
             $sql = "SELECT ins.id_salon_compuesto,sc.id_periodo FROM t_inscripciones AS ins 
             INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id 
             WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request; 
         }
         //Obtener datos para generar un estado de cuenta
-        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo, int $idUser){
+        public function generarEdoCuentaAlumno(int $idPersonaSeleccionada,int $idPlantel, int $idCarrera, int $idGrado, int $idPeriodo, int $idUser, string $nomConexion){
             $sqlServicios = "SELECT p.id AS id_precarga FROM t_precarga AS p
             INNER JOIN t_servicios AS s ON p.id_servicio = s.id
             WHERE s.aplica_edo_cuenta = 1 AND s.id_plantel = $idPlantel AND s.estatus = 1 AND p.id_plan_estudios = $idCarrera AND p.id_periodo = $idPeriodo AND p.id_grado = $idGrado";
-            $requestServicios = $this->select_all($sqlServicios);
+            $requestServicios = $this->select_all($sqlServicios, $nomConexion);
             if($requestServicios){
                 foreach ($requestServicios as $key => $servicio) {
                     $idPrecarga = $servicio['id_precarga'];
                     $sqlEdoCta = "INSERT INTO t_estado_cuenta(pagado,estatus,id_usuario_creacion,fecha_creacion,id_precarga,id_persona) VALUES(?,?,?,NOW(),?,?)";
-                    $requestEdoCta = $this->insert($sqlEdoCta,array(0,1,$idUser,$idPrecarga,$idPersonaSeleccionada));
+                    $requestEdoCta = $this->insert($sqlEdoCta,$nomConexion,array(0,1,$idUser,$idPrecarga,$idPersonaSeleccionada));
                     if($requestEdoCta){
                         $request['estatus'] = true;
                         $request['msg'] = null;
@@ -118,23 +118,23 @@
             return $idIngreso;
         } */
         //Actualizar ingresos detalles
-        public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones){
+        public function updateIngresosDetalles($idIngreso,$cantidad,$precioUnitario,$subtotal,$arrPromociones, string $nomConexion){
             $sql = "UPDATE t_ingresos_detalles SET cantidad = ? ,cargo = ?,abono = ?,saldo = ?,precio_subtotal = ?,promociones_aplicadas = ? WHERE id_ingresos = $idIngreso";
-            $request = $this->update($sql,array($cantidad,$precioUnitario,$precioUnitario,$precioUnitario,$subtotal,$arrPromociones));
+            $request = $this->update($sql,$nomConexion,array($cantidad,$precioUnitario,$precioUnitario,$precioUnitario,$subtotal,$arrPromociones));
             return $idIngreso;
         }
         //Obtener el siguiente Folio
-        public function selectFolioSig(int $idAlumno){
+        public function selectFolioSig(int $idAlumno, string $nomConexion){
             $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,pl.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS ple ON i.id_plan_estudios = ple.id
             INNER JOIN t_planteles AS pl ON ple.id_plantel = pl.id
             WHERE p.id = $idAlumno LIMIT 1";
-            $requestPlantel = $this->select($sqlPlantel);
+            $requestPlantel = $this->select($sqlPlantel, $nomConexion);
             $codigoPlantel = $requestPlantel['codigo_plantel'];
 
             $sqlFolioCosecutivo = "SELECT COUNT(folio) AS num_folios FROM  t_ingresos WHERE folio LIKE '%$codigoPlantel%'";
-            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo);
+            $requestFolioConsecutivo = $this->select($sqlFolioCosecutivo, $nomConexion);
             $cantidadFolios = $requestFolioConsecutivo['num_folios'];
             $nuevoFolio = $cantidadFolios+1;
             $nuevoFolioConsecutivo = $codigoPlantel.'IN'.date("mY").substr(str_repeat(0,4).$nuevoFolio,-4);
@@ -151,34 +151,34 @@
         } */
         
         //Insertar un nuevo Ingreso
-        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel,int $idUser){
+        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel,int $idUser, string $nomConexion){
             $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodo_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
-            $requestIngresos = $this->insert($sqlIngresos,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUser));
+            $requestIngresos = $this->insert($sqlIngresos,$nomConexion,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUser));
             return $requestIngresos;
         }
         //Insertar un nuevo ingreso detalle
-        public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,$idServicio,$idPrecarga,int $idIngreso){
+        public function insertIngresosDetalle(int $cantidad,int $cargo,int $abono,int $saldo,int $precioSubtotal,int $descuentoDinero,int $descuentoPorcentaje,string $promocionesAplicadas,$idServicio,$idPrecarga,int $idIngreso, string $nomConexion){
             if($idServicio == null && $idPrecarga != null){ //Edo Cta
                 $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos,id_precarga) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-                $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,NULL,$idIngreso,$idPrecarga));
+                $requestIngDetalle = $this->insert($sqlIngDetalle,$nomConexion,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,NULL,$idIngreso,$idPrecarga));
             }else if($idServicio !=null && $idPrecarga == null){
                 $sqlIngDetalle = "INSERT INTO t_ingresos_detalles(cantidad,cargo,abono,saldo,precio_subtotal,descuento_dinero,descuento_porcentaje,promociones_aplicadas,id_servicio,id_ingresos,id_precarga) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-                $requestIngDetalle = $this->insert($sqlIngDetalle,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso,NULL));
+                $requestIngDetalle = $this->insert($sqlIngDetalle,$nomConexion,array($cantidad,$cargo,$abono,$saldo,$precioSubtotal,$descuentoDinero,$descuentoPorcentaje,$promocionesAplicadas,$idServicio,$idIngreso,NULL));
             }
             return $requestIngDetalle;
         }
         //Consultar datos del Plantel para Los recibos
-        public function selectDatosInstitucion(int $idIngreso){
+        public function selectDatosInstitucion(int $idIngreso, string $nomConexion){
             $sql = "SELECT i.id_plantel,p.nombre_plantel,p.nombre_sistema,p.cve_centro_trabajo,p.cod_postal,p.colonia,p.domicilio,p.estado,p.localidad,p.municipio,
             p.abreviacion_sistema,df.rfc,p.codigo_plantel FROM t_ingresos AS i 
             INNER JOIN t_planteles AS p ON i.id_plantel = p.id
             INNER JOIN t_datos_fiscales AS df ON p.id_datos_fiscales = df.id
             WHERE i.id = $idIngreso LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
         //Consultar datos de la Venta/Ingreso
-        public function selectDatosVenta(int $idIngreso){
+        public function selectDatosVenta(int $idIngreso, string $nomConexion){
             $sql = "SELECT i.id AS id_ingreso,i.folio,i.fecha AS fecha_ingreso,id.cantidad,id.id AS id_ingreso_detalle,i.total,s.nombre_servicio,s.precio_unitario,s.codigo_servicio,
             id.id_precarga,sp.nombre_servicio AS nombre_servicio_precarga,sp.precio_unitario AS precio_unitario_precarga,sp.codigo_servicio AS codigo_servicio_precarga FROM t_ingresos AS i       
             RIGHT JOIN t_ingresos_detalles AS id ON id.id_ingresos = i.id
@@ -186,11 +186,11 @@
             LEFT JOIN t_precarga AS p ON id.id_precarga = p.id
             LEFT JOIN t_servicios AS sp ON p.id_servicio = sp.id
             WHERE i.id = $idIngreso";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
         //Consultar datos del Alumno vinculado a la Venta
-        public function selectDatosAlumno(int $idIngreso){
+        public function selectDatosAlumno(int $idIngreso, string $nomConexion){
             $sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,pe.nombre_carrera,h.matricula_interna,per.fecha_inicio_periodo,per.fecha_fin_periodo,pe.nombre_carrera FROM t_ingresos AS i
             INNER JOIN t_personas AS p ON i.id_persona = p.id
             INNER JOIN t_inscripciones AS ins ON i.id_persona = ins.id_personas
@@ -199,62 +199,62 @@
             INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id
             INNER JOIN t_periodos AS per ON sc.id_periodo = per.id
             WHERE i.id = $idIngreso LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
-        public function selectDatosUsuario(int $idUsuario){
+        public function selectDatosUsuario(int $idUsuario, string $nomConexion){
             $sql = "SELECT p.nombre_persona, p.ap_paterno, p.ap_materno, l.nombre AS localidad, m.nombre AS municipio, e.nombre AS estado FROM t_usuarios AS u 
             INNER JOIN t_personas AS p ON u.id_persona = p.id 
             INNER JOIN t_localidades AS l ON p.id_localidad = l.id
             INNER JOIN t_municipios AS m ON l.id_municipio = m.id
             INNER JOIN t_estados AS e ON m.id_estados = e.id
             LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
-        public function updateEdoCta(int $id,int $idUser){
+        public function updateEdoCta(int $id,int $idUser, string $nomConexion){
             $sql = "UPDATE t_estado_cuenta SET pagado = ? ,id_usuario_actualizacion = ?,fecha_actualizacion = NOW() WHERE id = $id";
-            $request = $this->update($sql,array(1,$idUser));
+            $request = $this->update($sql,$nomConexion,array(1,$idUser));
             return $request;
         }
 
-        public function selectMetodosPago(){
+        public function selectMetodosPago(string $nomConexion){
             $sql = "SELECT *FROM t_metodos_pago WHERE estatus = 1";
-            $request = $this->select_all($sql);
+            $request = $this->select_all($sql, $nomConexion);
             return $request;
         }
 
-        public function selectEstatusCaja(int $idUser){
+        public function selectEstatusCaja(int $idUser, string $nomConexion){
             $sql = "SELECT c.id AS id_caja,c.id_usuario_atiende,ec.estatus_caja,c.nombre FROM t_cajas AS c
             INNER JOIN t_estatus_caja AS ec ON ec.id_caja = c.id
             WHERE c.id_usuario_atiende = $idUser";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
-        public function updateEstatusCaja(int $idCaja, int $estatus,int $monto){
+        public function updateEstatusCaja(int $idCaja, int $estatus,int $monto, string $nomConexion){
             $sql = "UPDATE t_estatus_caja SET estatus_caja = ?,monto_caja = ? WHERE id_caja = $idCaja";
-            $request = $this->update($sql,array($estatus,$monto));
+            $request = $this->update($sql,$nomConexion,array($estatus,$monto));
             return $request;
         }
-        public function insertCorteCaja(int $monto, int $idCaja){
+        public function insertCorteCaja(int $monto, int $idCaja, string $nomConexion){
             $sql = "INSERT INTO t_corte_caja(fechayhora_apertura_caja,cantidad_recibida,id_caja) VALUES(NOW(),?,?)";
-            $request = $this->insert($sql,array($monto,$idCaja));
+            $request = $this->insert($sql,$nomConexion,array($monto,$idCaja));
             return $request;
         }
 
         //Obtener plantel del Alumno
-        public function selectPlantelAlumno(int $idPersonaSeleccionada){
+        public function selectPlantelAlumno(int $idPersonaSeleccionada, string $nomConexion){
             $sql = "SELECT plte.id FROM t_inscripciones AS ins
             INNER JOIN t_plan_estudios AS plnest ON ins.id_plan_estudios = plnest.id
             INNER JOIN t_planteles AS plte ON plnest.id_plantel = plte.id WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
 
-        public function selectPlantelUSer(int $idUser){
+        public function selectPlantelUSer(int $idUser, string $nomConexion){
             $sql = "SELECT p.id FROM t_administrativo AS ad 
             INNER JOIN t_planteles AS p ON ad.id_plantel = p.id WHERE ad.id_usuario = $idUser LIMIT 1";
-            $request = $this->select($sql);
+            $request = $this->select($sql, $nomConexion);
             return $request;
         }
 	}

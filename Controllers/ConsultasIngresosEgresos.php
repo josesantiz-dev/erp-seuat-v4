@@ -1,17 +1,21 @@
 <?php
     class ConsultasIngresosEgresos extends Controllers{
         private $idUser;
-        public function __construct(){
-            parent::__construct();
-            session_start();
+		private $nomConexion;
+		private $rol;
+		public function __construct()
+		{
+			parent::__construct();
+			session_start();
 		    if(empty($_SESSION['login']))
 		    {
 			    header('Location: '.base_url().'/login');
 			    die();
 		    }
-            $this->idUser = $_SESSION['idUser'];
-            
-        }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
+		}
         //Vista de consultas
         public function consultas(){
             $data['page_id'] = 10;
@@ -42,19 +46,19 @@
             $idAlumno = base64_decode($arrArgs[1]);
             if($matriculaRFC != 'null'){
                 $idAlumno = null;
-                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC, $this->nomConexion);
                 if($isRFC){
                     $idAlumno = $isRFC['id'];
                 }
-                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC, $this->nomConexion);
                 if($isMatricula){
                     $idAlumno = $isMatricula['id'];
                 }
-                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno, $this->nomConexion);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
-                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
-                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno, $this->nomConexion);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno, $this->nomConexion);
                     $total = 0;
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
@@ -76,11 +80,11 @@
                     $arrData['datos'] = null;
                 }
             }else{
-                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno, $this->nomConexion);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
-                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
-                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno, $this->nomConexion);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno, $this->nomConexion);
                     $total = 0;
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
@@ -113,11 +117,11 @@
             $idAlumno = $arrArgs[1];
             if($matriculaRFC != 'null'){
                 $idAlumno = null;
-                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC, $this->nomConexion);
                 if($isRFC){
                     $idAlumno = $isRFC['id'];
                 }
-                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC, $this->nomConexion);
                 if($isMatricula){
                     $idAlumno = $isMatricula['id'];
                 }
@@ -126,13 +130,13 @@
                     $arrData['msg'] = "Los datos ingresados no se encuentra en la base de datos";
                     echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
                     die();
-                    finish();
+                    //finish();
                 }
-                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno, $this->nomConexion);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
-                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
-                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno, $this->nomConexion);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno, $this->nomConexion);
                     $total = 0;
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
@@ -155,11 +159,11 @@
                     $arrData['msg'] = "El alumno no cuenta con un estado de cuenta";
                 }
             }else{
-                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno);
+                $estatus = $this->model->selectStatusEstadoCuentaById($idAlumno, $this->nomConexion);
                 if(count($estatus) > 0){
                     $arrData['estatus'] = true;
-                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno);
-                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno);
+                    $arrData['datos'] = $this->model->selectDatosAlumnoById($idAlumno, $this->nomConexion);
+                    $arrData['totalSaldo'] = $this->model->selectEdoCuentaById($idAlumno, $this->nomConexion);
                     $total = 0;
                     $saldoServicios = 0;
                     $saldoColegiatura = 0;
@@ -189,7 +193,7 @@
         //Buscar persona median el Modal
         public function buscarPersonaModal(){
             $data = $_GET['val'];
-            $arrData = $this->model->selectPersonasModal($data);
+            $arrData = $this->model->selectPersonasModal($data, $this->nomConexion);
             for($i = 0; $i <count($arrData); $i++){
                 if($arrData[$i]['rfc'] == null){
                     $arrData[$i]['rfc'] = '<span class="badge badge-warning">Sin datos fiscales</span>';
@@ -214,11 +218,11 @@
         protected function estadoCuenta($matriculaRFC,$idAlum){
             $idAlumno = null;
             if($matriculaRFC != 'null'){
-                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC);
+                $isRFC = $this->model->selectIdAlumnoByRFC($matriculaRFC, $this->nomConexion);
                 if($isRFC){
                     $idAlumno = $isRFC['id'];
                 }
-                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC);
+                $isMatricula = $this->model->selectIdAlumnoByMatricula($matriculaRFC, $this->nomConexion);
                 if($isMatricula){
                     $idAlumno = $isMatricula['id'];
                 }
@@ -228,11 +232,11 @@
             $datos = [];
             if($idAlumno != null){
                 //$arrData = $this->model->selectEdoCuentaById($idAlumno);
-                $arrData = $this->model->selectEdoCta($idAlumno);
+                $arrData = $this->model->selectEdoCta($idAlumno, $this->nomConexion);
                 foreach ($arrData as $key => $value) {
                     if($value['pagado'] == 1){
                         //Pagado
-                        $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno);
+                        $datosPago = $this->model->selectDetallePago($value['id_precarga'], $idAlumno, $this->nomConexion);
                         $date = array('id_edo_cta' => $value['id_edo_cta'],'id_precarga'=>$value['id_precarga'],'pagado'=>true,'codigo_servicio'=>$value['codigo_servicio'],'nombre_servicio'=>$value['nombre_servicio'],'precio_unitario'=>$value['precio_unitario'],'fecha_limite_cobro'=>$value['fecha_limite_cobro'],'cargo'=>$datosPago['cargo'],'abono'=>$datosPago['abono'],'cantidad'=>$datosPago['cantidad'],'fecha_pago'=>$datosPago['fecha'],'referencia'=>$datosPago['folio'],'tipo_comprobante'=>$datosPago['tipo_comprobante'],'id_ingreso'=>$datosPago['id_ingreso']);
                         array_push($datos,$date);
                     }else{
@@ -240,7 +244,7 @@
                         array_push($datos,$date);
                     }
                 }
-                $datosAlumno = $this->model->selectDatosAlumnoById($idAlumno);
+                $datosAlumno = $this->model->selectDatosAlumnoById($idAlumno, $this->nomConexion);
                
                 
             }

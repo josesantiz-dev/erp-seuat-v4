@@ -254,15 +254,14 @@ class SeguimientoModel extends Mysql{
         $this->nomConx = $nomConexion;
 
         $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion, id_rol) 
-        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,?)";
-        $arrPersona = array($this->$strNombrePers);
-
-        $requestPersona = $this->insert($sqlPersona,$this->nomConx,$arrData);
+        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,1)";
+        $arrPersona = array($this->strNombrePers,$this->strApePat,$this->strApeMat,$this->strSexo,$this->strAlias, $this->intEdad,$this->strEstadoCivil, $this->strOcupacion, $this->intEscolaridad,$this->strFechaNacimiento,$this->intLocalidad,$this->strTelCel,$this->strTelfijo, $this->strEmail,$this->intIdUsuario);
+        $requestPersona = $this->insert($sqlPersona,$this->nomConx,$arrPersona);
         if($requestPersona)
         {
             $idPersona = $requestPersona;
             $sqlAsignacion = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) values(NOW(),0,0,1,NOW(),?,?,1)";
-            $arrDataAsig = array($this->$intIdUsuario, $idPersona);
+            $arrDataAsig = array($this->intIdUsuario, $idPersona);
             $requestAsig = $this->insert($sqlAsignacion,$this->nomConx,$arrDataAsig);
             if($requestAsig)
             {

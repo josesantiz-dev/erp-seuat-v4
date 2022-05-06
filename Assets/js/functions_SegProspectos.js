@@ -355,7 +355,7 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 		.then(data =>{
 			if(data.estatus)
 			{
-				$('#ModalNuevoProspecto').click()
+				$('#dimissModalNvoProspecto').click()
 				formProspectoNuevo.reset()
 				$('#ModalNuevoProspecto').modal('hide')
 				swal.fire('Nuevo prospecto creado', data.msg,'success')

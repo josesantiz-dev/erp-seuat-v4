@@ -114,7 +114,7 @@ formInscripcionNueva.onsubmit = function(e){
         if(request.readyState == 4 && request.status == 200){
             var objData = JSON.parse(request.responseText);
             //console.log(objData)
-            if(objData.estatus){
+             if(objData.estatus){
                 formInscripcionNueva.reset();
                 swal.fire("Inscripcion",objData.msg,"success").then((result) =>{
                     Swal.fire({
@@ -138,7 +138,7 @@ formInscripcionNueva.onsubmit = function(e){
                 tableInscripciones.api().ajax.reload();
             }else{
                  swal.fire("Error",objData.msg,"error");
-            }
+            } 
         }
         divLoading.style.display = "none";
         return false;

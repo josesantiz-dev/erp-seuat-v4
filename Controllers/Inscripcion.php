@@ -167,7 +167,7 @@
                         $arrResponse = array('estatus' => true,'data'=> $arrData, 'msg' => 'Inscripcion realizado correctamente!');
                     }else{
                         $arrResponse = array('estatus' => false, 'msg' => 'No es posible Guardar los Datos');
-                    }
+                    } 
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No es posible guardar sin subcampaña');
                 }

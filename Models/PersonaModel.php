@@ -108,8 +108,8 @@
                 $idPersona = $requestPersona;
                 $sqlAsignCategoria = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) VALUES(NOW(),?,?,?,NOW(),?,?,?)";
                 $requestAsignCategoria = $this->insert($sqlAsignCategoria,$nomConexion,array(0,0,1,$idUSer,$idPersona,$categoriaPersona));
-                if($requestAsignCategoria){
-                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?)";
+                 if($requestAsignCategoria){
+                    $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones,plantel_de_origen,plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_subcampania,id_persona) VALUES(?,?,?,?,?,?,?,?,?)";
                     $requestProspecto = $this->insert($sqlProspecto,$nomConexion,array($escuelaProcedencia,$observacion,$nomConexion,$plantelInteres,$nivelCarreraInteres,$carreraInteres,$medioCaptacion,$id_subcampania,$idPersona));
                 }
             }

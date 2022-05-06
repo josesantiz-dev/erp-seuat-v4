@@ -105,7 +105,7 @@
 
         public function insertInscripcion($data, $folioTransferencia, $plantelOrigen, $idUser, string $nomConexion){
             $idPersona = $data['idPersonaSeleccionada'];
-            $idPlantel = $data['listPlantelNuevo'];
+            //$idPlantel = $data['listPlantelNuevo'];
             $idCarrera = $data['listCarreraNuevo'];
             $grado = $data['listGradoNuevo'];
             $turno = $data['listTurnoNuevo'];

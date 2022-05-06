@@ -5,7 +5,7 @@
 		{
 			parent::__construct();
 		}
-		public function selectCortesCajas(){
+		public function selectCortesCajas(string $nomConexion){
 			$sql = "SELECT cc.id,cc.folio,p.nombre_plantel,p.municipio,c.nombre,cc.fechayhora_apertura_caja,cc.fechayhora_cierre_caja,CONCAT(pe.nombre_persona,' ',
             pe.ap_paterno,' ',pe.ap_materno) AS usuario_entrega, CONCAT(pr.nombre_persona,' ',pr.ap_paterno,' ',pr.ap_materno) AS usuario_recibe,dc.dinero_faltante,
             dc.dinero_sobrante FROM t_corte_caja AS cc
@@ -16,7 +16,7 @@
             LEFT JOIN t_personas AS pr ON ur.id_persona = pr.id
             LEFT JOIN t_personas AS pe ON ue.id_persona = pe.id
             LEFT JOIN t_dinero_caja AS dc ON dc.id_corte_caja = cc.id ORDER BY cc.fechayhora_cierre_caja DESC";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql, $nomConexion);
 			return $request;
 		}
 	}

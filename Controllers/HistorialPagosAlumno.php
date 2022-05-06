@@ -1,15 +1,21 @@
 <?php
 class HistorialPagosAlumno extends Controllers{
     private $idUser;
-    public function __construct(){
-        parent::__construct();
-        session_start();
-        if(empty($_SESSION['login'])){
-            header('Location: '.base_url().'/login');
-            die();
-        }
-        $this->idUser = $_SESSION['idUser'];
-    }
+	private $nomConexion;
+	private $rol;
+	public function __construct()
+	{
+		parent::__construct();
+		session_start();
+		if(empty($_SESSION['login']))
+		{
+			header('Location: '.base_url().'/login');
+			die();
+		}
+		$this->idUser = $_SESSION['idUser'];
+		$this->nomConexion = $_SESSION['nomConexion'];
+		$this->rol = $_SESSION['claveRol'];
+	}
     public function historial(){
         $data['page_id'] = 0;
 		$data['page_tag'] = "Historial de pagos";
@@ -20,7 +26,7 @@ class HistorialPagosAlumno extends Controllers{
 		$this->views->getView($this,"historialpahosalumno",$data);
     }
     public function getEstudiantes(){
-        $arrData = $this->model->selectEstudiantes();
+        $arrData = $this->model->selectEstudiantes($this->nomConexion);
         for($i = 0; $i <count($arrData); $i++){
             $arrData[$i]['numeracion'] = $i+1;
             $arrData[$i]['options'] = '<button type="button"  id="'.$arrData[$i]['id'].'" class="btn btn-primary btn-sm" onclick="seleccionarPersona('.$arrData[$i]['id'].')">Ver</button>';
@@ -29,12 +35,12 @@ class HistorialPagosAlumno extends Controllers{
         die();
     }
     public function getDetallesEstudiante($idAlumno){
-        $arrData = $this->model->selectDetalleEstudiante($idAlumno);
+        $arrData = $this->model->selectDetalleEstudiante($idAlumno, $this->nomConexion);
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }
     public function getUltimosMovimientosAlumno($idAlumno){
-        $arrData = $this->model->selectUltimosMovimientos($idAlumno);
+        $arrData = $this->model->selectUltimosMovimientos($idAlumno, $this->nomConexion);
         for($i = 0; $i<count($arrData); $i++){
             $arrData[$i]['segundos'] = $this->convertSecToHuman($arrData[$i]['segundos']);
         }
@@ -42,7 +48,7 @@ class HistorialPagosAlumno extends Controllers{
         die();
     }
     public function getTodosMovimientosAlumno($idAlumno){
-        $arrData = $this->model->selectTodosMovimientos($idAlumno);
+        $arrData = $this->model->selectTodosMovimientos($idAlumno, $this->nomConexion);
         echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }

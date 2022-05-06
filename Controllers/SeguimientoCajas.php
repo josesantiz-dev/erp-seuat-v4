@@ -1,28 +1,37 @@
 <?php
   class SeguimientoCajas extends Controllers{
 
-    public function __construct(){
-      parent::__construct();
-      session_start();
-      if(empty($_SESSION['login'])){
-        header('Location: '.base_url().'/login');
-        die();
-      }
-    }
+    private $idUser;
+	private $nomConexion;
+	private $rol;
+	public function __construct()
+	{
+		parent::__construct();
+		session_start();
+	    if(empty($_SESSION['login']))
+	    {
+		    header('Location: '.base_url().'/login');
+		    die();
+	    }
+		$this->idUser = $_SESSION['idUser'];
+		$this->nomConexion = $_SESSION['nomConexion'];
+		$this->rol = $_SESSION['claveRol'];
+	}
+
     public function seguimientocajas(){
         $data['page_tag'] = "Seguimiento cajas";
         $data['page_title'] = "Seguimiento cajas";
         $data['page_name'] = "seguimiento cajas";
         $data['page_functions_js'] = "functions_seguimiento_cajas.js";
-        $data['cajeros'] = $this->model->selectCajeros(null);
+        $data['cajeros'] = $this->model->selectCajeros($this->nomConexion);
         $this->views->getView($this,"seguimientocajas",$data);
     }
     public function selectCajeros($idPlantel){
-        $arrData = $this->model->selectCajeros($idPlantel);
+        $arrData = $this->model->selectCajeros($idPlantel, $this->nomConexion);
         for($i = 0; $i<count($arrData); $i++){
             if($arrData[$i]['estatus_caja'] == 1){
-                $fechaApertura = $this->model->selectCaja($arrData[$i]['id_caja'])['fechayhora_apertura_caja'];
-                $totalVenta = $this->model->selectVentaTotal($arrData[$i]['id_caja'],$fechaApertura);
+                $fechaApertura = $this->model->selectCaja($arrData[$i]['id_caja'],$this->nomConexion)['fechayhora_apertura_caja'];
+                $totalVenta = $this->model->selectVentaTotal($arrData[$i]['id_caja'],$fechaApertura, $this->nomConexion);
                 $total = 0;
                 foreach ($totalVenta as $key => $value) {
                     $total += $value['total'];
@@ -35,7 +44,7 @@
         return $arrData;
     }
     public function selectVentasAll(){
-        $arrData = $this->model->selectVentasTotalAll();
+        $arrData = $this->model->selectVentasTotalAll($this->nomConexion);
         $dias = [];
         $planteles = [];
         $arrGrafica = [];

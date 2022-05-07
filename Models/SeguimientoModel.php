@@ -114,7 +114,9 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    /*public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, int $pltInteres, int $nvlInteres, int $carrInteres, int $idPer, int $idPro, string $nomConexion)
+    //updatePersona($nombre, $apepat, $apemat, $telefono, $email, $plantel, $nivel, $carrera,$idProspecto, $idPersona,$this->idUser,$this->nomConexion)
+
+    public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, string $pltInteres, int $nvlInteres, int $carrInteres, int $idPro, int $idPer, int $idUsr, string $nomConexion)
     {
         $this->strNombrePers = $nombre;
         $this->strApePat = $apPat;
@@ -124,18 +126,19 @@ class SeguimientoModel extends Mysql{
         $this->intIdPltInte = $pltInteres;
         $this->intIdNvlCarrInte = $nvlInteres;
         $this->intIdCarrInte = $carrInteres;
+        $this->intIdUsuario = $idUsr;
         $this->intIdPers = $idPer;
         $this->intIdPros = $idPro;
         $request;
-        $sql = "UPDATE t_personas SET nombre_persona = ?, ap_paterno = ?, ap_materno = ?, tel_celular = ?, email = ? WHERE id=$this->intIdPers";
-        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, id_plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
-        $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strTelCel, $this->strEmail);
+        $sql = "UPDATE t_personas SET nombre_persona = ?, ap_paterno = ?, ap_materno = ?, tel_celular = ?, email = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id=$this->intIdPers";
+        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
+        $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strTelCel, $this->strEmail, $this->intIdUsuario);
         $arrData2 = array($this->intIdNvlCarrInte, $this->intIdPltInte, $this->intIdCarrInte);
         $rquestUpdate = $this->update($sql,$nomConexion,$arrData);
         $requestUpdate2 = $this->update($sql2, $nomConexion, $arrData2);
         $request['estatus'] = TRUE;
         return $request;
-    }*/
+    }
 
     public function insertAgendaProspecto(int $idPersona, int $idUsuarioAtendidoAgenda, string $fechaPrograma, string $fechaRegistro, string $horaActualizacion, string $AsuntoLlamada, string $detalleLlamada,string $nomConexion){
         $request = "";
@@ -178,8 +181,7 @@ class SeguimientoModel extends Mysql{
     {
         $this->intIdPers = $idPer;
         $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ',pe.ap_paterno, ' ', pe.ap_materno) AS nombre_persona, pe.tel_celular,
-        pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista,
-        pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
+        pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista, pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
         FROM t_personas AS pe
         INNER JOIN t_localidades AS loc ON pe.id_localidad = loc.id
         INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
@@ -209,14 +211,14 @@ class SeguimientoModel extends Mysql{
 
     public function selectSeguimientoProspecto(int $idPer,string $nomConexion){
         $this->intIdPers = $idPer;
-        $sql = "SELECT sp.fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
+        $sql = "SELECT DATE_FORMAT(sp.fecha_de_seguimiento,'%d-%m-%Y') AS fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
         FROM t_seguimiento_prospecto AS sp
         LEFT JOIN t_prospectos AS p ON sp.id_prospecto = p.id
         INNER JOIN t_personas AS per ON p.id_persona = per.id
         INNER JOIN t_respuesta_rapida as resp ON sp.id_respuesta_rapida = resp.id
         INNER JOIN t_personas as per2 ON sp.id_usuario_atendio = per2.id
         WHERE per.id = $this->intIdPers
-        ORDER BY fecha_de_seguimiento DESC";
+        ORDER BY fecha_de_seguimiento DESC;";
         $request = $this->select_all($sql, $nomConexion);
         return $request;
     }

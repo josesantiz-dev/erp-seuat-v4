@@ -79,6 +79,34 @@ class Seguimiento extends Controllers{
         $this->views->getView($this,"AgendaProspecto",$data);
     }
 
+    public function editDatos(){
+        if(isset($_POST['idProspectoEdit'])){
+            $idProspecto = $_POST['idProspectoEdit'];
+        }
+        if(isset($_POST['idPersonaEdit'])){
+            $idPersona = $_POST['idPersonaEdit'];
+        }
+        $nombre = strClean($_POST['txtNombreEdit']);
+        $apepat = strClean($_POST['txtApellidoPatEdit']);
+        $apemat = strClean($_POST['txtApellidoMatEdit']);
+        $telefono = $_POST['txtTelefonoCelEdit'];
+        $email = $_POST['txtEmail'];
+        $plantel = strClean($_POST['slctPlantelEdit']);
+        $nivel = intval($_POST['slctNivelEstudiosEdit']);
+        $carrera = intval($_POST['slctCarreraEdit']);
+
+        $arrData = $this->model->updatePersona($nombre, $apepat, $apemat, $telefono, $email, $plantel, $nivel, $carrera,$idProspecto, $idPersona,$this->idUser,$this->nomConexion);
+
+        if($arrData['estatus'] == TRUE){
+            $arrResponse = array('estatus' => TRUE, 'msg' => 'Datos actualizados correctamente');
+        }
+        else{
+            $arrResponse = array('estatus' => TRUE, 'msg' => 'No se puede actualizar');
+        }
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
     public function setProgramarAgenda(){
         if($_POST){
             if(empty($_POST['txtFechaProg']) || empty($_POST['txtHoraProg']) || empty($_POST['idUsuarioAtendidoAgenda']) || empty($_POST['txtFechaRegistro'])){

@@ -6,6 +6,7 @@ const formSeguimientoIndividual = document.querySelector('#formSeguimientoProspe
 const slctCrr = document.querySelector('#slctCarreraEdit')
 const slctCrrNvo = document.querySelector('#slctCarreraNuevoPro')
 const formProspectoNuevo = document.querySelector('#formPersonaNuevo')
+const formEditarDatosPros = document.querySelector('#formProspectoEdit')
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {
@@ -235,6 +236,29 @@ formSeguimientoIndividual.addEventListener('submit', (e) =>{
 		})
 })
 
+formEditarDatosPros.addEventListener('submit', (e) =>{
+	e.preventDefault()
+	const datos = new FormData(document.querySelector('#formProspectoEdit'))
+	let url = `${base_url}/Seguimiento/editDatos`
+	fetch(url,{
+		method: 'POST',
+		body: datos
+	})
+	.then(response => response.json())
+	.then(data => {
+		if(data.estatus){
+			$('#cancelarModalEditDatosProspecto').click()
+			formEditarDatosPros.reset()
+			swal.fire('Editar datos prospecto', data.msg,'success')
+			tableSeguimientoProspecto.api().ajax.reload()
+		}
+		else
+		{
+			swal.fire('Error', data.msg,'error')
+		}
+	})
+})
+
 function fnEditarDatosProspecto(idPer){
 	let idPersona = idPer
 	let url = `${base_url}/Seguimiento/getProspecto/${idPersona}`
@@ -260,7 +284,7 @@ function fnEditarDatosProspecto(idPer){
 			txtApellidoMEdit.value = data.ap_materno
 			txtTelCelular.value = data.tel_celular
 			txtCorreo.value = data.email
-			slctPltInt.value = data.id_plantel_interes
+			slctPltInt.value = data.plantel_interes
 			slctNvlInt.value = data.id_nivel_carrera_interes
 			slctCrrInt.value = data.id_carrera_interes
 		})
@@ -366,7 +390,7 @@ formProspectoNuevo.addEventListener('submit', (e) =>{
 				swal.fire('Error',err,'error')
 			}
 		})
-		/*.catch(function(err){
+		.catch(function(err){
 			swal.fire('Error',err,'error')
-		})*/
+		})
 })

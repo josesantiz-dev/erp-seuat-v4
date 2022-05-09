@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function(){
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
 function fnServicios(grado,tipoCobro){
     let url;
-    if(grado != null || tipoCobro != null){
+    if(grado != null || tipoCobro != null || grado != "" || tipoCobro != ""){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
             arrServiciosTodos = resultado.data;
@@ -379,15 +379,16 @@ function formatoMoneda(numero){
 function fnTiposCobro(value){
     if(value != ""){
         tipoCobroSeleccionado = value;
+        fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
         $('#listPromociones').val(null).trigger('change');
         document.querySelector("#listPromociones").innerHTML = "<option value=''>Selecciona una promocion</option>";
-        if(value == 1){
+        if(tipoCobroSeleccionado == 1){ //Coliguaturas
             listServicios.style.display = "inline";
             listPromociones.style.display = "inline";
             listGrado.style.display = "inline";
                 
-        }else{
-            listServicios.style.display = "block";
+        }else{  //Otros servicios
+            listServicios.style.display = "inline";
             listPromociones.style.display = "inline";
             listGrado.style.display = "inline";
         }
@@ -399,7 +400,7 @@ function fnTiposCobro(value){
 }
 function fnChangeGrado(value){
     gradoSeleccionado = value;
-   if(value != ""){
+   if(gradoSeleccionado != ""){
        fnServicios(gradoSeleccionado,tipoCobroSeleccionado);
    }else{
         document.querySelector("#listServicios").innerHTML = "<option value=''>Selecciona un servicio</option>";    

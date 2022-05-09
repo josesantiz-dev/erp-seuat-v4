@@ -43,7 +43,7 @@
                                         <div class="form-group col-12">
                                             <div class="col-md-3 p-0">
                                             <label>Que desea cobrar?</label>
-                                            <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onchange="fnTiposCobro(value)" style="width: 100%;" required >
+                                            <select class="form-control" id="listTipoCobro"  name="listTipoCobro" onclick="fnTiposCobro(value)" style="width: 100%;" required >
                                                 <option value="">Selecciona una</option>
                                                 <option value="1">Colegiaturas mensuales</option>
                                                 <option value="2">Otros servicios</option>
@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="form-group col-md-2 listGrado">
                                             <label>Grado</label>
-                                            <select class="form-control" id="listGrado" onchange="fnChangeGrado(value)" required >
+                                            <select class="form-control" id="listGrado" onclick="fnChangeGrado(value)" required >
                                                 <option value="">Selecciona un grado</option>
                                                 <option value="1">1</option>
                                                 <option value="3">3</option>

@@ -18,8 +18,8 @@
             LEFT JOIN t_inscripciones AS ins ON ins.id_personas = per.id
             LEFT JOIN t_historiales AS his ON ins.id_historial = his.id
             INNER JOIN t_plan_estudios AS pln ON ins.id_plan_estudios = pln.id
-            INNER JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
-            INNER JOIN t_grupos AS gr ON sal.id_grado = gr.id
+            LEFT JOIN t_salones_compuesto AS sal ON ins.id_salon_compuesto = sal.id
+            LEFT JOIN t_grupos AS gr ON sal.id_grado = gr.id
             WHERE CONCAT(per.nombre_persona,' ',per.ap_paterno,' ',per.ap_materno) LIKE '%$data%'";
             $request = $this->select_all($sql, $nomConexion);
             return $request;
@@ -82,9 +82,10 @@
         }
         //Obtener periodo del Alumno
         public function selectPeriodoAlumno(int $idPersonaSeleccionada, string $nomConexion){
-            $sql = "SELECT ins.id_salon_compuesto,sc.id_periodo FROM t_inscripciones AS ins 
+            /* $sql = "SELECT ins.id_salon_compuesto,sc.id_periodo FROM t_inscripciones AS ins 
             INNER JOIN t_salones_compuesto AS sc ON ins.id_salon_compuesto = sc.id 
-            WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1";
+            WHERE ins.id_personas = $idPersonaSeleccionada LIMIT 1"; */
+            $sql = "SELECT *FROM t_periodos AS p WHERE estatus = 1 LIMIT 1";
             $request = $this->select($sql, $nomConexion);
             return $request; 
         }

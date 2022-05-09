@@ -46,6 +46,7 @@
                         $_SESSION['claveRol'] = $arrDatosUser['clave_rol'];
                         $_SESSION['idRol'] = $arrDatosUser['id_rol'];
                         $_SESSION['nombreRol'] = $arrDatosUser['nombre_rol'];
+                        $_SESSION['frase'] = true;
                         $arrResponse = array('estatus' => true, 'msg' => 'ok');
                    }else {
                       $arrResponse = array('estatus' => false, 'msg' => 'Usuario inactivo.');

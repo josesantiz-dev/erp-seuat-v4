@@ -20,6 +20,7 @@
 <!--                     <button type="button" id="btnTour" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
  -->                    <a type="button" id="btnDashboard" href="<?php echo base_url()?>/DashboardDirc"class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</a>
                 </p>
+
             </div>
             <div class="col-6">
                 <img src="<?php echo media() ?>/images/img/lading.svg" width="80%">
@@ -279,3 +280,18 @@
     </aside>
 </div>
 <?php footerAdmin($data); ?>
+<?php 
+    if($data['frase'] != null){
+        echo '<script type="text/javascript">';
+        echo 'Swal.fire({
+        title: "'.$data['frase']['author'].'",
+        html: "<i>'.$data['frase']['phrase'].'</i>",
+        imageUrl: "https://unsplash.it/400/200",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+        })';
+        echo '</script>';
+        $_SESSION['frase'] = false;
+    }
+?>

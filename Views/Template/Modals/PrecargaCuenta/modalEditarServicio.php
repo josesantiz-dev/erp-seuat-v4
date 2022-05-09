@@ -27,7 +27,7 @@
                                 <div class="form-group  text-center">
                                     <label for="inputCity"><b>Nuevo precio</b></label>
                                     <input type="number" id="intNuevo_precio_edit"
-                                        name="intNuevo_precio_edit" min="1" max="100000"
+                                        name="intNuevo_precio_edit" min="1" max="100000" value=""
                                         class="form-control invalid text-center" style="height:50px; font-size: 24px"
                                         required="">
                                 </div>

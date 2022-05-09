@@ -29,12 +29,12 @@
                                     <input type="number" id="intNuevo_precio_ver"
                                         name="intNuevo_precio_ver" min="1" max="100000"
                                         class="form-control invalid text-center" style="height:50px; font-size: 24px"
-                                        required="">
+                                        disabled>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="txtFecha_limite_pago">Fecha limite pago</label>
-                                <input type="date" class="form-control form-control-sm" id="txtFecha_limite_pago" name="txtFecha_limite_pago" required>
+                                <label for="txtFecha_limite_pago_ver">Fecha limite pago</label>
+                                <input type="date" class="form-control form-control-sm" id="txtFecha_limite_pago_ver" name="txtFecha_limite_pago_ver" disabled>
                             </div>
                         </div>
                 </div>

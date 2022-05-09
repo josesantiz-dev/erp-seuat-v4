@@ -59,6 +59,10 @@ function fnSeleccionarPlanEstudios(plantel,planestudios){
     idPlanEstudios = planestudios;
     idPlantel = plantel;
     $('html,body').animate({scrollTop: $(".div_precarga").offset().top},'slow');
+    if(nivel == 'Todos' || nivel == "" || nivel == undefined){
+        swal.fire("Atención", "Selecciona un nivel", "warning");
+        return false;
+    }
     if(idPlantel > 0){
         document.querySelector('.div_datos_precarga').style.display = "flex";
         //console.log(arrDatosNew);
@@ -93,6 +97,7 @@ function fnNivelSeleccionadoDatatable(value){
     fnPlantelSeleccionadoDatatable(idPlantel, nivel);
 }
 
+//EDITAR SERVICIO
 function fnEditServicio(value,id_servicio){
     formEditServicio.reset();
     let nombreServicio = value.getAttribute('n');
@@ -104,7 +109,6 @@ function fnEditServicio(value,id_servicio){
     document.querySelector('#intId_precio_unitario').value = precioUnitario;
     // console.log(nombreServicio,idServicio);
 }
-
 
 formEditServicio.onsubmit = function(e){
     e.preventDefault();
@@ -121,43 +125,61 @@ formEditServicio.onsubmit = function(e){
     document.querySelector('#np-'+idServicio).textContent = formatoMoneda(parseInt(nuevoPrecio).toFixed(2));
     arrDatosNew.forEach(servicios => {
         if(servicios.id_servicio == idServicio){
-            servicios.precio_nuevo = parseInt(nuevoPrecio).toFixed(2);
+            servicios.nuevo_precio = parseInt(nuevoPrecio).toFixed(2);
             servicios.fecha_limite_pago = fechaLimitePago;
         }
+        // console.log(servicios);
     });
     $(".close").click();
 
 }
 
-// function fnDelServicio(id_servicio){
-//     let arrDatosNew = [];
-//     arrDatosNew.forEach(element => {
-
-//     });
-//     // var row = $(this).closest("tr").get(0);
-//     // tableServicioss.fnDeleteRow(tableServicioss.fnGetPosition(row));
-// }
-
 //ELIMINAR SERVICIOS AGREGADOS
-function fnDelServicio(value) {
+function fnDelServicio(value, id) {
     document.querySelector('#tableServicioss').innerHTML = "";
     let nuevoArr = [];
-    arrDatosNew.forEach(element => {
-        let arrValue;
-        if (element.id_servicio != value) {
-            arrValue = {id_servicio: element.id_servicio, codigo: element.codigo, nombre_servicio: element.nombre_servicio, precio_unitario: element.precio_unitario, nuevo_precio: element.nuevo_precio, fecha_limite_pago: element.fecha_limite_pago};
-            nuevoArr.push(arrValue);
-            // console.log(arrServic);
+    Swal.fire({
+        title: 'Eliminar?',
+        text: "seguro que desea eliminar el servicio?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            arrDatosNew.forEach(element => {
+                let arrValue;
+                if (element.id_servicio != id) {
+                        arrValue = {id_servicio: element.id_servicio, codigo: element.codigo, nombre_servicio: element.nombre_servicio, precio_unitario: element.precio_unitario, nuevo_precio: element.nuevo_precio, fecha_limite_pago: element.fecha_limite_pago};
+                        nuevoArr.push(arrValue);
+                    }
+            });
+            arrDatosNew = nuevoArr;
+            console.log(arrDatosNew);
+            mostrarServiciosTabla();
         }
-    });
-    arrDatosNew = nuevoArr;
-    console.log (arrDatosNew)
-    mostrarServiciosTabla();
+    })
 }
 
+//FUNTION ELIMINAR SERVICIOS AGREGADOS
+// function fnDelServicio(value,id) {
+//     document.querySelector('#tableServicioss').innerHTML = "";
+//     let nuevoArr = [];
+//     arrDatosNew.forEach(element => {
+//         let arrValue;
+//         if (element.id_servicio != id) {
+//             arrValue = {id_servicio: element.id_servicio, codigo: element.codigo, nombre_servicio: element.nombre_servicio, precio_unitario: element.precio_unitario, nuevo_precio: element.nuevo_precio, fecha_limite_pago: element.fecha_limite_pago};
+//             nuevoArr.push(arrValue);
+//         }
+//     });
+//     arrDatosNew = nuevoArr;
+//     mostrarServiciosTabla();
+// }
 
-function fnVerServicio(value,id_servicio,nuevoPrecio){
-    // formEditServicio.reset();
+//FUNTION PARA VER SERVICIOS AGREGADOS
+function fnVerServicio(value,id_servicio){
     let nombreServicio = value.getAttribute('n');
     let idServicio = id_servicio;
     let precioUnitario = value.getAttribute('p');
@@ -165,10 +187,15 @@ function fnVerServicio(value,id_servicio,nuevoPrecio){
     document.querySelector('#intId_servicio_ver').value = idServicio;
     document.querySelector('#intPrecio_actual_ver').value = formatoMoneda(precioUnitario);
     document.querySelector('#intId_precio_unitario').value = precioUnitario;
-    document.querySelector('#intNuevo_precio_ver').value;
-    document.querySelector('#intNuevo_precio_ver').value = nuevoPrecio;
-    // document.querySelector('#txtFecha_limite_pago').value = precioUnitario;
-    // console.log(nombreServicio,idServicio);
+
+    arrDatosNew.forEach(element => {
+        if(element.id_servicio == id_servicio){
+            let inputPrecio = document.querySelector("#intNuevo_precio_ver");
+            let inputPago = document.querySelector("#txtFecha_limite_pago_ver");
+            inputPrecio.value = element.nuevo_precio;
+            inputPago.value = element.fecha_limite_pago;
+        }
+    });
 }
 
 function fnGuardarPrecarga(){
@@ -200,27 +227,29 @@ function fnGuardarPrecarga(){
     let num = 0;
     let newArrDatos = [];
     arrDatosNew.forEach(element => {
-        if(element.hasOwnProperty('precio_nuevo') || element.hasOwnProperty('fecha_limite_pago')){
-            let arr = {'id':element.id_servicio,'precio_nuevo':element.precio_nuevo,'fecha_limite_pago':element.fecha_limite_pago};
+        if(element.hasOwnProperty('nuevo_precio') || element.hasOwnProperty('fecha_limite_pago')){
+            let arr = {'id_servicio':element.id_servicio,'nuevo_precio':element.nuevo_precio,'fecha_limite_pago':element.fecha_limite_pago};
             newArrDatos.push(arr);
             // console.log(arr);
             num += 1;
         }
     });
     // console.log(arrDatosNew);
-    if(arrDatosNew.length == num){
+    if(newArrDatos.length == num){
         //console.log(newArrDatos);
         /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
                 console.log(resultado);
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
-            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.precio_nuevo}/${element.fecha_limite_pago}`;
+            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
+            // console.log(url);
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado){
                     swal.fire("Atención", "Datos guardados correctamente", "success");
                 }
             }).catch(err => {throw err});
+            fnMostrarData();
         });
         // console.log(arrDatosNew);
     }else{
@@ -228,33 +257,6 @@ function fnGuardarPrecarga(){
         return false;
     }
 
-}
-
-function fnSeleccionarServicio(value,id,precio){
-    document.querySelector('#busquedaServicio').value = "";
-    $('.cerrarModalEdit').click();
-    buscarServicio();
-    let nombreServicio = value.getAttribute('n');
-    let codigoServicio = value.getAttribute('c');
-    let idServicio = id;
-    let precioUnitario = precio;
-    document.querySelector('#txtNombre_servicio').value = nombreServicio;
-    if(idServicio == idServicio){
-        let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
-        let serv = false;
-        arrDatosNew.forEach(element => {
-            if(element.id_servicio == idServicio){
-                serv = true;
-            }
-        });
-        if (serv == false) {
-            arrDatosNew.push(arrValue);
-        }else{
-            swal.fire("Atención", "Este servicio ya esta agregado", "warning").then((result) => {
-            });
-        }
-        mostrarServiciosTabla();
-    }
 }
 
 function mostrarServiciosTabla(){
@@ -315,14 +317,23 @@ function fnSeleccionarServicio(value,id,precio){
     let codigoServicio = value.getAttribute('c');
     let idServicio = id;
     let precioUnitario = precio;
+    // let periodo = document.querySelector('#selectPeriodo').value;
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
     if(idServicio == idServicio){
         let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
         let v = false;
+        // if(periodo == 0){
+        //     swal.fire("Atención", "Selecciona un periodo", "warning");
+        //     return false;
+        // }
+        if(nivel == 'Todos' || nivel == "" || nivel == undefined){
+            swal.fire("Atención", "Selecciona un nivel", "warning");
+            return false;
+        }
         arrDatosNew.forEach(element => {
             if(element.id_servicio == idServicio){
                 v = true;
-            }
+            }swal.fire("Servicio", "Se agregó un servicio", "success");
         });
         if (v == false) {
             arrDatosNew.push(arrValue);
@@ -331,6 +342,7 @@ function fnSeleccionarServicio(value,id,precio){
             });
         }
         mostrarServiciosTabla();
+        // fnVerServicio(idServicio);
     }
 }
 //Function para dar formato un numero a Moneda
@@ -351,8 +363,12 @@ function convStrToBase64(str){
 
 
 //TABLA PRECARGA CUENTA
-document.addEventListener('DOMContentLoaded', function(){
 
+document.addEventListener('DOMContentLoaded', function(){
+    fnMostrarData();
+});
+
+function fnMostrarData(){
     tablePrecargaCuenta = $('#tablePrecargaCuenta').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
@@ -387,7 +403,44 @@ document.addEventListener('DOMContentLoaded', function(){
 	    "order": [[ 0, "desc" ]],
 	    "iDisplayLength": 25
     });
+}
 
+document.addEventListener('DOMContentLoaded', function(){
+
+    // tablePrecargaCuenta = $('#tablePrecargaCuenta').dataTable( {
+	// 	"aProcessing":true,
+	// 	"aServerSide":true,
+    //     "language": {
+    //     	"url": " "+base_url+"/Assets/plugins/Spanish.json"
+    //     },
+    //     "ajax":{
+    //         "url": " "+base_url+"/PrecargaCuenta/getPrecargas",
+    //         "dataSrc":""
+    //     },
+    //     "columns":[
+    //         {"data":"numeracion"},
+    //         {"data":"cTotal"},
+    //         {"data":"limCobro"},
+    //         {"data":"nomSer"},
+    //         {"data":"nomCarre"},
+    //         {"data":"nomPer"},
+    //         {"data":"nomGra"},
+    //         {"data":"est"},
+    //         {"data":"options"}
+    //     ],
+    //     "responsive": true,
+	//     "paging": true,
+	//     "lengthChange": true,
+	//     "searching": true,
+	//     "ordering": true,
+	//     "info": true,
+	//     "autoWidth": false,
+	//     "scrollY": '44vh',
+	//     "scrollCollapse": true,
+	//     "bDestroy": true,
+	//     "order": [[ 0, "desc" ]],
+	//     "iDisplayLength": 25
+    // });
 
     //ACTUALIZAR PRECARGA
     if(document.querySelector('#form_precarga_edit')){

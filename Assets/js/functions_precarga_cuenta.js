@@ -250,6 +250,7 @@ function fnGuardarPrecarga(){
                 }
             }).catch(err => {throw err});
             fnMostrarData();
+            location.reload(true);
         });
         // console.log(arrDatosNew);
     }else{

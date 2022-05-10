@@ -152,9 +152,9 @@
         } */
         
         //Insertar un nuevo Ingreso
-        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, int $idPlantel,int $idUser, string $nomConexion){
-            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodo_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,id_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
-            $requestIngresos = $this->insert($sqlIngresos,$nomConexion,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$idPlantel,$idAlumno,$idUser));
+        public function insertIngresos(string $folio,int $formaPago, string $tipoComprobante,int $total,string $observaciones,int $idAlumno, string $nomPlantel, int $idUSer, string $nomConexion){
+            $sqlIngresos = "INSERT INTO t_ingresos(fecha,folio,estatus,id_metodo_pago,tipo_comprobante,referencia,total,observaciones,recibo_inscripcion,nom_plantel,id_persona,id_usuario) VALUES(NOW(),?,?,?,?,?,?,?,?,?,?,?)";
+            $requestIngresos = $this->insert($sqlIngresos,$nomConexion,array($folio,1,$formaPago,$tipoComprobante,$folio,$total,$observaciones,1,$nomPlantel,$idAlumno,$idUSer));
             return $requestIngresos;
         }
         //Insertar un nuevo ingreso detalle
@@ -253,8 +253,9 @@
         }
 
         public function selectPlantelUSer(int $idUser, string $nomConexion){
-            $sql = "SELECT p.id FROM t_administrativo AS ad 
-            INNER JOIN t_planteles AS p ON ad.id_plantel = p.id WHERE ad.id_usuario = $idUser LIMIT 1";
+/*             $sql = "SELECT p.id FROM t_administrativo AS ad 
+            INNER JOIN t_planteles AS p ON ad.id_plantel = p.id WHERE ad.id_usuario = $idUser LIMIT 1"; */
+            $sql = "SELECT nom_plantel FROM t_administrativo WHERE id_usuario = $idUser LIMIT 1";
             $request = $this->select($sql, $nomConexion);
             return $request;
         }

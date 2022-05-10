@@ -117,7 +117,7 @@
             //$idPlantel = $this->model->selectPlantelAlumno($idAlumno);
             $idPlantel = $this->model->selectPlantelUSer($this->idUser, $this->nomConexion);
             if($idPlantel){
-                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['id'],$this->idUser, $this->nomConexion); 
+                $reqIngreso = $this->model->insertIngresos($folio,$tipoPago,$tipoComprobante,$total,$observaciones,$idAlumno,$idPlantel['nom_plantel'],$this->idUser, $this->nomConexion);
                 if($reqIngreso){
                     foreach ($arrayDate as $key => $value) {
                         $idServicio = null;

@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function(){
 //Mostrar lista de servicios dependiendo del tipo de cobro a realizar   
 function fnServicios(grado,tipoCobro){
     let url;
-    if(grado != null || tipoCobro != null || grado != "" || tipoCobro != ""){
+    if(isNaN(grado) == false && isNaN(tipoCobro) == false){
         url = `${base_url}/Ingresos/getServicios/${grado}/${tipoCobro}/${idPersonaSeleccionada}`;
         fetch(url).then(res => res.json()).then((resultado) => {
             arrServiciosTodos = resultado.data;
@@ -51,7 +51,7 @@ function fnServicios(grado,tipoCobro){
                         document.querySelector("#listServicios").innerHTML += `<option pu='${servicio.precio_unitario}' ec='${servicio.aplica_edo_cuenta}' t="serv" value='${servicio.id}'>${servicio.nombre_servicio}${(servicio.aplica_edo_cuenta == 1)?'(----si----)':''}</option>`;
                     }
                 });
-            }
+            } 
         }).catch(err => { throw err });
     }
 }
@@ -438,9 +438,7 @@ function btnCobrarCmbio(){
         let tipoComprobante = (document.querySelector('#listTipoComprobante').value == 1)?'recibo':'factura'
         let observaciones = document.querySelector('#txtObservaciones').value;
         let url = ` ${base_url}/Ingresos/setIngresos?idP=${idPersonaSeleccionada}&tipoP=${metodoPago}&tipoCom=${tipoComprobante}&observacion=${observaciones}&date=${jsonToString(arrServicios)}`
-
         fetch(url).then(res => res.json()).then((resultado) => {
-            console.log(resultado);
             if(resultado.estatus){
                 let cambio = intEfectivo-total;
                 swal.fire("Exito",`${resultado.msg}<br>Su cambio es de:<h1><b>${formatoMoneda(cambio.toFixed(2))}</b></h1>`,"success").then((result) =>{

@@ -11,7 +11,7 @@ class SeguimientoModel extends Mysql{
     public $strEmail; //$strEmailP
     public $intIdNvlCarrInte; //$intNivelEstudiosInteresP
     public $intIdCarrInte; //$intCarreaInteresP
-    public $intIdPltInte; //$intPlantelInteresP
+    public $strPltInteres; //$intPlantelInteresP
     public $intCatPer; //$intIdCategoriaPersona
     public $intNotificacion;
     public $intEstatus;
@@ -35,10 +35,18 @@ class SeguimientoModel extends Mysql{
     public $strFechaNacimiento;
     public $intEscolaridad;
     public $intIdSubcampania;
+    public $nomConx;
 
 
     public function __construct(){
         parent::__construct();
+    }
+
+    public function selectMedioCaptacion(string $nomConexion)
+    {
+        $sql = "SELECT * FROM t_medio_captacion";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
     }
 
     public function selectPlanteles(string $nomConexion){
@@ -95,7 +103,7 @@ class SeguimientoModel extends Mysql{
         $sql = "SELECT per.id as per_id, per.nombre_persona, per.ap_paterno, per.ap_materno,
         per.tel_celular,
         per.email,
-        pro.id_plantel_interes,
+        pro.plantel_interes,
         pro.id_nivel_carrera_interes,
         pro.id_carrera_interes,
         pro.id as pro_id
@@ -106,7 +114,9 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, int $pltInteres, int $nvlInteres, int $carrInteres, int $idPer, int $idPro, string $nomConexion)
+    //updatePersona($nombre, $apepat, $apemat, $telefono, $email, $plantel, $nivel, $carrera,$idProspecto, $idPersona,$this->idUser,$this->nomConexion)
+
+    public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, string $pltInteres, int $nvlInteres, int $carrInteres, int $idPro, int $idPer, int $idUsr, string $nomConexion)
     {
         $this->strNombrePers = $nombre;
         $this->strApePat = $apPat;
@@ -116,12 +126,13 @@ class SeguimientoModel extends Mysql{
         $this->intIdPltInte = $pltInteres;
         $this->intIdNvlCarrInte = $nvlInteres;
         $this->intIdCarrInte = $carrInteres;
+        $this->intIdUsuario = $idUsr;
         $this->intIdPers = $idPer;
         $this->intIdPros = $idPro;
         $request;
-        $sql = "UPDATE t_personas SET nombre_persona = ?, ap_paterno = ?, ap_materno = ?, tel_celular = ?, email = ? WHERE id=$this->intIdPers";
-        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, id_plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
-        $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strTelCel, $this->strEmail);
+        $sql = "UPDATE t_personas SET nombre_persona = ?, ap_paterno = ?, ap_materno = ?, tel_celular = ?, email = ?, fecha_actualizacion = NOW(), id_usuario_actualizacion = ? WHERE id=$this->intIdPers";
+        $sql2 = "UPDATE t_prospectos SET id_nivel_carrera_interes = ?, plantel_interes = ?, id_carrera_interes = ? WHERE id=$this->intIdPros";
+        $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strTelCel, $this->strEmail, $this->intIdUsuario);
         $arrData2 = array($this->intIdNvlCarrInte, $this->intIdPltInte, $this->intIdCarrInte);
         $rquestUpdate = $this->update($sql,$nomConexion,$arrData);
         $requestUpdate2 = $this->update($sql2, $nomConexion, $arrData2);
@@ -170,8 +181,7 @@ class SeguimientoModel extends Mysql{
     {
         $this->intIdPers = $idPer;
         $sql = "SELECT pe.id, CONCAT(pe.nombre_persona, ' ',pe.ap_paterno, ' ', pe.ap_materno) AS nombre_persona, pe.tel_celular,
-        pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista,
-        pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
+        pe.email, mun.nombre AS municipio, est.nombre AS estado, CONCAT(pe2.nombre_persona, ' ', pe2.ap_paterno, ' ', pe2.ap_materno) as nombre_comisionista, pe2.tel_celular as tel_comisionista, pe.fecha_creacion, med.medio_captacion, nvl.nombre_nivel_educativo, crr.nombre_carrera, pros.id as id_pro
         FROM t_personas AS pe
         INNER JOIN t_localidades AS loc ON pe.id_localidad = loc.id
         INNER JOIN t_municipios AS mun ON loc.id_municipio = mun.id
@@ -186,7 +196,6 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    //insertSeguimientoProspectoInd($intResp,$strComent,$intIdPro)
     public function insertSeguimientoProspectoInd(int $respuesta_rap, string $comentario, int $idPros, string $nomConexion)
     {
         $this->intRespRap = $respuesta_rap;
@@ -202,14 +211,14 @@ class SeguimientoModel extends Mysql{
 
     public function selectSeguimientoProspecto(int $idPer,string $nomConexion){
         $this->intIdPers = $idPer;
-        $sql = "SELECT sp.fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
+        $sql = "SELECT DATE_FORMAT(sp.fecha_de_seguimiento,'%d-%m-%Y') AS fecha_de_seguimiento, sp.comentario, CONCAT(per2.nombre_persona, ' ', per2.ap_paterno,' ', per2.ap_materno) as nombre_asesor, resp.respuesta_rapida
         FROM t_seguimiento_prospecto AS sp
         LEFT JOIN t_prospectos AS p ON sp.id_prospecto = p.id
         INNER JOIN t_personas AS per ON p.id_persona = per.id
         INNER JOIN t_respuesta_rapida as resp ON sp.id_respuesta_rapida = resp.id
         INNER JOIN t_personas as per2 ON sp.id_usuario_atendio = per2.id
         WHERE per.id = $this->intIdPers
-        ORDER BY fecha_de_seguimiento DESC";
+        ORDER BY fecha_de_seguimiento DESC;";
         $request = $this->select_all($sql, $nomConexion);
         return $request;
     }
@@ -220,88 +229,84 @@ class SeguimientoModel extends Mysql{
         return $request;
     }
 
-    public function insertProspecto(string $nombre, string $apellidoPa, string $apellidoMa, string $alias, string $edoCivil, string $ocupacion, string $fechaNacimiento, int $escolaridad, string $sexo, int $localidad,string $telcel, string $telFi, string $email, string $plantelProcedencia, int $plantelInteres, int $nivelEstudiosInteres, int $carreaInteres,int $medioCaptacion, string $comentario, int $idSubcampania, string $nomConexion){
+    public function insertProspecto(string $nom, string $apeP, string $apeM, string $ali, string $edo_civil, string $ocup, string $fecha_nac, int $escol, int $ed, string $sex, int $loc, string $telc, string $telf, string $correo, string $plantProc, string $plantInt, int $nivelInt, int $carrInt, int $med, string $coment, int $idSub, int $idUsr, string $nomConexion)
+    {
+        $this->strNombrePers = $nom;
+        $this->strApePat = $apeP;
+        $this->strApeMat = $apeM;
+        $this->strAlias = $ali;
+        $this->strEstadoCivil = $edo_civil;
+        $this->strOcupacion = $ocup;
+        $this->strFechaNacimiento = $fecha_nac;
+        $this->intEscolaridad = $escol;
+        $this->intEdad = $ed;
+        $this->strSexo = $sex;
+        $this->intLocalidad = $loc;
+        $this->strTelCel = $telc;
+        $this->strTelfijo = $telf;
+        $this->strEmail = $correo;
+        $this->strPltInteres = $plantInt;
+        $this->strPlantelProcedencia = $plantProc;
+        $this->intIdNvlCarrInte = $nivelInt;
+        $this->intIdCarrInte = $carrInt;
+        $this->intMedioCaptacion = $med;
+        $this->strComentario = $coment;
+        $this->intIdUsuario = $idUsr;
+        $this->intIdSubcampania = $idSub;
+        $this->nomConx = $nomConexion;
 
-      $request = "";
-      $requestIdPer = "";
-      $requestPer = "";
-      $requestPro = "";
-      //<Datos Personales Prospecto>
-      $this->strNombrePers = $nombre;
-      $this->strApePat = $apellidoPa;
-      $this->strApeMat = $apellidoMa;
-      $this->strSexo = $sexo;
-      $this->strAlias = $alias;
-      $this->strEdoCivil = $edoCivil;
-      $this->strOcupacion = $ocupacion;
-      $this->strFechaNacimiento = $fechaNacimiento;
-      $this->intEscolaridad = $escolaridad;
-      //<Recidencia Prospecto>
-      $this->intLocalidad = $localidad;
-      //<Contacto>
-      $this->strTelCel = $telcel;
-      $this->strTelfijo = $telFi;
-      $this->strEmail = $email;
-      //<Prospecto>
-      $this->strPlantelProcedencia = $plantelProcedencia;
-      $this->intIdPltInte = $plantelInteres;
-      $this->intIdNvlCarrInte = $nivelEstudiosInteres;
-      $this->intIdCarrInte = $carreaInteres;
-      //<medio_captacion Prospecto>
-      $this->trComentario = $comentario;
-      $this->intMedioCaptacion = $medioCaptacion;
-      //<Otris Datos>
-      $this->intIdUsuario = $_SESSION['idUser'];
-      $this->intEstatus = 1;
-      $this->intCatPer = 1;
-      $this->intIdSubcampania = $idSubcampania;
-
-      $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, alias, sexo, id_localidad, tel_celular, tel_fijo, email, id_categoria_persona, estatus, id_usuario_creacion, fecha_creacion, fecha_actualizacion, edo_civil, ocupacion, fecha_nacimiento, id_escolaridad) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?, ?, ?)";
-      $arrData = array($this->strNombrePers, $this->strApePat, $this->strApeMat, $this->strAlias, $this->strSexo, $this->intLocalidad, $this->strTelfijo, $this->strTelCel, $this->strEmail, $this->intCatPer, $this->intIdUsuario, $this->intEstatus, $this->strEdoCivil, $this->strOcupacion, $this->strFechaNacimiento, $this->intEscolaridad);
-      $requestPer = $this->insert($sqlPersona,$nomConexion,$arrData);
-
-      $sqlIdPer = "SELECT MAX(id) AS id FROM t_personas";
-      $requestIdPer = $this->select($sqlIdPer,$nomConexion);
-      $this->intIdPers = $requestIdPer['id'];
-
-      $sqlPros = "INSERT INTO t_prospectos(escuela_procedencia, id_plantel_interes, id_nivel_carrera_interes, id_carrera_interes, id_persona, id_medio_captacion, observaciones, id_subcampania) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-      $arrData2 = array($this->strPlantelProcedencia, $this->intIdPltInte, $this->intIdNvlCarrInte, $this->intIdCarrInte, $this->intIdPers, $this->intMedioCaptacion, $this->trComentario, $this->intIdSubcampania);
-      $requestPro = $this->insert($sqlPros,$nomConexion, $arrData2);
-      return $requestPro;
-
+        $sqlPersona = "INSERT INTO t_personas(nombre_persona, ap_paterno, ap_materno, sexo, alias, edad, edo_civil, ocupacion, id_escolaridad,fecha_nacimiento, estatus, id_localidad, tel_celular, tel_fijo, email, fecha_creacion, id_usuario_creacion, id_rol) 
+        VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,NOW(),?,1)";
+        $arrPersona = array($this->strNombrePers,$this->strApePat,$this->strApeMat,$this->strSexo,$this->strAlias, $this->intEdad,$this->strEstadoCivil, $this->strOcupacion, $this->intEscolaridad,$this->strFechaNacimiento,$this->intLocalidad,$this->strTelCel,$this->strTelfijo, $this->strEmail,$this->intIdUsuario);
+        $requestPersona = $this->insert($sqlPersona,$this->nomConx,$arrPersona);
+        if($requestPersona)
+        {
+            $idPersona = $requestPersona;
+            $sqlAsignacion = "INSERT INTO t_asignacion_categoria_persona(fecha_alta,validacion_datos_personales,validacion_doctos,estatus,fecha_creacion,id_usuario_creacion,id_persona,id_categoria_persona) values(NOW(),0,0,1,NOW(),?,?,1)";
+            $arrDataAsig = array($this->intIdUsuario, $idPersona);
+            $requestAsig = $this->insert($sqlAsignacion,$this->nomConx,$arrDataAsig);
+            if($requestAsig)
+            {
+                $sqlProspecto = "INSERT INTO t_prospectos(escuela_procedencia,observaciones, plantel_interes,id_nivel_carrera_interes,id_carrera_interes,id_medio_captacion,id_persona) VALUES(?,?,?,?,?,?,?)";
+                $arrDataProspecto = array($this->strPlantelProcedencia, $this->strComentario, $this->strPltInteres, $this->intIdNvlCarrInte, $this->intIdCarrInte, $this->intMedioCaptacion, $idPersona);
+                $requestProspecto = $this->insert($sqlProspecto,$this->nomConx,$arrDataProspecto);
+            }
+        }
+        return $requestProspecto;
     }
+
+    
 
     public function selectEstados(string $nomConexion){
 
-      $sql = "SELECT * FROM t_estados";
-      $request = $this->select_all($sql,$nomConexion);
-      return $request;
+        $sql = "SELECT * FROM t_estados";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
 
     }
 
     public function selectMunicipios(int $idEstado,string $nomConexion){
 
-      $idEstado = $idEstado;
-      $sql = "SELECT *FROM t_municipios WHERE id_estados = $idEstado";
-      $request = $this->select_all($sql,$nomConexion);
-      return $request;
-
+        $idEstado = $idEstado;
+        $sql = "SELECT *FROM t_municipios WHERE id_estados = $idEstado";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
     }
 
     public function selectLocalidades($idMunicipio, string $nomConexion){
 
-      $idMunicipio = $idMunicipio;
-      $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
-      $request = $this->select_all($sql,$nomConexion);
-      return $request;
+        $idMunicipio = $idMunicipio;
+        $sql = "SELECT *FROM t_localidades WHERE id_municipio = $idMunicipio";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
 
     }
 
     public function selectMediosCaptacion(string $nomConexion){
 
-      $sql = "SELECT * FROM t_medio_captacion";
-      $request = $this->select_all($sql,$nomConexion);
-      return $request;
+        $sql = "SELECT * FROM t_medio_captacion";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
 
     }
 
@@ -313,19 +318,16 @@ class SeguimientoModel extends Mysql{
 
     public function selectCampania(string $nomConexion){
 
-      $sql = "SELECT id, nombre_campania FROM t_campanias WHERE id = (SELECT MAX(id) from t_campanias)";
-      $request = $this->select_all($sql,$nomConexion);
-      return $request;
+        $sql = "SELECT id, nombre_campania FROM t_campanias WHERE id = (SELECT MAX(id) from t_campanias)";
+        $request = $this->select_all($sql,$nomConexion);
+        return $request;
 
     }
 
-    public function selectSubcampanaia(int $id, string $nomConexion){
-
-      $this->intIdSubcampania = $id;
-      $sql = "SELECT id, nombre_sub_campania, fecha_inicio, fecha_fin FROM t_subcampania WHERE id_campania = $this->intIdSubcampania";
-      $request = $this->select_all($sql, $nomConexion);
-      return $request;
-
+    public function selectSubcampania(string $nomConexion){
+        $sql = "SELECT * FROM t_subcampania WHERE estatus = 1 ORDER BY fecha_fin DESC LIMIT 1";
+        $request = $this->select($sql,$nomConexion);
+        return $request;
     }
 
 }

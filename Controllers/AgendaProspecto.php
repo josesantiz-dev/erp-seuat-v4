@@ -83,7 +83,7 @@ class AgendaProspecto extends Controllers{
 
     if ($intIdAgenda_guardado > 0) {
 
-      $arrData = $this->model->selectAgendaProspecto($intIdAgenda_guardado);
+      $arrData = $this->model->selectAgendaProspecto($intIdAgenda_guardado,$this->nomConexion);
 
       if(empty($arrData)){
 
@@ -170,7 +170,7 @@ class AgendaProspecto extends Controllers{
 
         if($intIdAgenda <> 0) {
 
-          $request = $this->model->estatusUpdate($intIdAgenda, $intEstatus);
+          $request = $this->model->estatusUpdate($intIdAgenda, $intEstatus,$this->nomConexion);
           $option = 1;
 
         }
@@ -197,7 +197,7 @@ class AgendaProspecto extends Controllers{
 
     if($intIdUsuarioCreacion > 0){
 
-      $arrData = $this->model->selectNombreUsuairoCreacion($intIdUsuarioCreacion);
+      $arrData = $this->model->selectNombreUsuairoCreacion($intIdUsuarioCreacion,$this->nomConexion);
 
       if(empty($arrData)){
 

@@ -22,6 +22,10 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Seguimiento de prospección";
         $data['page_title'] = "Seguimiento de prospección";
         $data['page_functions_js'] = "functions_SegProspectos.js";
+        $data['escolaridad'] = $this->model->selectEscolaridad($this->nomConexion);
+        $data['nivel_estudios_interes'] = $this->model->selectNivelInteres($this->nomConexion);
+        $data['carrera_interes'] = $this->model->selectCarreraInteres($this->nomConexion);
+        $data['estados'] = $this->model->selectEstados($this->nomConexion);
         $this->views->getView($this,"seguimiento_prospectos",$data);
     }
 
@@ -30,6 +34,7 @@ class Seguimiento extends Controllers{
         $arrData = $this->model->selectProspectos($this->nomConexion);
         for ($i=0; $i < count($arrData) ; $i++) { 
             $arrData[$i]['numeracion'] = $i + 1;
+            $arrData[$i]['nom_plantel_interes'] = conexiones[$arrData[$i]['plantel_interes']]['NAME'];
             if($arrData[$i]['nombre_categoria'] == 'Prospecto')
             {
                 $arrData[$i]['nombre_completo'] = $arrData[$i]['nombre_completo'].' <span class="badge badge-success">'. $arrData[$i]['nombre_categoria'] .'</span>';
@@ -72,6 +77,34 @@ class Seguimiento extends Controllers{
         $data['page_tag'] = "Agenda de llamadas";
         $data['page_name'] = "Agenda de llamadas";
         $this->views->getView($this,"AgendaProspecto",$data);
+    }
+
+    public function editDatos(){
+        if(isset($_POST['idProspectoEdit'])){
+            $idProspecto = $_POST['idProspectoEdit'];
+        }
+        if(isset($_POST['idPersonaEdit'])){
+            $idPersona = $_POST['idPersonaEdit'];
+        }
+        $nombre = strClean($_POST['txtNombreEdit']);
+        $apepat = strClean($_POST['txtApellidoPatEdit']);
+        $apemat = strClean($_POST['txtApellidoMatEdit']);
+        $telefono = $_POST['txtTelefonoCelEdit'];
+        $email = $_POST['txtEmail'];
+        $plantel = strClean($_POST['slctPlantelEdit']);
+        $nivel = intval($_POST['slctNivelEstudiosEdit']);
+        $carrera = intval($_POST['slctCarreraEdit']);
+
+        $arrData = $this->model->updatePersona($nombre, $apepat, $apemat, $telefono, $email, $plantel, $nivel, $carrera,$idProspecto, $idPersona,$this->idUser,$this->nomConexion);
+
+        if($arrData['estatus'] == TRUE){
+            $arrResponse = array('estatus' => TRUE, 'msg' => 'Datos actualizados correctamente');
+        }
+        else{
+            $arrResponse = array('estatus' => TRUE, 'msg' => 'No se puede actualizar');
+        }
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
     public function setProgramarAgenda(){
@@ -136,5 +169,135 @@ class Seguimiento extends Controllers{
         }
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
     }
+
+    public function setSeguimientoProspectoIndividual(){
+        if(isset($_POST['idProsInd']))
+        {
+            $intIdPro = intval($_POST['idProsInd']);
+        }
+        $intResp = intval($_POST['rad']);
+        $strComent = strClean($_POST['txtComentarioSegInd']);
+        $arrData = $this->model->insertSeguimientoProspectoInd($intResp, $strComent, $intIdPro, $this->nomConexion);
+        if($arrData == TRUE)
+        {
+            $arrResponse = array('estatus' => true, 'msg' => 'Se ha añadido el seguimiento');
+        }
+        else
+        {
+            $arrResponse = array('estatus' => false, 'msg' => 'Error, no puede agregarse el seguimiento');
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getProspecto(int $idPers)
+    {
+        $id = $idPers;
+        $arrData = $this->model->selectProspecto($id,$this->nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getMunicipios(){
+        $idEstado = $_GET['idestado'];
+        $arrData = $this->model->selectMunicipios($idEstado,$this->nomConexion);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getLocalidades(){
+        $idMunicipio = $_GET['idmunicipio'];
+        $arrData = $this->model->selectLocalidades($idMunicipio, $this->nomConexion);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getMedioCaptacion()
+    {
+        $arrData = $this->model->selectMedioCaptacion($this->nomConexion);
+        for ($i=0; $i < count($arrData); $i++) { 
+            $arrData[$i]['med_capInput'] = '<input type="radio" class="form-check-input" id="rad'.$arrData[$i]['id'].'" name="rad" value="'.$arrData[$i]['id'].'">'.$arrData[$i]['medio_captacion'].'<br>';
+        }
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function getCarrera()
+    {
+        $idNivel = $_GET['idNivel'];
+        $arrData = $this->model->selectCarrera($idNivel, $this->nomConexion);
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function setProspecto()
+    {    
+        $strNombreNvo = strClean($_POST['txtNombreNuevo']);
+        $strApePatNvo = strClean($_POST['txtApellidoPaNuevo']);
+        $strApeMatNvo = strClean($_POST['txtApellidoMaNuevo']);
+        $strSexoNvo = $_POST['listSexoNuevo'];
+        $strAliasNvo = $_POST['txtAlias'];
+        $intEdadNvo = $_POST['txtEdadNuevo'];
+        $strEdoCivilNvo = $_POST['listEstadoCivilNuevo'];
+        $strOcupacionNvo = $_POST['txtOcupacion'];
+        $intEscolaridadNvo = $_POST['slctEscolaridad'];
+        $strFechaNacNvo = $_POST['txtFechaNacimientoNuevo'];
+        $intLocalidadNvo = $_POST['listLocalidadNuevo'];
+        $intTelNvo = $_POST['txtTelCelNuevo'];
+        $intTelFijoNvo = $_POST['txtTelFiNuevo'];
+        $strEmailNvo = $_POST['txtEmailNuevo'];
+        $strPlantelProcNvo = $_POST['txtPlantelProcedencia'];
+        $strPlantelIntNvo = $_POST['slctPlantelNvo'];
+        $strNivelNvo = $_POST['slctNivelEstudios'];
+        $intCarreraNvo = $_POST['slctCarreraNuevoPro'];
+        $intMedioNvo = $_POST['rad'];
+        $strComentarioNvo = $_POST['txtObservacionPros'];
+        
+        $intIdPersonaNueva = 0;
+        $intIdPersonaEdit = 0;
+        if(isset($_POST['idNuevo'])){
+            $intIdPersonaNueva = intval($_POST['idNuevo']);
+        }
+        if(isset($_POST['idPersonaEdit'])){
+            $intIdPersonaEdit = intval($_POST['idPersonaEdit']);
+        }
+
+        if($intIdPersonaNueva == 0)
+        {
+            $idSubcampana = $this->model->selectSubcampania($this->nomConexion); 
+            if($idSubcampana)
+            {
+                $arrProspecto = $this->model->insertProspecto($strNombreNvo, $strApePatNvo, $strApeMatNvo, $strAliasNvo, $strEdoCivilNvo, $strOcupacionNvo, $strFechaNacNvo, $intEscolaridadNvo, $intEdadNvo, $strSexoNvo, $intLocalidadNvo, $intTelNvo, $intTelFijoNvo, $strEmailNvo, $strPlantelProcNvo, $strPlantelIntNvo, $strNivelNvo, $intCarreraNvo, $intMedioNvo, $strComentarioNvo, $idSubcampana['id'], $this->idUser, $this->nomConexion);
+                if($arrProspecto)
+                {
+                    $arrResponse = array('estatus' => true, 'msg' => 'Se ha dado de alta un nuevo prospecto');
+                }
+                else
+                {
+                    $arrResponse = array('estatus' => false, 'msg' => 'No se pudieron guardar los datos');
+                }
+            }
+            else
+            {
+                $arrResponse = array('estatus' => false, 'msg' => 'No existe una subcampaña activa');
+            }
+        }
+        /*if($intIdPersonaEdit != 0)
+        {
+            $arrData = $this->model->updateProspecto();
+            if($arrData)
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+            }
+            else
+            {
+                $arrResponse = array('estatus' => true, 'msg' => 'No es posible actualizar los datos');
+            }
+        }*/
+        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+
 }
 ?>

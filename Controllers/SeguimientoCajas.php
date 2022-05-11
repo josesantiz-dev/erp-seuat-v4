@@ -45,7 +45,7 @@
     }
     public function selectVentasAll(){
         $arrData = $this->model->selectVentasTotalAll($this->nomConexion);
-        $dias = [];
+/*         $dias = [];
         $planteles = [];
         $arrGrafica = [];
         foreach ($arrData as $key => $value) {
@@ -80,8 +80,8 @@
             $data = array();
         }
         $array['dias'] = $dias;
-        $array['datos'] = $arrGrafica;
-        echo json_encode($array,JSON_UNESCAPED_UNICODE);
+        $array['datos'] = $arrGrafica; */
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 		die();
     }
   }

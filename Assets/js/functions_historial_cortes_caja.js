@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "columns":[
             {"data":"numeracion"},
             {"data":"folio"},
-            {"data":"plantel"},
+            {"data":"nom_plantel"},
             {"data":"nombre"},
             {"data":"fechayhora_apertura_caja"},
             {"data":"fechayhora_cierre_caja"},

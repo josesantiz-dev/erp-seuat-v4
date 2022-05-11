@@ -7,14 +7,15 @@ document.addEventListener('DOMContentLoaded', function(){
         fetch(urlGraphMultiLine)
         .then(res => res.json())
         .then((resultado) => {
-            for(const [key, value] of Object.entries(resultado.dias)){
+            console.log(resultado)
+            /* for(const [key, value] of Object.entries(resultado.dias)){
                 arrDias.push(value);
             }
             fnGraficar(arrDias,resultado.datos);
-            mostrarCards(resultado.datos);
+            mostrarCards(resultado.datos); */
         }).catch(err => {throw err});
     }
-    setInterval(load,1000);
+    //setInterval(load,1000);
     load();
 })
 function fnGraficar(arrDias,datos){

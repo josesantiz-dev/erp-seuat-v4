@@ -36,7 +36,7 @@
             INNER JOIN t_planteles AS p ON i.id_plantel = p.id
             GROUP BY YEAR(i.fecha),MONTH(i.fecha),DAY(i.fecha), p.id  ORDER BY i.fecha ASC";
             $request = $this->select_all($sql, $nomConexion);
-            return $request;
+            return $nomConexion;
         }
     }
 

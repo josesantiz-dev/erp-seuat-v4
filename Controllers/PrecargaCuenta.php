@@ -88,7 +88,7 @@
 			$idServicio = intval($params[5]);
             $precioNuevo = $params[6];
             $fechaLimitePago = $params[7];
-            if(empty($idPlantel) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
+            if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{
                 $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);

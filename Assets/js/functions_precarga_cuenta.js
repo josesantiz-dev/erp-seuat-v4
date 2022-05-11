@@ -248,6 +248,7 @@ function fnGuardarPrecarga(){
                 if(resultado){
                     swal.fire("Atención", "Datos guardados correctamente", "success");
                 }
+                console.log(resultado);
             }).catch(err => {throw err});
             fnMostrarData();
             location.reload(true);

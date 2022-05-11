@@ -19,15 +19,14 @@
             </ul>
             <!-- SEARCH FORM -->
             <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Buscar"
-                        aria-label="Search">
+                <!--<div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search"> 
                     <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                </div>
+                </div>-->
             </form>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -38,8 +37,8 @@
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
                 <li class="nav-item">&nbsp&nbsp&nbsp</li>
-                <li class="nav-item d-flex align-items-center"><i class="fas fa-record-vinyl"
-                        style="color:#00c853"></i>&nbspConectado</li>
+                <li class="nav-item d-flex align-items-center"><i class="fas fa-record-vinyl" style="color:#00c853"></i>&nbspConectado &nbsp;</li>
+                <li class="nav-item"><button type="button" class="btn btn-primary btn-sm" data-target="#addConexion" data-toggle="modal">Iniciar sesión <i class="fa fa-plus"></i></button></li>
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">

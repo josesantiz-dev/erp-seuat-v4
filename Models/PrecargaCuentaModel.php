@@ -92,10 +92,95 @@ class PrecargaCuentaModel extends Mysql
         $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
         return $request;
     }
+
+    // public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
+    //     $this->strNomConexion = $nomConexion;
+    //     $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+    //     $request = $this->insert($sql,$this->strNomConexion,array($idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,1,$idUser));
+    //     return $request;
+    // }
+
     public function selectServiciosByInput($value, string $nomConexion){
         $this->strNomConexion = $nomConexion;
         $sql = "SELECT *FROM t_servicios WHERE nombre_servicio LIKE '%$value%'";
         $request = $this->select_all($sql,$this->strNomConexion);
+        return $request;
+    }
+
+    //EXTRAER PRECARGAS
+    public function selectPrecargas(string $nomConexion)
+    {
+        $this->strNomConexion = $nomConexion;
+        $sql = "SELECT tPre.id AS idPre, tPre.cobro_total AS cTotal, tPre.fecha_limite_cobro AS limCobro, tSe.nombre_servicio AS nomSer, 
+                tPla.nombre_carrera AS nomCarre, tPe.nombre_periodo AS nomPer, tGra.nombre_grado AS nomGra, tPre.estatus AS est
+                FROM t_precarga AS tPre
+                INNER JOIN t_servicios AS tSe ON tPre.id_servicio = tSe.id
+                INNER JOIN t_plan_estudios AS tPla ON tPre.id_plan_estudios = tPla.id
+                INNER JOIN t_periodos AS tPe ON tPre.id_periodo = tPe.id
+                INNER JOIN t_grados AS tGra ON tPre.id_grado = tGra.id
+                WHERE tPre.estatus !=0
+                ";
+        $request = $this->select_all($sql,$this->strNomConexion);
+        return $request;
+    }
+
+    //PARA EDITAR
+    public function selectPrecargaCuenta (int $intIdPrecarga, string $nomConexion)
+    {
+        //BUSCAR SALONES COMPUESTOS
+        $this->intIdPrecarga = $intIdPrecarga;
+        $this->strNomConexion = $nomConexion;
+        $sql = "SELECT * FROM t_precarga WHERE id = $this->intIdPrecarga";
+        $request = $this->select($sql,$this->strNomConexion);
+        return $request;
+    }
+
+    //PARA ACTUALIZAR PRECARGA
+    public function updatePrecargaCuentas(int $id, string $cobro_total, string $fecha_limite_cobro, int $estatus, string $fecha_modificacion, 
+                                            int $id_usuario_modificacion, string $nomConexion)
+    {
+        $this->intIdPrecargaCuenta = $id;
+        $this->intNuevoPrecio = $cobro_total;
+        $this->strFechaLimCobro = $fecha_limite_cobro;
+        $this->intEstatus = $estatus;
+        /* $this->strFecha_Actualizacion = $fecha_modificacion; */
+        $this->intId_Usuario_Actualizacion = $id_usuario_modificacion;
+        $this->strNomConexion = $nomConexion;
+
+        $sql = "SELECT * FROM t_precarga WHERE cobro_total = '$this->intNuevoPrecio' AND id != $this->intIdPrecargaCuenta";
+        $request = $this->select_all($sql,$this->strNomConexion);
+
+        if(empty($request))
+        {
+            $sql = "UPDATE t_precarga SET cobro_total = ?, fecha_limite_cobro = ?, estatus = ?, fecha_modificacion = NOW(), id_usuario_modificacion = ? WHERE id = $this->intIdPrecargaCuenta ";
+            $arrData = array($this->intNuevoPrecio, $this->strFechaLimCobro, $this->intEstatus, $this->intId_Usuario_Actualizacion);
+            $request = $this->update($sql,$this->strNomConexion,$arrData);
+        }else{
+            $request = "exist";
+        }
+        return $request;
+    }
+
+    //MODELO PARA ELIMINAR PRECARGA CUENTA
+    public function deletePrecargaCuenta(int $idPre, string $nomConexion){
+        $this->intIdPrecargaCuenta = $idPre;
+        $this->strNomConexion = $nomConexion;
+        $sql = "SELECT * FROM t_estado_cuenta WHERE id_precarga = $this->intIdPrecargaCuenta";
+        $request = $this->select_all($sql,$this->strNomConexion);
+        if(empty($request))
+        {
+            $sql = "UPDATE t_precarga SET estatus = ? WHERE id = $this->intIdPrecargaCuenta";
+            $arrData =array(0);
+            $request = $this->update($sql,$this->strNomConexion,$arrData);
+            if($request)
+            {
+                $request = 'ok';
+            }else{
+                $request  = 'error';
+            }
+        }else{
+            $request = 'exist';
+        }
         return $request;
     }
 

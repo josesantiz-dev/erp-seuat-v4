@@ -92,26 +92,19 @@
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{
                 $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);
-                // if($arrData){
-                //     $arrResponse = true;
-                // }else{
-                //     $arrResponse = false;
-                // }
                 $option = 1;
-                
-                
             }
-            if($arrData > 0){
+            if($arrData > 0)
+            {
                 if($option == 1)
                     {
                         // $arrResponse = true;
                         $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
-                        echo '<script>swal.fire("Atención", "Datos guardados correctamente", "success")</script>';
                     }
                 
             }else if($arrData == 'exist'){
 
-                $arrResponse = array('estatus' => false, 'msg' => '¡Atención! La precarga ya existe.');
+                $arrResponse = array('estatus' => false, 'msg' => 'La precarga ya existe.');
             }else{
                 $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
             }

@@ -235,7 +235,7 @@ function fnGuardarPrecarga(){
         }
     });
     // console.log(arrDatosNew);
-    if(arrDatosNew.length == num){
+    if(arrDatosNew.length === arr){
         //console.log(newArrDatos);
         /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
@@ -245,13 +245,13 @@ function fnGuardarPrecarga(){
             let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
             // console.log(url);
             fetch(url).then((res) => res.json()).then(resultado =>{
-                if(resultado == true){
+                if(resultado.estatus == true){
                     swal.fire("Atención", "Datos guardados correctamente", "success");
-                }else if (resultado == false){
-                    swal.fire("Atención", "ya existe", "warning")
+                }else if (resultado.estatus == false){
+                    swal.fire("Atención", resultado.msg, "warning")
                     return false;
                 }else{
-                    swal.fire("Atención", "ya existe", "warning")
+                    swal.fire("Atención", resultado.msg, "warning")
                     return false;
                 }
                 // console.log(resultado);

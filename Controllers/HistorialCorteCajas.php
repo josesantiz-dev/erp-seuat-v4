@@ -1,14 +1,20 @@
 <?php
 	class HistorialCorteCajas extends Controllers{
         private $idUser;
-		public function __construct(){
+		private $nomConexion;
+		private $rol;
+		public function __construct()
+		{
 			parent::__construct();
-            session_start();
-            if(empty($_SESSION['login'])){
-                header('Location: '.base_url().'/login');
-                die();
-            }
-            $this->idUser = $_SESSION['idUser'];
+			session_start();
+		    if(empty($_SESSION['login']))
+		    {
+			    header('Location: '.base_url().'/login');
+			    die();
+		    }
+			$this->idUser = $_SESSION['idUser'];
+			$this->nomConexion = $_SESSION['nomConexion'];
+			$this->rol = $_SESSION['claveRol'];
 		}
 		public function historialcortecajas(){
 			$data['page_tag'] = "Historial de corte de cajas";
@@ -19,7 +25,7 @@
 			$this->views->getView($this,"historialcortecajas",$data);
 		}
 		public function getCortesCajas(){
-			$arrData = $this->model->selectCortesCajas();
+			$arrData = $this->model->selectCortesCajas($this->nomConexion);
 			for($i = 0; $i<count($arrData); $i++){
 				$arrData[$i]['numeracion'] = $i+1;
 				$arrData[$i]['plantel'] = $arrData[$i]['nombre_plantel'].'/'.$arrData[$i]['municipio'];

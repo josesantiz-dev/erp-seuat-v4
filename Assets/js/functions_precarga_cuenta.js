@@ -235,7 +235,7 @@ function fnGuardarPrecarga(){
         }
     });
     // console.log(arrDatosNew);
-    if(newArrDatos.length == num){
+    if(arrDatosNew.length == num){
         //console.log(newArrDatos);
         /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
@@ -245,13 +245,19 @@ function fnGuardarPrecarga(){
             let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
             // console.log(url);
             fetch(url).then((res) => res.json()).then(resultado =>{
-                if(resultado){
+                if(resultado == true){
                     swal.fire("Atención", "Datos guardados correctamente", "success");
+                }else if (resultado == false){
+                    swal.fire("Atención", "ya existe", "warning")
+                    return false;
+                }else{
+                    swal.fire("Atención", "ya existe", "warning")
+                    return false;
                 }
-                console.log(resultado);
+                // console.log(resultado);
             }).catch(err => {throw err});
             fnMostrarData();
-            location.reload(true);
+            //location.reload(true);
         });
         // console.log(arrDatosNew);
     }else{
@@ -265,7 +271,6 @@ function mostrarServiciosTabla(){
     let contador = 0;
     document.querySelector('#tableServicioss').innerHTML = "";
     arrDatosNew.forEach(element => {
-        console.log(element)
         contador += 1;
         document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnVerServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_ver_servicio"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
     });

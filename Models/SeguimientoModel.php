@@ -36,10 +36,23 @@ class SeguimientoModel extends Mysql{
     public $intEscolaridad;
     public $intIdSubcampania;
     public $nomConx;
+    private $strUser;
+    private $strPass;
 
 
     public function __construct(){
         parent::__construct();
+    }
+
+    public function loginSesion(string $usr, string $pass, string $plnt)
+    {
+        $this->strUser = $usr;
+        $this->strPass = $pass;
+        $this->nomConx = $plnt;
+        $sql = "SELECT id,estatus FROM t_usuarios WHERE nickname = '$this->strUser' and 
+		password = '$this->strPass' and estatus != 0 ";
+        $request = $this->select($sql, $this->nomConx);
+        return $request;
     }
 
     public function selectMedioCaptacion(string $nomConexion)
@@ -113,8 +126,6 @@ class SeguimientoModel extends Mysql{
         $request = $this->select($sql,$nomConexion);
         return $request;
     }
-
-    //updatePersona($nombre, $apepat, $apemat, $telefono, $email, $plantel, $nivel, $carrera,$idProspecto, $idPersona,$this->idUser,$this->nomConexion)
 
     public function updatePersona(string $nombre, string $apPat, string $apMat, string $tel_celular, string $email, string $pltInteres, int $nvlInteres, int $carrInteres, int $idPro, int $idPer, int $idUsr, string $nomConexion)
     {

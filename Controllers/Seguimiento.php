@@ -3,19 +3,44 @@ class Seguimiento extends Controllers{
     private $idUser;
 	private $nomConexion;
 	private $rol;
+    private $conexiones;
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-        if(empty($_SESSION['login']))
-		{
-			header('Location: '.base_url().'/login');
+        /*if(){
+            header('Location: '.base_url().'/login');
 			die();
-		}
-		$this->idUser = $_SESSION['idUser'];
+        }
+        else{
+            addSesiones();
+        }*/
+        /*if(empty($_SESSION['login']))
+		{
+		
+		}*/
+		//$this->idUser = $_SESSION['idUser'];
 		$this->nomConexion = $_SESSION['nomConexion'];
-		$this->rol = $_SESSION['claveRol'];
+		//$this->rol = $_SESSION['claveRol'];
+
 	}
+
+    public function addSesiones()
+    {
+        $usuario = $_POST['txtNicknameNvaSesion'];
+        $contrasena = $_POST['txtPasswordNvaSesion'];
+        $plantel = $_POST['selectPlantelNvo'];
+        if(empty($usuario) || empty($contrasena) || empty($plantel)){
+            $arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
+        }
+        else{
+            $usuario = strtolower(strClean($_POST['txtNicknameNvaSesion']));
+            $contrasena = hash("SHA256", $_POST['txtPasswordNvaSesion']);
+        }
+        $arrData = $this->model->loginSesion($usuario, $contrasena, $plantel);
+        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 
     public function seguimiento_prospectos()
     {

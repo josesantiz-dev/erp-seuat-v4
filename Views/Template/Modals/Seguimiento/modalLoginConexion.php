@@ -10,10 +10,10 @@
             <div class="modal-body">
                 <div class="card">
                     <img class="card-img-top" alt="">
-                    <form action="">
+                    <form action="" name="formNuevaSesion" id="formNuevaSesion">
                         <div class="card-body">
                             <div class="input-group">
-                                <input type="text" id="txtNickname" name="txtNickname" class="form-control" placeholder="Nombre de usuario">
+                                <input type="text" id="txtNicknameNvaSesion" name="txtNicknameNvaSesion" class="form-control" placeholder="Nombre de usuario" required>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -22,7 +22,7 @@
                             </div>
                             <br>
                             <div class="input-group">
-                                <input type="password" id="txtPassword" name="txtPassword" class="form-control" placeholder="Contraseña">
+                                <input type="password" id="txtPasswordNvaSesion" name="txtPasswordNvaSesion" class="form-control" placeholder="Contraseña" required>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <i class="far fa-eye mr-2" id="togglePassword" style="color:#045FB4"></i>
@@ -32,7 +32,7 @@
                             </div>
                             <br>
                             <div class="input-group mb-4">
-                                <select class="form-control custom-select" name="selectPlantel" id="selectPlantel" required>
+                                <select class="form-control custom-select" name="selectPlantelNvo" id="selectPlantelNvo" required>
                                     <option value="" selected>Selecciona un plantel</option>
                                     <?php foreach(conexiones as $key => $conexion){?>
                                         <option value="<?php echo($key)?>"><?php echo($conexion['NAME']) ?></option>
@@ -42,13 +42,14 @@
                                 </select>
                             </div>
                         </div>
-                    </form>
+                    
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Iniciar sesión</button>
+                <button type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i> Cerrar</button>
+                <button id="btnLoginNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Iniciar sesión</span></button>
             </div>
+            </form>
         </div>
     </div>
 </div>

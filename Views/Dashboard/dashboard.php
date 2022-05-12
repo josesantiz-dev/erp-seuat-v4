@@ -12,21 +12,19 @@
             <div class="col-6 p-3 text-center">
                 <h1>Sistema de planificación de recursos empresariales <b>SEUAT</b></h1>
                 <br>
-                <img src="<?php echo media() ?>/images/Logo_seuat_color.jpeg" width="20%">
+                    <img src="<?php echo media() ?>/images/Logo_seuat_color.jpeg" width="20%">
                 <br>
-                <h3><i>"Una elección inteligente"</i></h3>
+                    <h3><i>"Una elección inteligente"</i></h3>
                 <br>
                 <p>
-<!--                     <button type="button" id="btnTour" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
- -->                    <a type="button" id="btnDashboard" href="<?php echo base_url()?>/DashboardDirc"class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</a>
+                    <!--<button type="button" id="btnTour" class="btn btn-primary"><i class="fas fa-directions"></i>&nbsp Tour</button>
+ -->                    
+                    <a type="button" id="btnDashboard" href="<?php echo base_url()?>/DashboardDirc"class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</a>
                 </p>
-
             </div>
             <div class="col-6">
                 <img src="<?php echo media() ?>/images/img/lading.svg" width="80%">
-            </div>
-
-            
+            </div> 
         </div>
         <!-- <div class="content-header">
             <div class="container-fluid">
@@ -281,17 +279,17 @@
 </div>
 <?php footerAdmin($data); ?>
 <?php 
-    if($data['frase'] != null){
+   /*  if($data['frase'] != null){
         echo '<script type="text/javascript">';
-        echo 'Swal.fire({
-        title: "'.$data['frase']['author'].'",
-        html: "<i>'.$data['frase']['phrase'].'</i>",
+         echo 'Swal.fire({
+        title: "sjsjios",
+        html: "1151115",
         imageUrl: "https://unsplash.it/400/200",
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: "Custom image",
-        })';
+        })'; 
         echo '</script>';
         $_SESSION['frase'] = false;
-    }
+    }  */
 ?>

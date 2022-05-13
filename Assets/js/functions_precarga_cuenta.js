@@ -244,51 +244,28 @@ function fnGuardarPrecarga(){
                 console.log(resultado);
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
-            let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
-            console.log(url);
-            // console.log(url);
-            fetch(url).then((res) => res.json()).then(resultado =>{
-                if(resultado.estatus == true){
-                    swal.fire("Atención", "Datos guardados correctamente", "success");
-                }else if (resultado.estatus == false){
-                    swal.fire("Atención", resultado.msg, "warning")
-                    return false;
-                }else{
-                    swal.fire("Atención", resultado.msg, "warning")
-                    return false;
-                }
-                // console.log(resultado);
-            }).catch(err => {throw err});
-            fnMostrarData();
-            location.reload(true);
+            if(element.nuevo_precio != null && element.fecha_limite_pago){
+                let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
+                // console.log(url);
+                fetch(url).then((res) => res.json()).then(resultado =>{
+                    if(resultado.estatus == true){
+                        swal.fire("Atención", "Datos guardados correctamente", "success");
+                    }else if (resultado.estatus == false){
+                        swal.fire("Atención", resultado.msg, "warning")
+                        return false;
+                    }else{
+                        swal.fire("Atención", resultado.msg, "warning")
+                        return false;
+                    }
+                    // console.log(resultado);
+                }).catch(err => {throw err});
+                fnMostrarData();
+            }else{
+                swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+                return false;
+            }
         });
-        // console.log(arrDatosNew);
-    }else{
-            swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-            return false;
-        }
-    
-    // else if(element.nuevo_precio ==  null){
-    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-    //         return false;
-    //     }else{
-    //         swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-    //         return false;
-    //     }
-
-    // if(arrDatosNew.length != num){
-    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-    //     return false;
-    // }else{
-    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-    //     return false;
-    // }
-
-    // if(newArrDatos == "")
-    // {
-    //     swal.fire("Atención", "Atención falta la edicion de servicio", "warning");
-	// 	return false;
-    // }
+    }
 
 }
 

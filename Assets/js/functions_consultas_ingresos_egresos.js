@@ -36,7 +36,7 @@ function seleccionarPersona(value){
     }else if(matricula != '' && rfc != ''){
         matriculaRFAlumno = matricula;
     }
-    fnGetDatosAlumno(matriculaRFAlumno,idAlumnoSeleccionado); //Ejecutar funcion
+    fnGetDatosAlumno(matriculaRFAlumno,idAlumnoSeleccionado); //Ejecutar funcion */
 }
 
 //click en el boton ver estado de cuenta

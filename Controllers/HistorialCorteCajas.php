@@ -28,7 +28,8 @@
 			$arrData = $this->model->selectCortesCajas($this->nomConexion);
 			for($i = 0; $i<count($arrData); $i++){
 				$arrData[$i]['numeracion'] = $i+1;
-				$arrData[$i]['plantel'] = $arrData[$i]['nombre_plantel'].'/'.$arrData[$i]['municipio'];
+				//$arrData[$i]['plantel'] = $arrData[$i]['nombre_plantel'].'/'.$arrData[$i]['municipio'];
+				$arrData[$i]['nom_plantel'] = conexiones[$arrData[$i]['plantel']]['NAME'];
 				$arrData[$i]['faltante'] = ($arrData[$i]['dinero_faltante'] > 0)?'<span class="badge badge-danger">'.'$'.formatoMoneda($arrData[$i]['dinero_faltante']).'</span>':'$ '.formatoMoneda($arrData[$i]['dinero_faltante']);
 				$arrData[$i]['sobrante'] = ($arrData[$i]['dinero_sobrante'] > 0)?'<span class="badge badge-warning">'.'$'.formatoMoneda($arrData[$i]['dinero_sobrante']).'</span>':'$ '.formatoMoneda($arrData[$i]['dinero_sobrante']);
 				

@@ -24,7 +24,7 @@
 			$data['page_title'] = "Corte caja";
 			$data['page_name'] = "Corte caja";
 			$data['page_functions_js'] = "functions_corte_caja.js";
-			$plantel = $this->model->selectPlantelCajero($this->idUser,$this->nomConexion);
+			//$plantel = $this->model->selectPlantelCajero($this->idUser,$this->nomConexion);
 			$data['cajeros'] = $this->model->selectCajeros($this->nomConexion);
 			$this->views->getView($this,"cortecaja",$data);
 		}
@@ -58,7 +58,7 @@
 			}
 			$arrayValue = [];
 			foreach ($array as $key => $value) {
-				$valores = array('id'=>$key,'metodo'=>$this->model->selectMetodoPago($key)['descripcion'],'total'=>$value, $this->nomConexion);
+				$valores = array('id'=>$key,'metodo'=>$this->model->selectMetodoPago($key, $this->nomConexion)['descripcion'],'total'=>$value);
 				array_push($arrayValue,$valores);
 			}
 			$arrResponse['detalles'] = $arrData;
@@ -66,6 +66,7 @@
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die();
 		}
+		
 		public function getDetallesIngreso($idIngreso){
 			$arrData = $this->model->selectDetalleIngreso($idIngreso, $this->nomConexion);
 			for($i = 0; $i<count($arrData); $i++){

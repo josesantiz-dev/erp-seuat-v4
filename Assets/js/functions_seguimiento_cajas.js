@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
             mostrarCards(resultado.datos);
         }).catch(err => {throw err});
     }
-    setInterval(load,1000);
+    //setInterval(load,5000);
     load();
 })
 function fnGraficar(arrDias,datos){

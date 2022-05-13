@@ -3,18 +3,26 @@ class Seguimiento extends Controllers{
     private $idUser;
 	private $nomConexion;
 	private $rol;
-    private $conexiones;
+    private $conexionesUsuarios = array();
+    private $requestUser = "";
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-        /*if(){
-            header('Location: '.base_url().'/login');
-			die();
-        }
-        else{
-            addSesiones();
-        }*/
+        // if($this->conexionesUsuarios <= 0){
+        //     header('Location: '.base_url().'/login');
+		// 	die();
+        // }
+        // else{
+        //     array_push($conexionesUsuarios, $requestUsers['id']);
+        // }
+        // else{
+
+        //     $dataUser = array(
+        //         'id' => $this->conexiones['id'],
+        //         'estatus' => $this->conexiones['estatus']
+        //     );
+        // }
         /*if(empty($_SESSION['login']))
 		{
 		
@@ -37,8 +45,24 @@ class Seguimiento extends Controllers{
             $usuario = strtolower(strClean($_POST['txtNicknameNvaSesion']));
             $contrasena = hash("SHA256", $_POST['txtPasswordNvaSesion']);
         }
-        $arrData = $this->model->loginSesion($usuario, $contrasena, $plantel);
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+        $requestUsers = $this->model->loginSesion($usuario, $contrasena, $plantel);
+        if(empty($requestUsers)){
+            $arrResponse = array('estatus' => true, 'msg' => 'El usuario o contraseña es incorrectono existe');
+        }
+        else
+        {
+            $this->requestUsers = $requestUser;
+            if($arrData['estatus'] == 1)
+            {
+                array_push($conexionesUsuarios,$requestUsers['id']);
+                $arrResponse = array('estatus' => true, 'msg' => 'OK');
+            }
+            else
+            {
+                $arrResponse = array('msg' => 'El usuario está inactivo');
+            }
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         die();
     }
 

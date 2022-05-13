@@ -9,7 +9,7 @@
         </div>
         <hr class="p3">
         <div class="row">
-            <div class="col-6 p-3 text-center">
+            <div class="col-md-6 p-3 text-center">
                 <h1>Sistema de planificación de recursos empresariales <b>SEUAT</b></h1>
                 <br>
                     <img src="<?php echo media() ?>/images/Logo_seuat_color.jpeg" width="20%">
@@ -22,7 +22,7 @@
                     <a type="button" id="btnDashboard" href="<?php echo base_url()?>/DashboardDirc"class="btn btn-primary"><i class="fas fa-grip-vertical"></i>&nbsp Dashboard</a>
                 </p>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <img src="<?php echo media() ?>/images/img/lading.svg" width="80%">
             </div> 
         </div>

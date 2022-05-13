@@ -7,10 +7,10 @@ date_default_timezone_set('America/Mexico_City');
     #header_pdf { position: fixed; left: 0px; top: -169px; right: 0px; height: 130px; text-align: center; font-size: 10px; }
     #footer_pdf { position: fixed; left: 0px; bottom: -169px; right: 0px; height: 50px; font-size:9px; }
     #footer_pdf .page:after { content: counter(page, upper-roman); }
-background-image: url(<?php echo media() ?>/images/logo-seuat-contorno-ok.png);
-background-repeat: no-repeat;
-background-size:100%;
-background-position: bottom left;
+    background-image: url(<?php echo media() ?>/images/logo-seuat-contorno-ok.png);
+    background-repeat: no-repeat;
+    background-size:100%;
+    background-position: bottom left;
   .titulo{
     text-align: center;
     font-size:10px;
@@ -113,16 +113,16 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         <div class="c_encabezado">
             <table class="sin_borde">
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['nombre_sistema']))?></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['nombre_sistema']))?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;">R.F.C.: <?php echo(strtoupper($data['datosInstitucion']['rfc'])) ?></th>
+                    <th colspan="5" style="font-size:12px;font-weight: bold; text-align: left;">R.F.C.: <?php //echo(strtoupper($data['datosInstitucion']['rfc'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:11px;font-weight:normal;text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
+                    <th colspan="5" style="font-size:11px;font-weight:normal;text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="5" style="font-size:11px;font-weight:norml; text-align: left;"><?php echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th>
+                    <th colspan="5" style="font-size:11px;font-weight:norml; text-align: left;"><?php //echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th>
                 </tr>
             </table>
         </div>
@@ -130,14 +130,14 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             <table class="sin_borde">
                 <tr><th><th><th></tr>
                 <tr>
-                    <th colspan="1" style="font-size:12px;font-weight: bold; text-align: left; background-color:#EEEEEE"><?php echo(strtoupper($data['datosInstitucion']['municipio'])) ?></th>
-                    <th colspan="2" style="font-size:12px;font-weight: normal; text-align: left; background-color:#CBCBCB">FOLIO: <?php echo(strtoupper($data['datosInstitucion']['codigo_plantel'])) ?></th>
+                    <th colspan="1" style="font-size:12px;font-weight: bold; text-align: left; background-color:#EEEEEE"><?php //echo(strtoupper($data['datosInstitucion']['municipio'])) ?></th>
+                    <th colspan="2" style="font-size:12px;font-weight: normal; text-align: left; background-color:#CBCBCB">FOLIO: <?php //echo(strtoupper($data['datosInstitucion']['codigo_plantel'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="3" style="font-size:10px;font-weight: normal; text-align: left; background-color:#F9F7F7"><?php echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
+                    <th colspan="3" style="font-size:10px;font-weight: normal; text-align: left; background-color:#F9F7F7"><?php //echo(strtoupper($data['datosInstitucion']['domicilio'])) ?></th>
                 </tr>
                 <tr>
-                    <th colspan="3" style="font-size:10px;font-weight:normal; text-align: left; background-color: #F9F7F7"><?php echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th>
+                    <!-- <th colspan="3" style="font-size:10px;font-weight:normal; text-align: left; background-color: #F9F7F7"><?php //echo(strtoupper($data['datosInstitucion']['colonia'].','.$data['datosInstitucion']['localidad'].','.$data['datosInstitucion']['municipio'].','. ','.$data['datosInstitucion']['estado'].',CP: '.$data['datosInstitucion']['cod_postal'])) ?></th> -->
                 </tr>
             </table>
         </div>
@@ -149,20 +149,20 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         <br>
         <div id="fila-normal" >
             <div class="subfila" style="width: 156px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">RECIBÍ DEL (A) ALUMNO (A):</div>
-            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><b><?php echo(strtoupper($data['datos_alumno']['nombre_persona'].' '.$data['datos_alumno']['ap_paterno'].' '.$data['datos_alumno']['ap_materno'])) ?></b></div>
+            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><b><?php //echo(strtoupper($data['datos_alumno']['nombre_persona'].' '.$data['datos_alumno']['ap_paterno'].' '.$data['datos_alumno']['ap_materno'])) ?></b></div>
         </div>
         <div id="fila-normal" >
             <div class="subfila" style="width: 96px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">PARA ESTUDIAR</div>
-            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper($data['datos_alumno']['nombre_carrera'])) ?></div>
+            <div class="subfila" style="width:262px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php //echo(strtoupper($data['datos_alumno']['nombre_carrera'])) ?></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 180px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">POR CONCEPTO DE: <b>INSCRIPCION</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            if($data['datos_venta']['inscripcion'] != 0){
+            /* if($data['datos_venta']['inscripcion'] != 0){
                 echo ('$ '.formatoMoneda($data['datos_venta']['inscripcion']));
             }else{
                 echo '';
-            }
+            } */
             ?></div>
             <div class="subfila" style="width: 90px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left"><b>COLEGIATURA</b></div>
             <div class="subfila" style="width: 50px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
@@ -187,26 +187,26 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
             <div class="subfila" style="width: 140px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">LA CANTIDAD TOTAL DE:</div>
             <div class="subfila" style="width: 200px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo('$ '.formatoMoneda($data['datos_venta']['total'])) ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left"><b>(</b></div>
-            <div class="subfila" style="width: 380px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php echo(strtoupper(number_words($data['datos_venta']['total'],"pesos","y","centavos"))) ?></div>
+            <div class="subfila" style="width: 380px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php //echo(strtoupper(number_words($data['datos_venta']['total'],"pesos","y","centavos"))) ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left"><b> ).</b></div>
         </div>
         <div id="fila-normal">
             <div class="subfila" style="width: 110px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">EN EL PERIODO DEL:</div>
             <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            $mes = date("m",strtotime($data['datos_alumno']['fecha_inicio_periodo']));
+            //$mes = date("m",strtotime($data['datos_alumno']['fecha_inicio_periodo']));
             $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
-            echo(strtoupper($listaMeses[$mes]));
+            //echo(strtoupper($listaMeses[$mes]));
             ?></div>
             <div class="subfila" style="width: 10px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">AL</div>
             <div class="subfila" style="width: 150px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            $mes = date("m",strtotime($data['datos_alumno']['fecha_fin_periodo']));
+            //$mes = date("m",strtotime($data['datos_alumno']['fecha_fin_periodo']));
             $listaMeses = array('01'=>'Enero','02'=>'Febrero','03'=>'Marzo','04'=>'Abril','05'=>'Mayo','06'=>'Junio','07'=>'Julio','08'=>'Agosto','09'=>'Septiembre','10'=>'Octubre','11'=>'Noviembre','12'=>'Diciembre');
-            echo(strtoupper($listaMeses[$mes]));
+           // echo(strtoupper($listaMeses[$mes]));
             ?></div>
             <div class="subfila" style="width: 40px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">DEL</div>
             <div class="subfila" style="width: 30px; height: 12px; float:left; background-color: #eae9e9; padding: 5px 2px 4px 4px; text-align: left; "><?php 
-            $anio = date("Y",strtotime($data['datos_alumno']['fecha_fin_periodo']));
-            echo($anio);
+            //$anio = date("Y",strtotime($data['datos_alumno']['fecha_fin_periodo']));
+            //echo($anio);
             ?></div>
             <div class="subfila" style="width: 232px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 4px;text-align:left">.</div>
         </div>
@@ -221,7 +221,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         </div><br><br>  
         <div id="fila-normal">
             <div class="subfila" style="width: 425px; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">
-                <table class="tg" style="undefined;table-layout: fixed; width: 425px; margin-top: 0px;">
+                <table class="tg" style="table-layout: fixed; width: 425px; margin-top: 0px;">
                     <tr>
                         <th width="50%"></th>
                         <th width="50%"></th>
@@ -253,7 +253,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         </div><br><br><br><br><br><br><br><br><br><br>
         <div id="fila-normal">
             <div class="subfila" style="width: 100%; height: 12px; float:left; background-color: #ffffff; padding: 7px 2px 2px 0px;text-align:left">
-                <table class="tg" style="undefined;table-layout: fixed; width: 100%; margin-top: 0px;">    
+                <table class="tg" style="table-layout: fixed; width: 100%; margin-top: 0px;">    
                     <tr>
                         <td valign="top" colspan="1">
                            <div style="text-align:justify; font-size:8px">ESTAMOS COMPROMETIDOS CON USTED POR EL BUEN USO Y MANEJO QUE DAREMOS A SUS DATOS PERSONALES, POR ESO, EL SISTEMA EDUCATIVO UNIVERSITARIO AZTECA TUXTLA, S.C. CON DOMICILIO EN AVENIDA 2A. NORTE No. 741. ENTRE 6A. Y 8A. ORIENTE COL. CENTRO, TUXTLA GUTIERREZ, CHIAPAS, CP. 29000 CON TEL. 961 61 22329 Y 961 61 37926 PONE A SU DISPOSICIÓN SU AVISO DE PRIVACIDAD PARA CONOCERLO, VISITE NUESTRA PÁGINA <b>WWW.SEUAT.MX</b></div>
@@ -264,7 +264,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
         </div>
     </div>
     <?php
-        function number_words($valor,$desc_moneda, $sep, $desc_decimal) {
+        /* function number_words($valor,$desc_moneda, $sep, $desc_decimal) {
             $arr = explode(".", $valor);
             $entero = $arr[0];
             if (isset($arr[1])) {
@@ -278,7 +278,7 @@ table.sin_borde{border:0px solid #ffffff; width: 100%;}
                 }
             }
             return $num_word;
-        }
+        } */
     ?>
 </div>
 </html>

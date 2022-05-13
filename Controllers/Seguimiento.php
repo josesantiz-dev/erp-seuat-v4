@@ -8,8 +8,8 @@ class Seguimiento extends Controllers{
 		parent::__construct();
 		session_start();
         if(empty($_SESSION['login']))
-		{
-			header('Location: '.base_url().'/login');
+            {
+                header('Location: '.base_url().'/login');
 			die();
 		}
 		$this->idUser = $_SESSION['idUser'];

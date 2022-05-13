@@ -151,7 +151,7 @@
         //Funcion para imprimir comprante de una Venta
         public function imprimir_comprobante_venta(string $idVenta){
             $idIngreso = $this->reverse64($idVenta);
-            $data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso, $this->nomConexion); //Datos del plantel
+            //$data['datosInstitucion'] = $this->model->selectDatosInstitucion($idIngreso, $this->nomConexion); //Datos del plantel
             $data['datos_venta'] = $this->model->selectDatosVenta($idIngreso, $this->nomConexion);//Datos del ingreso/venta
             $data['datos_alumno'] = $this->model->selectDatosAlumno($idIngreso, $this->nomConexion);//Datos del Alumno
             $data['datos_usuario'] = $this->model->selectDatosUsuario($this->idUser, $this->nomConexion);//Datos del Usuario Admin
@@ -176,7 +176,7 @@
             $arrDatosVenta['otros'] = $otros;
             
             $data['datos_venta'] = $arrDatosVenta;
-            $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data); 
+            $this->views->getView($this,"viewpdf_compromante_venta_media_carta",$data);
         }
         public function aperturarCaja($args){
             $arg = explode(',',$args);

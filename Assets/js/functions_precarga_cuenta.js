@@ -90,10 +90,12 @@ function fnListNiveles(idPlantel,nivel){
         if(nivel > 0){
             document.querySelector('#listNivelDatatable').querySelector('option[value="'+nivel+'"]').selected = true;
         }
+        // console.log(resultado);
     }).catch(err => {throw err});
 }
 function fnNivelSeleccionadoDatatable(value){
     nivel = value;
+    // idPlantel = value;
     fnPlantelSeleccionadoDatatable(idPlantel, nivel);
 }
 
@@ -235,7 +237,7 @@ function fnGuardarPrecarga(){
         }
     });
     // console.log(arrDatosNew);
-    if(arrDatosNew.length === arr){
+    if(arrDatosNew.length == num){
         //console.log(newArrDatos);
         /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
             fetch(url).then((res) => res.json()).then(resultado =>{
@@ -243,6 +245,7 @@ function fnGuardarPrecarga(){
             }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
             let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
+            console.log(url);
             // console.log(url);
             fetch(url).then((res) => res.json()).then(resultado =>{
                 if(resultado.estatus == true){
@@ -257,13 +260,35 @@ function fnGuardarPrecarga(){
                 // console.log(resultado);
             }).catch(err => {throw err});
             fnMostrarData();
-            //location.reload(true);
+            location.reload(true);
         });
         // console.log(arrDatosNew);
     }else{
-        swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
-        return false;
-    }
+            swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+            return false;
+        }
+    
+    // else if(element.nuevo_precio ==  null){
+    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+    //         return false;
+    //     }else{
+    //         swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+    //         return false;
+    //     }
+
+    // if(arrDatosNew.length != num){
+    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+    //     return false;
+    // }else{
+    //     swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+    //     return false;
+    // }
+
+    // if(newArrDatos == "")
+    // {
+    //     swal.fire("Atención", "Atención falta la edicion de servicio", "warning");
+	// 	return false;
+    // }
 
 }
 

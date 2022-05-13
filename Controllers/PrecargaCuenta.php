@@ -88,7 +88,7 @@
 			$idServicio = intval($params[5]);
             $precioNuevo = $params[6];
             $fechaLimitePago = $params[7];
-            if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
+            if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) ){
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{
                 $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);
@@ -208,7 +208,7 @@
 		//PARA ACTUALIZAR PRECARGA CUENTA
         public function setPrecargaCuentas_up()
         {
-			dep($_POST);
+			// dep($_POST);
             if($_POST)
             {
                 if(empty($_POST['intNuevo_precio_precarg_edit']) || empty($_POST['txtFecha_limite_pago_pre_edit']) || 
@@ -218,7 +218,7 @@
                 }else{
                     $intIdPrecargaCuenta = intval($_POST['intId_precarga_edit']);
                     // $strPrecioActual = strClean($_POST['txtPrecio_actual_precarg_edit']);
-					$intNuevoPrecio = strClean($_POST['intNuevo_precio_precarg_edit']);
+					$intNuevoPrecio = intval($_POST['intNuevo_precio_precarg_edit']);
 					$strFechaLimCobro = strClean($_POST['txtFecha_limite_pago_pre_edit']);
                     $intEstatus = intval($_POST['listEstatusUp']);
                     $strFecha_Actualizacion = strClean($_POST['txtFecha_ActualizacionUp']);

@@ -159,7 +159,7 @@ function fnDelServicio(value, id) {
                     }
             });
             arrDatosNew = nuevoArr;
-            console.log(arrDatosNew);
+            // console.log(arrDatosNew);
             mostrarServiciosTabla();
         }
     })
@@ -236,17 +236,11 @@ function fnGuardarPrecarga(){
             num += 1;
         }
     });
-    // console.log(arrDatosNew);
+
     if(arrDatosNew.length == num){
-        //console.log(newArrDatos);
-        /*let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${nivel}/${grado}/${periodo}/${JSON.stringify(newArrDatos)}/${idPlanEstudios}`;
-            fetch(url).then((res) => res.json()).then(resultado =>{
-                console.log(resultado);
-            }).catch(err => {throw err});*/
         arrDatosNew.forEach(element => {
             if(element.nuevo_precio != null && element.fecha_limite_pago){
                 let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
-                // console.log(url);
                 fetch(url).then((res) => res.json()).then(resultado =>{
                     if(resultado.estatus == true){
                         swal.fire("Atención", "Datos guardados correctamente", "success");
@@ -257,9 +251,10 @@ function fnGuardarPrecarga(){
                         swal.fire("Atención", resultado.msg, "warning")
                         return false;
                     }
-                    // console.log(resultado);
+                    fnMostrarData();
+                    // location.reload(true);
+                    setTimeout(function () { location.reload(1); }, 1600);
                 }).catch(err => {throw err});
-                fnMostrarData();
             }else{
                 swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
                 return false;
@@ -366,11 +361,6 @@ function convStrToBase64(str){
     return window.btoa(unescape(encodeURIComponent( str ))); 
 }
 
-//ELIMINAR SERVICIO
-// function fnDelServicio(){
-
-// }
-
 
 //TABLA PRECARGA CUENTA
 
@@ -417,41 +407,6 @@ function fnMostrarData(){
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    // tablePrecargaCuenta = $('#tablePrecargaCuenta').dataTable( {
-	// 	"aProcessing":true,
-	// 	"aServerSide":true,
-    //     "language": {
-    //     	"url": " "+base_url+"/Assets/plugins/Spanish.json"
-    //     },
-    //     "ajax":{
-    //         "url": " "+base_url+"/PrecargaCuenta/getPrecargas",
-    //         "dataSrc":""
-    //     },
-    //     "columns":[
-    //         {"data":"numeracion"},
-    //         {"data":"cTotal"},
-    //         {"data":"limCobro"},
-    //         {"data":"nomSer"},
-    //         {"data":"nomCarre"},
-    //         {"data":"nomPer"},
-    //         {"data":"nomGra"},
-    //         {"data":"est"},
-    //         {"data":"options"}
-    //     ],
-    //     "responsive": true,
-	//     "paging": true,
-	//     "lengthChange": true,
-	//     "searching": true,
-	//     "ordering": true,
-	//     "info": true,
-	//     "autoWidth": false,
-	//     "scrollY": '44vh',
-	//     "scrollCollapse": true,
-	//     "bDestroy": true,
-	//     "order": [[ 0, "desc" ]],
-	//     "iDisplayLength": 25
-    // });
-
     //ACTUALIZAR PRECARGA
     if(document.querySelector('#form_precarga_edit')){
         let form_precarga_edit = document.querySelector('#form_precarga_edit');
@@ -459,7 +414,6 @@ document.addEventListener('DOMContentLoaded', function(){
             e.preventDefault();
 
             let intIdPrecargaCuenta = document.querySelector('#intId_precarga_edit').value;
-            // let strPrecioActual = document.querySelector('#intPrecio_actual_precarg_edit').value;
             let intNuevoPrecio = document.querySelector('#intNuevo_precio_precarg_edit').value;
             let strFechaLimCobro = document.querySelector('#txtFecha_limite_pago_pre_edit').value;
             let strFecha_Actualizacion = document.querySelector('#txtFecha_ActualizacionUp ').value;
@@ -516,7 +470,6 @@ function fntEditPrecargaCuentas(element, id){
             let objData = JSON.parse(request.responseText);
             if(objData.estatus){
                 document.querySelector("#intId_precarga_edit").value = objData.data.id;
-                // document.querySelector("#intPrecio_actual_precarg_edit").value = objData.data.cobro_total;
                 document.querySelector("#intNuevo_precio_precarg_edit").value = objData.data.cobro_total;
                 document.querySelector("#txtFecha_limite_pago_pre_edit").value = objData.data.fecha_limite_cobro;
                 document.querySelector("#txtId_Usuario_ActualizacionUp").value = 1;

@@ -23,7 +23,8 @@
         $data['page_title'] = "Seguimiento cajas";
         $data['page_name'] = "seguimiento cajas";
         $data['page_functions_js'] = "functions_seguimiento_cajas.js";
-        $data['cajeros'] = $this->model->selectCajeros($this->nomConexion);
+        //$data['cajeros'] = $this->model->selectCajeros($this->nomConexion);
+        $data['cajeros'] = $this->selectCajeros($this->nomConexion);
         $this->views->getView($this,"seguimientocajas",$data);
     }
     public function selectCajeros($idPlantel){
@@ -45,7 +46,7 @@
     }
     public function selectVentasAll(){
         $arrData = $this->model->selectVentasTotalAll($this->nomConexion);
-/*         $dias = [];
+        $dias = [];
         $planteles = [];
         $arrGrafica = [];
         foreach ($arrData as $key => $value) {
@@ -54,12 +55,12 @@
             }
         }
         foreach ($arrData as $key => $value) {
-            if($planteles[$value['id_plantel']] == ''){
-                $planteles[$value['id_plantel']] = null;
+            if(empty($planteles[$value['nom_plantel']])){
+                $planteles[$value['nom_plantel']] = null;
             }
-            $planteles[$value['id_plantel']] = $value['abreviacion_sistema'].'/'.$value['abreviacion_plantel'].'/'.$value['municipio'];
+            $planteles[$value['nom_plantel']] = conexiones[$value['nom_plantel']]['NAME'] ;
         }
-        $arrColores = ['','#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#009688','#4caf50','#ff5722','#ff5722','#f50057'];
+        $arrColores = ['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#009688','#4caf50','#ff5722','#ff5722','#f50057'];
         foreach ($planteles as $keyPlantel => $valuePlantel) {
             $id_plantel = $keyPlantel;
             $nombre_plantel = $valuePlantel;
@@ -68,20 +69,20 @@
                 $dia = $valueDias;
                 $valor = 0;
                 foreach ($arrData as $key => $value) {
-                    if($value['id_plantel'] == $id_plantel && $value['fecha'] == $dia){
+                    if($value['nom_plantel'] == $id_plantel && $value['fecha'] == $dia){
                         //array_push($data,$value['total']);
                         $valor = intval($value['total']);
                     }
                 }
                 array_push($data,$valor);
             }
-            $value1 = array('label'=>$valuePlantel,'data'=>$data,'borderColor'=>$arrColores[$keyPlantel],'fill'=>false);
+            $value1 = array('label'=>$valuePlantel,'data'=>$data,'borderColor'=>$arrColores[array_rand($arrColores,1)],'fill'=>false);
             array_push($arrGrafica,$value1);
             $data = array();
         }
         $array['dias'] = $dias;
-        $array['datos'] = $arrGrafica; */
-        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        $array['datos'] = $arrGrafica;
+        echo json_encode($array,JSON_UNESCAPED_UNICODE);
 		die();
     }
   }

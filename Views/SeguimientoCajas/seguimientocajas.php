@@ -64,8 +64,8 @@
                                                         ?>
                                                         <tr>
                                                             <th scope="row"><i class="fas fa-arrow-alt-circle-down" style="color:red"></i></th>
-                                                            <td><?php echo $cajero['nombre_sistema'] ?></td>
-                                                            <td><?php echo $cajero['nombre_plantel'] ?></td>
+                                                            <td><?php echo $cajero['nombre_caja'] ?></td>
+                                                            <td><?php echo $cajero['nombre_caja'] ?></td>
                                                             <td><?php echo($cajero['nombre_persona'].' '.$cajero['ap_paterno'].' '.$cajero['ap_materno']) ?></td>
                                                             <td><?php echo $cajero['nombre_caja']?></td>
                                                             <td><?php echo '$ '. formatoMoneda($cajero['total_venta']) ?></td>

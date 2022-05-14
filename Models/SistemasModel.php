@@ -33,5 +33,14 @@
             $request = $this->insert($sql,$this->nomConexion,array($this->nomConexion,$this->nomSistema,$this->abreviacionSistema,$this->logoSistema,1,$this->idUser));
             return $request;
         }
+
+        //Select Sistema by ID
+        public function selectSistema(string $conexion, string $nomConexion)
+        {
+            $this->nomConexion = $nomConexion;
+            $sql = "SELECT *FROM t_sistemas_educativos WHERE nom_conexion = $conexion LIMIT 1";
+            $request = $this->select($sql,$this->nomConexion);
+            return $request;
+        }
     }
 ?>

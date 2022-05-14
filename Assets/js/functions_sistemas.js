@@ -92,14 +92,21 @@ function displayImageSistema(f) {
 }
 
 //Editar sistema
-function fnEditSistema(idSistema)
+function fnEditSistema(nomConexion)
 {
-    if(idSistema != ''){
-        let urlSistema = `${base_url}/Sistemas/getSistema/${idSistema}`;
-        fetch(url)
+    if(nomConexion != ''){
+        let urlSistema = `${base_url}/Sistemas/getSistema/${nomConexion}`;
+        fetch(urlSistema)
         .then((res) => res.json())
         .then(resultado =>{
-            console.log(resultado);
+            if(resultado.estatus){
+                document.querySelector('#nom_conexion_sistema_edit').value = resultado.data.nom_conexion;
+                document.querySelector('#txt_nombre_sistema_edit').value = resultado.data.nombre_sistema;
+                document.querySelector('#txt_abreviacion_edit').value = resultado.data.abreviacion_sistema;
+                //document.querySelector('#').value = resultado.data.logo_sistema;
+            }else{
+                swal.fire("Error", resultado.msg, "error");
+            }
         }).catch(err =>{throw err});
     }
 }

@@ -11,7 +11,7 @@
             <form id="form_nuevo_sistema" method = "POST" name="form_nuevo_sistema" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="txt_nombre_sistema">Nombre del sistema <span class="required">*</span> </label>
-                    <input type="text" id="txt_nombre_sistema" name="txt_nombre_sistema" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="150">
+                    <input type="text" id="txt_nombre_sistema" name="txt_nombre_sistema" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="100">
                 </div>
                 <div class="form-group">
                     <label for="txt_abreviacion">Abreviación <span class="required">*</span> </label>

@@ -37,9 +37,9 @@
 					<i class="fas fa-layer-group"></i> &nbsp; Acciones
 					</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fnEditSistema('.$arrResponse[$i]['id'].')" data-toggle="modal" data-target="#modal_edit_sistema" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fnEditSistema('.$arrResponse[$i]['nom_conexion'].')" data-toggle="modal" data-target="#modal_edit_sistema" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
 						<div class="dropdown-divider"></div>
-						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fnDelSistema('.$arrResponse[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fnDelSistema('.$arrResponse[$i]['nom_conexion'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
 					</div>
 				</div>
 				</div>';
@@ -77,12 +77,17 @@
         }
 
         //Get Sistema By ID
-        public function getSistema(int $idSistema)
+        public function getSistema(string $nomConexion)
         {   
-            if($idSistema != null || $idSistema != ''){
-                $arrData = "";
+            if($nomConexion != null || $nomConexion != ''){
+                $arrData = $this->model->selectSistema($nomConexion,$this->nomConexion);
+                if($arrData){
+                    $arrResponse = array('estatus' => true, 'msg' => '', 'data'=>$arrData);   
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'No se pudo obtener los datos', 'data'=> '');   
+                }
             }else{
-                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo obtener los datos');   
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo obtener los datos','data'=>'');   
             }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();

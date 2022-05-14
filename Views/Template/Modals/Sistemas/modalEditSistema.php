@@ -9,14 +9,14 @@
             </div>
             <div class="modal-body">
             <form id="form_nuevo_sistema" method = "POST" name="form_nuevo_sistema" enctype="multipart/form-data">
-                <input type="hidden" id="id_sistema_edit" name="id_sistema_edit">
+                <input type="hidden" id="nom_conexion_sistema_edit" name="nom_conexion_sistema_edit">
                 <div class="form-group">
-                    <label for="txt_nombre_sistema">Nombre del sistema <span class="required">*</span> </label>
-                    <input type="text" id="txt_nombre_sistema" name="txt_nombre_sistema" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="150">
+                    <label for="txt_nombre_sistema_edit">Nombre del sistema <span class="required">*</span> </label>
+                    <input type="text" id="txt_nombre_sistema_edit" name="txt_nombre_sistema_edit" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="150">
                 </div>
                 <div class="form-group">
-                    <label for="txt_abreviacion">Abreviación <span class="required">*</span> </label>
-                    <input type="text" id="txt_abreviacion" name="txt_abreviacion" class="form-control valid validText" placeholder="Ingrese una abreviación" required="" maxlength="10">
+                    <label for="txt_abreviacion_edit">Abreviación <span class="required">*</span> </label>
+                    <input type="text" id="txt_abreviacion_edit" name="txt_abreviacion_edit" class="form-control valid validText" placeholder="Ingrese una abreviación" required="" maxlength="10">
                 </div>
                 <div class="form-group">
                     <label>Logotipo del sistema</label>
@@ -28,9 +28,9 @@
                         </div>
                         <div class="form-group card-body text-center" style="position:relative;" >
                             <span class="img-div">
-                                <img src="<?php echo media();?>/images/img/logo-empty.png" id="profileDisplaySistema" style="max-width:200px;">
+                                <img src="<?php echo media();?>/images/img/logo-empty.png" id="profileDisplaySistemaEdit" style="max-width:200px;">
                             </span>
-                            <input type="file" name="profileImageSistema" onChange="displayImageSistema(this)" id="profileImageSistema" class="form-control" style="display: none;"
+                            <input type="file" name="profileImageSistemaEdit" onChange="displayImageSistema(this)" id="profileImageSistemaEdit" class="form-control" style="display: none;"
                                 accept=".png,.jpg,.jpeg,.svg">
                         </div>
                     </div> 

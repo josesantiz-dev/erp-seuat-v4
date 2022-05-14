@@ -36,7 +36,7 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
             {"data":"numeracion"},
             {"data":"nombre_plantel"},
             {"data":"nombre_carrera"},
-            {"data":"nombre_nivel_educativo"},
+            {"data":"id_plantel"},
             {"data":"options"}
         ],
         "responsive": true,

@@ -26,7 +26,7 @@ class PrecargaCuentaModel extends Mysql
     }
     public function selectPlanEstudiosByNivel(int $idNivel, string $nomConexion){
         $this->strNomConexion = $nomConexion;
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id,pe.id_nivel_educativo,ne.nombre_nivel_educativo  AS id_plantel FROM t_plan_estudios AS pe 
+        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id  AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
         INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
         INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
         WHERE  pe.estatus = 1 AND pe.id_nivel_educativo = $idNivel";

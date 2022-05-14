@@ -5,6 +5,7 @@ let formEditServicio = document.querySelector("#form_servicio_edit");
 let arrDatosNew = [];
 let tableServicios;
 let tablePrecargaCuenta;
+let tablePlanEstudios;
 
 let tableServicioss;
 // let rowTable = "";
@@ -22,7 +23,10 @@ document.addEventListener('DOMContentLoaded', function(){
 function fnPlantelSeleccionadoDatatable(value,nivel){
     idPlantel = value;
     let url = `${base_url}/PrecargaCuenta/getPlanEstudios/${idPlantel}/${nivel}`;
-    let tablePlanEstudios = $('#tablePlanEstudios').dataTable( {
+    // fetch(url).then((res) => res.json()).then(resultado =>{
+    //     console.log(resultado)
+    // }).catch(err => {throw err});
+    tablePlanEstudios = $('#tablePlanEstudios').dataTable( {
 		"aProcessing":true,
 		"aServerSide":true,
         "language": {
@@ -36,7 +40,7 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
             {"data":"numeracion"},
             {"data":"nombre_plantel"},
             {"data":"nombre_carrera"},
-            {"data":"id_plantel"},
+            {"data":"nombre_nivel_educativo"},
             {"data":"options"}
         ],
         "responsive": true,

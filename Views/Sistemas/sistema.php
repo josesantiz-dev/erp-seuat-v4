@@ -28,7 +28,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <p class="card-text">
-                                    <table id="tableSistemas" class="table table-bordered table-striped table-hover table-sm">
+                                    <table id="table_sistemas" class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
                                             <tr>
                                                 <th width="7%">#</th>

@@ -1,14 +1,15 @@
-<div class="modal fade" id="modal_nuevo_sistema" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_edit_sistema" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nuevo sistema</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar sistema</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
             <form id="form_nuevo_sistema" method = "POST" name="form_nuevo_sistema" enctype="multipart/form-data">
+                <input type="hidden" id="id_sistema_edit" name="id_sistema_edit">
                 <div class="form-group">
                     <label for="txt_nombre_sistema">Nombre del sistema <span class="required">*</span> </label>
                     <input type="text" id="txt_nombre_sistema" name="txt_nombre_sistema" class="form-control valid validText" placeholder="Ingrese un nombre" required="" maxlength="150">

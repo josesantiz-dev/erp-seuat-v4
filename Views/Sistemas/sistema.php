@@ -1,6 +1,7 @@
 <?php
     headerAdmin($data);
     getModal('Sistemas/modalNuevoSistema',$data);
+    getModal('Sistemas/modalEditSistema',$data);
 ?>
 <div id="contentAjax"></div>
 <div class="wrapper">

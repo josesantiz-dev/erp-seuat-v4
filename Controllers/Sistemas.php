@@ -29,6 +29,61 @@
         public function getSistemas()
         {
             $arrResponse = $this->model->selectSistemas($this->nomConexion);
+            for($i = 0; $i <count($arrResponse); $i++){
+                $arrResponse[$i]['numeracion'] = $i+1;
+                $arrResponse[$i]['options'] = '<div class="text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-layer-group"></i> &nbsp; Acciones
+					</button>
+					<div class="dropdown-menu">
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnEditPlan" onClick="fnEditSistema('.$arrResponse[$i]['id'].')" data-toggle="modal" data-target="#modal_edit_sistema" title="Editar"> &nbsp;&nbsp; <i class="fas fa-pencil-alt"></i> &nbsp; Editar</button>
+						<div class="dropdown-divider"></div>
+						<button class="dropdown-item btn btn-outline-secondary btn-sm btn-flat icono-color-principal btnDelPlan" onClick="fnDelSistema('.$arrResponse[$i]['id'].')" title="Eliminar"> &nbsp;&nbsp; <i class="far fa-trash-alt "></i> &nbsp; Eliminar</button>
+					</div>
+				</div>
+				</div>';
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        //set New Sistema
+        public function setSistema()
+        {
+            $data = $_POST;
+            $files = $_FILES;
+            $strNombresistema = $data['txt_nombre_sistema'];
+            $strAbreviacion = $data['txt_abreviacion'];
+            $strUbicacionFileTmp = $files['profileImageSistema']['tmp_name'];
+            $nombreImagenSistema = time().'-'.conexiones[$this->nomConexion]['NAME'].'-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
+            $direccionLogos = 'Assets/images/logos/';
+			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
+            if($strNombresistema == '' || $strAbreviacion == '' || $strUbicacionFileTmp == ''){
+                $arrResponse = array('estatus' => false, 'msg' => 'Atención todos los campos son obligatorio');
+            }
+            if(move_uploaded_file($strUbicacionFileTmp,$nombreImagenSistemaFile)){
+                $setSistema = $this->model->insertSistema($strNombresistema,$strAbreviacion,$nombreImagenSistema,$this->nomConexion,$this->idUSer);
+                if($setSistema){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Se guardaron correctamente los datos');
+                }else{
+                    $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar los datos');
+                }
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo guardar la imagen');   
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        //Get Sistema By ID
+        public function getSistema(int $idSistema)
+        {   
+            if($idSistema != null || $idSistema != ''){
+                $arrData = "";
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo obtener los datos');   
+            }
             echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }

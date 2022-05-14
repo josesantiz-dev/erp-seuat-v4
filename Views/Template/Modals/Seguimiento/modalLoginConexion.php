@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle icono-azul"></i> Cerrar</button>
+                <button id="cerrar"type="button" class="btn btn-outline-secondary icono-color-principal btn-inline" data-dismiss="modal" id="dimissModalNuevoLogin"><i class="fa fa-fw fa-lg fa-times-circle icono-azul" id="salirModalLoginNvo"></i> Cerrar</button>
                 <button id="btnLoginNuevo" type="submit" class="btn btn-outline-secondary icono-color-principal btn-inline"><i class="fa fa-fw fa-lg fa-check-circle icono-azul"></i><span id="btnText"> Iniciar sesión</span></button>
             </div>
             </form>

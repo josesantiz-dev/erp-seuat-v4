@@ -52,64 +52,22 @@ formLoginNvo.addEventListener('submit', (e) =>{
 
 	let url = `${base_url}/Seguimiento/addSesiones`
 	const datos = new FormData(document.querySelector('#formNuevaSesion'))
-	console.log(url)
 	fetch(url,{
 		method: 'POST',
 		body: datos
 	})
 	.then(response => response.json())
 	.then(data => {
-		
+		console.log(data);
+		if(data.estatus)
+		{
+			$('#salirModalLoginNvo').click();
+			formLoginNvo.reset();
+			swal.fire('Atención',data.msg,'success');
+		}
 	})
 })
 
-/*document.addEventListener('DOMContentLoaded', function(){
-    if(document.querySelector("#formNuevaSesion")){
-
-        let formLogin = document.querySelector("#formNuevaSesion");
-        formLogin.onsubmit = function(e){
-            e.preventDefault();
-
-            let strNickname = document.querySelector('#txtNicknameNvaSesion').value;
-            let strPassword = document.querySelector('#txtPasswordNvaSesion').value;
-			l
-			let url = `${base_url}/Seguimiento/addSesiones`;
-			fetch(url,{
-				method: 'POST',
-
-			})
-
-            // if(strNickname == "" || strPassword == "")
-            // {
-            //     swal.fire("Por favor", "Escribe un usuario y contraseña.", "error");
-            //     return false;
-            // }else{
-            //     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            //     var ajaxUrl = base_url+'/Seguimiento/addSesiones';
-            //     var formData = new FormData(formLogin);
-            //     request.open("POST",ajaxUrl,true);
-            //     request.send(formData);
-            //     request.onreadystatechange = function(){
-            //         if(request.readyState !=4) return;
-            //         if(request.status == 200){
-            //             var objData = JSON.parse(request.responseText);
-                        
-            //             if(objData.estatus)
-            //             {
-            //                 window.location = base_url+'/dashboard';
-            //             }else{
-            //                 swal.fire("Atención", objData.msg, "error");
-            //                 document.querySelector('#txtPassword').value = "";
-            //             }
-            //         }else{
-            //             swal.fire("Atención","Error en el proceso", "error");
-            //         }
-            //         return false;
-            //     }
-            // }
-        }
-    }
-}, false);*/
 
 document.addEventListener('DOMContentLoaded', function(){
     tableSeguimientoProspecto = $('#tableSeguimientoProspecto').dataTable( {

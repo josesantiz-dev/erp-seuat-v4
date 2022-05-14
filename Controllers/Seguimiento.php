@@ -3,8 +3,7 @@ class Seguimiento extends Controllers{
     private $idUser;
 	private $nomConexion;
 	private $rol;
-    private $conexionesUsuarios = array();
-    private $requestUser = "";
+    private $conexionesUsuarios = [];
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,6 +34,7 @@ class Seguimiento extends Controllers{
 
     public function addSesiones()
     {
+        
         $usuario = $_POST['txtNicknameNvaSesion'];
         $contrasena = $_POST['txtPasswordNvaSesion'];
         $plantel = $_POST['selectPlantelNvo'];
@@ -45,24 +45,50 @@ class Seguimiento extends Controllers{
             $usuario = strtolower(strClean($_POST['txtNicknameNvaSesion']));
             $contrasena = hash("SHA256", $_POST['txtPasswordNvaSesion']);
         }
-        $requestUsers = $this->model->loginSesion($usuario, $contrasena, $plantel);
-        if(empty($requestUsers)){
-            $arrResponse = array('estatus' => true, 'msg' => 'El usuario o contraseña es incorrectono existe');
+        $arrData = $this->model->loginSesion($usuario, $contrasena, $plantel);
+        if(empty($arrData)){
+            $arrResponse = array('estatus' => true, 'msg' => 'No existe el usuario o la contraseña es incorrecta');
         }
-        else
-        {
-            $this->requestUsers = $requestUser;
-            if($arrData['estatus'] == 1)
-            {
-                array_push($conexionesUsuarios,$requestUsers['id']);
-                $arrResponse = array('estatus' => true, 'msg' => 'OK');
-            }
-            else
-            {
-                $arrResponse = array('msg' => 'El usuario está inactivo');
-            }
-        }
-        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        // if(empty($arrData)){
+        //     $arrResponse = array('estatus' => true, 'msg' => 'El usuario o la contraseña es incorrecta');
+        // }
+        // else
+        // {
+        //     if($arrData['estatus'] == 1)
+        //     {
+        //         foreach ($arrData['id'] as $key => $arrayConexiones) {
+        //             array_push($conexionesUsuarios,$arrayConexiones, $plantel);
+        //             $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado correctamente la sesión');
+        //         }
+        //     }
+        //     // if($arrData['estatus'] == 1)
+        //     // {
+        //     //     array_push($conexionesUsuarios,$arrData['id']);
+        //     //     $arrResponse = array('estatus' => true, 'msg' => 'OK');
+        //     // }
+        //     // else
+        //     // {
+        //     //     $arrResponse = array('msg' => 'El usuario está inactivo');
+        //     // }
+        // }
+
+        // if(empty($requestUsers)){
+        //     $arrResponse = array('estatus' => true, 'msg' => 'El usuario o contraseña es incorrectono existe');
+        // }
+        // else
+        // {
+        //     $this->requestUser = $requestUsers;
+        //     if($requestUsers['estatus'] == 1)
+        //     {
+        //         array_push($conexionesUsuarios,$requestUsers['id']);
+        //         $arrResponse = array('estatus' => true, 'msg' => 'OK');
+        //     }
+        //     else
+        //     {
+        //         $arrResponse = array('msg' => 'El usuario está inactivo');
+        //     }
+        // }
+        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         die();
     }
 

@@ -88,19 +88,54 @@
 			$idServicio = intval($params[5]);
             $precioNuevo = $params[6];
             $fechaLimitePago = $params[7];
-            if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
+            if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) ){
                 $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
             }else{
                 $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);
-                if($arrData){
-                    $arrResponse = true;
-                }else{
-                    $arrResponse = false;
-                }
+                $option = 1;
+            }
+            if($arrData > 0)
+            {
+                if($option == 1)
+                    {
+                        // $arrResponse = true;
+                        $arrResponse = array('estatus' => true, 'msg' => 'Datos guardados correctamente.');
+                    }
+                
+            }else if($arrData == 'exist'){
+
+                $arrResponse = array('estatus' => false, 'msg' => 'La precarga ya existe.');
+            }else{
+                $arrResponse = array("estatus" => false, "msg" => 'No es posible almacenar los datos.');
             }
 			echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 			die();
 		}
+
+
+        // public function setPrecarga($args){
+		// 	$params = explode(",",$args);
+		// 	$idPlantel = intval($params[0]);
+		// 	$idPlanEstudios = $params[1];
+		// 	$idNivel = intval($params[2]);
+		// 	$idPeriodo = intval($params[3]);
+		// 	$idGrado = intval($params[4]);
+		// 	$idServicio = intval($params[5]);
+        //     $precioNuevo = $params[6];
+        //     $fechaLimitePago = $params[7];
+        //     if(empty($idPlantel) && empty($idPlanEstudios) && empty($idNivel) && empty($idPeriodo) && empty($idGrado) && empty($idServicio) && empty($precioNuevo) && empty($fechaLimitePago)){
+        //         $arrResponse = array('estatus' => false, 'msg' => 'Error en los datos.');
+        //     }else{
+        //         $arrData = $this->model->insertPrecargaCuenta($idPlantel,$idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,$_SESSION['idUser'],$this->nomConexion);
+        //         if($arrData){
+        //             $arrResponse = true;
+        //         }else{
+        //             $arrResponse = false;
+        //         }
+        //     }
+		// 	echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+		// 	die();
+		// }
 
 		public function getServiciosByInput($valueInput){
 			$input = strClean($valueInput);
@@ -173,7 +208,7 @@
 		//PARA ACTUALIZAR PRECARGA CUENTA
         public function setPrecargaCuentas_up()
         {
-			dep($_POST);
+			// dep($_POST);
             if($_POST)
             {
                 if(empty($_POST['intNuevo_precio_precarg_edit']) || empty($_POST['txtFecha_limite_pago_pre_edit']) || 
@@ -183,7 +218,7 @@
                 }else{
                     $intIdPrecargaCuenta = intval($_POST['intId_precarga_edit']);
                     // $strPrecioActual = strClean($_POST['txtPrecio_actual_precarg_edit']);
-					$intNuevoPrecio = strClean($_POST['intNuevo_precio_precarg_edit']);
+					$intNuevoPrecio = intval($_POST['intNuevo_precio_precarg_edit']);
 					$strFechaLimCobro = strClean($_POST['txtFecha_limite_pago_pre_edit']);
                     $intEstatus = intval($_POST['listEstatusUp']);
                     $strFecha_Actualizacion = strClean($_POST['txtFecha_ActualizacionUp']);

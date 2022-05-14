@@ -88,15 +88,26 @@ class PrecargaCuentaModel extends Mysql
     }
     public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
         $this->strNomConexion = $nomConexion;
-        $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
-        $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
-        return $request;
+        $this->intCobroTotsal = $precioNuevo;
+        // $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+        // $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+        $sql = "SELECT * FROM t_precarga WHERE cobro_total = '$this->intCobroTotsal' ";
+            $request = $this->select_all($sql,$this->strNomConexion);
+        if(empty($request)){
+            $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+            $request = $this->insert($sql,$this->strNomConexion,array($this->intCobroTotsal,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+    
+            $return = $request;
+        }else{
+            $return = "exist";
+        }
+        return $return;
     }
 
     // public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
     //     $this->strNomConexion = $nomConexion;
     //     $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
-    //     $request = $this->insert($sql,$this->strNomConexion,array($idPlanEstudios,$idNivel,$idPeriodo,$idGrado,$idServicio,$precioNuevo,$fechaLimitePago,1,$idUser));
+    //     $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
     //     return $request;
     // }
 

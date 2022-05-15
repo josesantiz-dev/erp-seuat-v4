@@ -35,12 +35,22 @@
         }
 
         //Select Sistema by ID
-        public function selectSistema(string $conexion, string $nomConexion)
+        public function selectSistema(int $idSistema, string $nomConexion)
         {
             $this->nomConexion = $nomConexion;
-            $sql = "SELECT *FROM t_sistemas_educativos WHERE nom_conexion = $conexion LIMIT 1";
+            $sql = "SELECT *FROM t_sistemas_educativos WHERE id = $idSistema LIMIT 1";
             $request = $this->select($sql,$this->nomConexion);
             return $request;
+        }
+
+        public function selectSistemaExist(int $idSistema,string $strNombreSistema,string $strAbreviacion,int $intEstatus,string $nomConexion,int $idUser)
+        {
+            $this->nomSistema = $strNombreSistema;
+            $this->abreviacionSistema = $strAbreviacion;
+            $this->estatus = $intEstatus;
+            $this->nomConexion = $nomConexion;
+            $this->idUser = $idUser;
+            return "jose";
         }
     }
 ?>

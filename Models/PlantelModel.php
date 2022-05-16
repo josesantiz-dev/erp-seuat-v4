@@ -47,10 +47,11 @@
 		//Funcion para Insertar Nuevo Plantel
 		public function insertPlantel($data,$files, string $nomConexion){
 			$idUser = $_SESSION['idUser'];
+			$idSistemaEducativo = $data['select_sistema_educativo'];
             $nombrePlantel = $data['txtNombrePlantelNuevo'];
             $abreviacionPlantel = $data['txtAbreviacionPlantelNuevo'];
-            $nombreSistema = $data['txtNombreSistemaNuevo'];
-            $abreviacionSistema = $data['txtAbreviacionSistemaNuevo'];
+            //$nombreSistema = $data['txtNombreSistemaNuevo'];
+            //$abreviacionSistema = $data['txtAbreviacionSistemaNuevo'];
             $regimen = $data['txtRegimenNuevo'];
             $servicio = $data['txtServicioNuevo'];
             $idCategoria = $data['txtCategoriaNuevo'];
@@ -78,10 +79,10 @@
 
 
             $nombreImagenPlantel = time().'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
-			$nombreImagenSistema = time().'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION);
+			//$nombreImagenSistema = time().'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION);
             $direccionLogos = 'Assets/images/logos/';
 			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
-			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
+			//$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
 			$request = [];
 			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo'";
 			$requestExist = $this->select($sqlExist, $nomConexion);
@@ -89,16 +90,14 @@
 				$request['estatus'] = TRUE;
 				$request['imagen'] = null;
 			}else{
-				if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile) && 
-					move_uploaded_file($files["profileImageSistema"]["tmp_name"],$nombreImagenSistemaFile)){
-                	$sqlNew = "INSERT INTO t_planteles(nombre_plantel, abreviacion_plantel, nombre_sistema, abreviacion_sistema, regimen, servicio, categoria, 
+				if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
+                	$sqlNew = "INSERT INTO t_planteles(id_sistema,nombre_plantel, abreviacion_plantel,regimen, servicio, categoria, 
 					cve_centro_trabajo, estado, municipio, localidad, domicilio, colonia, zona_escolar, cod_postal, latitud, longitud, 
-					logo_plantel, logo_sistema, cedula_funcionamiento, cve_institucion_dgp, estatus,
-					fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion) VALUES(?,?,?,?,?,?,?,?,?,
-                    	?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?)";
-			    	$requestNew = $this->insert($sqlNew,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$nombreSistema,$abreviacionSistema,$regimen,$servicio,$idCategoria,
+					logo_plantel,cedula_funcionamiento, cve_institucion_dgp, estatus,
+					fecha_creacion,id_usuario_creacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?)";
+			    	$requestNew = $this->insert($sqlNew,$nomConexion,array($idSistemaEducativo,$nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
                         $claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
-                        $nombreImagenPlantel,$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
+                        $nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser));
 						$request['estatus'] = FALSE;
 						$request['imagen'] = true;
             	}else{
@@ -111,10 +110,11 @@
 		//Funcion para Actualizar un Plantel
 		public function updatePlantel($idPlantelEdit,$data,$files, string $nomConexion){
 			$idUser = $_SESSION['idUser'];
+			$idSistemaEducativo = $data['select_sistema_educativo_edit'];
 			$nombrePlantel = $data['txtNombrePlantelEdit'];
             $abreviacionPlantel = $data['txtAbreviacionPlantelEdit'];
-            $nombreSistema = $data['txtNombreSistemaEdit'];
-            $abreviacionSistema = $data['txtAbreviacionSistemaEdit'];
+            //$nombreSistema = $data['txtNombreSistemaEdit'];
+            //$abreviacionSistema = $data['txtAbreviacionSistemaEdit'];
             $regimen = $data['txtRegimenEdit'];
             $servicio = $data['txtServicioEdit'];
             $idCategoria = $data['txtCategoriaEdit'];
@@ -142,10 +142,10 @@
 			$requestNomLocalidad = $this->select($sqlNomLocalidad, $nomConexion);
 
             $nombreImagenPlantel = time() .'-'.$abreviacionPlantel . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImagePlantel"]["name"], PATHINFO_EXTENSION);
-			$nombreImagenSistema = time() .'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION);
+			/* $nombreImagenSistema = time() .'-'.$abreviacionSistema . '-' . $requestNomEstado['nombre'] . '-' . $requestNomMunicipio['nombre']. '.' .pathinfo($files["profileImageSistema"]["name"], PATHINFO_EXTENSION); */
             $direccionLogos = 'Assets/images/logos/';
 			$nombreImagenPlantelFile = $direccionLogos . basename($nombreImagenPlantel);
-			$nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
+			/* $nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema); */
 
 			$request = [];
 			$sqlExist = "SELECT *FROM t_planteles WHERE cve_centro_trabajo = '$claveCentroTrabajo' AND id != $idPlantelEdit";
@@ -154,6 +154,26 @@
 				$request['estatus'] = TRUE;
 				
 			}else{
+				if($files["profileImagePlantel"]["name"] == ""){
+					$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?,regimen = ?,servicio = ?,categoria = ?,
+					cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
+					logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? ,id_sistema = ? WHERE id = $idPlantelEdit";
+					$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
+						$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
+						$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idSistemaEducativo));
+					$request['estatus'] = FALSE;
+				}else{
+					if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
+						$sqlUpdate = "UPDATE t_planteles SET nombre_plantel = ?,abreviacion_plantel = ?, regimen = ?,servicio = ?,categoria = ?,
+						cve_centro_trabajo = ?,estado = ?,municipio = ?,localidad = ?,domicilio = ?,colonia = ?,zona_escolar = ?,cod_postal = ?,latitud = ?,longitud = ?,
+						logo_plantel = ?,cedula_funcionamiento = ?,cve_institucion_dgp = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ?, id_sistema = ? WHERE id = $idPlantelEdit";
+						$requestUpdate = $this->update($sqlUpdate,$nomConexion,array($nombrePlantel,$abreviacionPlantel,$regimen,$servicio,$idCategoria,
+								$claveCentroTrabajo,$requestNomEstado['nombre'],$requestNomMunicipio['nombre'],$requestNomLocalidad['nombre'],$domicilio,$colonia,$zonaEscolar,$codigoPostal,$latitud,$longitud,
+								$nombreImagenPlantel,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idSistemaEducativo));
+						$request['estatus'] = FALSE;
+					}
+				}
+/* 
 				if($files["profileImagePlantel"]["name"] == "" || $files["profileImageSistema"]["name"] == ""){
 					if($files["profileImagePlantel"]["name"] != ""){
 						if(move_uploaded_file($files["profileImagePlantel"]["tmp_name"],$nombreImagenPlantelFile)){
@@ -192,7 +212,7 @@
 								$nombreImagenPlantel,$nombreImagenSistema,$cedulaFuncionamiento,$cveInstitucionDGP,1,$idUser,$idUser));
 					}
 				}
-				$request['estatus'] = FALSE;
+				$request['estatus'] = FALSE; */
 			}
 			return $request;  	
 		}
@@ -212,7 +232,7 @@
 		return $request;	
 		}
 		public function getTablasRef(string $nomConexion){
-			$sqlTablasRef = "SELECT TABLE_NAME AS tablas FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE REFERENCED_TABLE_NAME = 't_planteles'";
+			$sqlTablasRef = "SELECT TABLE_NAME AS tablas FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = '".conexiones[$nomConexion]['DB_NAME']."' AND REFERENCED_TABLE_NAME = 't_planteles'";
 			$requestTablasRef = $this->select_all($sqlTablasRef, $nomConexion);
 			return $requestTablasRef;
 		}
@@ -228,5 +248,19 @@
             $request = $this->select($sql, $nomConexion);
             return $request;
         }
+
+		public function selectSistemasEducativos(string $nomConexion)
+		{
+			$sql = "SELECT *FROM t_sistemas_educativos WHERE estatus = 1";
+			$request = $this->select_all($sql, $nomConexion);
+			return $request;
+		}
+
+		public function selectSistemaEducativo(int $idSistema, string  $nomConexion)
+		{
+			$sql = "SELECT *FROM t_sistemas_educativos WHERE id = $idSistema LIMIT 1";
+			$request = $this->select($sql,$nomConexion);
+			return $request;
+		}
 	}
 ?>

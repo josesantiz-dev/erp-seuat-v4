@@ -156,7 +156,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-5">
+                               <!--  <div class="form-group col-md-5">
                                     <div class="card">
                                         <div class="card-header row d-flex justify-content-between">
                                             <div class="col-md-6">
@@ -169,7 +169,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div> 
+                                </div> --> 
                             </div>
                         </div>         
                     </div>

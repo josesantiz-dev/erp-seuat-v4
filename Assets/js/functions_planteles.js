@@ -57,10 +57,11 @@ document.addEventListener('DOMContentLoaded', function(){
         e.preventDefault();
         let documento = document.querySelector('#formNuevoPlantel').querySelectorAll('[input]');
         document.querySelector("#idPlantelNuevo").value = 1;
+        let intIdSistemaEduvativo = document.querySelector('#select_sistema_educativo').value;
         var strNombrePlantel = document.querySelector('#txtNombrePlantelNuevo').value;
         var strAbreviacionPlantel = document.querySelector('#txtAbreviacionPlantelNuevo').value;
-        var strNombreSistema = document.querySelector('#txtNombreSistemaNuevo').value;
-        var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaNuevo').value;
+        //var strNombreSistema = document.querySelector('#txtNombreSistemaNuevo').value;
+        //var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaNuevo').value;
         var strRegimen = document.querySelector('#txtRegimenNuevo').value;
         var strServicio = document.querySelector('#txtServicioNuevo').value;
         var strCategoria = document.querySelector('#txtCategoriaNuevo').value;
@@ -72,8 +73,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var strDomicilio = document.querySelector('#txtDomicilioNuevo').value;
         var strColonia = document.querySelector('#txtColoniaNuevo').value;
         var intCodigoPostal = document.querySelector('#txtCodigoPostalNuevo').value;
-
-        if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || 
+        if (intIdSistemaEduvativo == '' || strNombrePlantel == '' || strAbreviacionPlantel == '' || strRegimen == '' || 
             strServicio == '' || strCategoria == ''  || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || 
             intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
                 swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
@@ -401,10 +401,11 @@ function fntEditPlantel(idPlantel){
             if(objData)
             {   
                 document.querySelector("#idPlantelEdit").value = objData.id
+                document.querySelector('#select_sistema_educativo_edit').querySelector('option[value="' +objData.id_sistema+ '"]').selected = true;
                 document.querySelector('#txtNombrePlantelEdit').value = objData.nombre_plantel;
                 document.querySelector('#txtAbreviacionPlantelEdit').value = objData.abreviacion_plantel;
-                document.querySelector('#txtNombreSistemaEdit').value = objData.nombre_sistema;
-                document.querySelector('#txtAbreviacionSistemaEdit').value = objData.abreviacion_sistema;
+                //document.querySelector('#txtNombreSistemaEdit').value = objData.nombre_sistema;
+                //document.querySelector('#txtAbreviacionSistemaEdit').value = objData.abreviacion_sistema;
                 document.querySelector('#txtRegimenEdit').value = objData.regimen;
                 document.querySelector('#txtServicioEdit').value = objData.servicio;
                 document.querySelector('#txtCategoriaEdit').value = objData.categoria;
@@ -482,7 +483,7 @@ function fntEditPlantel(idPlantel){
                 document.querySelector('#txtLatitudEdit').value = objData.latitud;
                 document.querySelector('#txtLongitudEdit').value = objData.longitud;
                 document.querySelector("#profileDisplayPlantelEdit").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
-                document.querySelector("#profileDisplaySistemaEdit").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
+                //document.querySelector("#profileDisplaySistemaEdit").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
             }else{
                 swal.fire("Error", objData.msg , "error");
             }
@@ -518,14 +519,14 @@ function fntDelPlantel(id) {
             request.onreadystatechange = function(){
                 if(request.readyState == 4 && request.status == 200){
                     var objData = JSON.parse(request.responseText);
-                    if(objData.estatus)
+                   if(objData.estatus)
                     {
                         swal.fire("Eliminar!", objData.msg , "success");
                         tablePlantel.api().ajax.reload();
 
                     } else {
                         swal.fire("Atención!", objData.msg , "error");
-                    }
+                    } 
                 }
                 divLoading.style.display = "none";
                 return false;
@@ -552,8 +553,8 @@ function fntVerPlantel(idPlantel){
                 document.querySelector('#titModal').innerHTML = objData.nombre_plantel;
                 document.querySelector('#txtNombrePlantelVer').value = objData.nombre_plantel;
                 document.querySelector('#txtAbreviacionPlantelVer').value = objData.abreviacion_plantel;
-                document.querySelector('#txtNombreSistemaVer').value = objData.nombre_sistema;
-                document.querySelector('#txtAbreviacionsistemaVer').value = objData.abreviacion_sistema;
+                document.querySelector('#txtNombreSistemaVer').value = objData.nombre_sistema_educativo;
+                document.querySelector('#txtAbreviacionsistemaVer').value = objData.abreviacion_sistema_educativo;
                 document.querySelector('#txtRegimenVer').value = objData.regimen;
                 document.querySelector('#txtServicioVer').value = objData.servicio;
                 document.querySelector('#txtCategoriaVer').value = objData.categoria;
@@ -572,7 +573,7 @@ function fntVerPlantel(idPlantel){
                 document.querySelector('#txtLatitudVer').value = objData.latitud;
                 document.querySelector('#txtLongitudVer').value = objData.longitud;
                 document.querySelector("#profilePlantelVer").src = base_url+"/Assets/images/logos/"+objData.logo_plantel;
-                document.querySelector("#profileSistemaVer").src = base_url+"/Assets/images/logos/"+objData.logo_sistema;
+ /*                document.querySelector("#profileSistemaVer").src = base_url+"/Assets/images/logos/"+objData.logo_sistema; */
 
             }else{
                 swal.fire("Error", objData.msg , "error");
@@ -587,10 +588,11 @@ function fntVerPlantel(idPlantel){
 var formEditPlantel = document.querySelector("#formEditPlantel");
     formEditPlantel.onsubmit = function(e){
         e.preventDefault();
+        let intIdsistemaEductaivo = document.querySelector('#select_sistema_educativo_edit').value;
         var strNombrePlantel = document.querySelector('#txtNombrePlantelEdit').value;
         var strAbreviacionPlantel = document.querySelector('#txtAbreviacionPlantelEdit').value;
-        var strNombreSistema = document.querySelector('#txtNombreSistemaEdit').value;
-        var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaEdit').value;
+        //var strNombreSistema = document.querySelector('#txtNombreSistemaEdit').value;
+        //var strAbreviacionSistema = document.querySelector('#txtAbreviacionSistemaEdit').value;
         var strRegimen = document.querySelector('#txtRegimenEdit').value;
         var strServicio = document.querySelector('#txtServicioEdit').value;
         var strCategoria = document.querySelector('#txtCategoriaEdit').value;
@@ -603,7 +605,7 @@ var formEditPlantel = document.querySelector("#formEditPlantel");
         var strColonia = document.querySelector('#txtColoniaEdit').value;
         var intCodigoPostal = document.querySelector('#txtCodigoPostalEdit').value;
         
-        if (strNombrePlantel == '' || strAbreviacionPlantel == '' || strNombreSistema == '' || strAbreviacionSistema == '' || strRegimen == '' || strServicio == '' || strCategoria == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
+        if (intIdsistemaEductaivo == '' || strNombrePlantel == '' || strAbreviacionPlantel == ''  || strRegimen == '' || strServicio == '' || strCategoria == '' || intClaveCentroTrabajo == '' || intEstado == '' || intMunicipio == '' || intLocalidad == '' || strDomicilio == '' || strColonia == '' || intCodigoPostal == ''){
             swal.fire("Atención", "Atención todos los campos son obligatorios", "warning");
             return false;
         }

@@ -18,9 +18,9 @@
         }
         //return View sistema
         public function sistemas()
-        {   $data['page_tag'] = "Sistemas";
-			$data['page_title'] = "Sistemas";
-			$data['page_name'] = "sistemas";
+        {   $data['page_tag'] = "Sistemas educativos";
+			$data['page_title'] = "Sistemas educativos";
+			$data['page_name'] = "sistemas educativos";
 			$data['page_functions_js'] = "functions_sistemas.js";
             $this->views->getView($this,'sistema',$data);
         }
@@ -31,6 +31,7 @@
             $arrResponse = $this->model->selectSistemas($this->nomConexion);
             for($i = 0; $i <count($arrResponse); $i++){
                 $arrResponse[$i]['numeracion'] = $i+1;
+                $arrResponse[$i]['estatus'] = ($arrResponse[$i]['estatus'] == 1)?'<span class="badge badge-success">Activo</span>':'<span class="badge badge-warning">Innactivo</span>';
                 $arrResponse[$i]['options'] = '<div class="text-center">
 				<div class="btn-group">
 					<button type="button" class="btn btn-outline-secondary btn-xs icono-color-principal dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -104,24 +105,46 @@
             $files = $_FILES;
             $strUbicacionFileTmp = $files['profileImageSistema']['tmp_name']; //Logo nuevo
             $nombreFile = "";
-           /*  if($strUbicacionFileTmp != ''){ //Se cambio el Logo
+            if($idSisistema == '' || $strNombreSistema == '' || $strAbreviacion == '' || $intEstatus == ''){
+                $arrResponse = array('estatus' => false, 'msg' => 'Atención todos los campos son obligatorio');
+            }
+            if($strUbicacionFileTmp != ''){ //Se cambio el Logo
                 $direccionLogos = 'Assets/images/logos/';
                 $nombreImagenSistema = time().'-'.conexiones[$this->nomConexion]['NAME'].'-Sistema-Educativo'.'.'.pathinfo($files['profileImageSistema']['name'],PATHINFO_EXTENSION);
                 $nombreImagenSistemaFile = $direccionLogos . basename($nombreImagenSistema);
                 if(move_uploaded_file($strUbicacionFileTmp,$nombreImagenSistemaFile)){
-                    $arrResponde = 
+                    $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,$nombreImagenSistema,$this->idUSer,$this->nomConexion);
+                    if($arrData){
+                        $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+                    }
+
                 }else{
                     $arrResponse = array('estatus' => false, 'msg' => 'No se pudo actualizar la imagen');
                 }
             }else{
-                $nombreFile = 1;
-            } */
-           /*  if($idSisistema == '' || $nombreImagenSistema == '' || $strAbreviacion == '' || $intEstatus == ''){
-                $arrResponse = array('estatus' => false, 'msg' => 'Atención todos los campos son obligatorio');
-            } */
-            $checkExist = $this->model->selectSistemaExist($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,$this->nomConexion,$this->idUSer);
-            
-            echo json_encode($checkExist,JSON_UNESCAPED_UNICODE);
+                $arrData = $this->model->updateSistema($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,null,$this->idUSer,$this->nomConexion);
+                if($arrData){
+                    $arrResponse = array('estatus' => true, 'msg' => 'Datos actualizados correctamente');
+                }
+            }
+            //$checkExist = $this->model->selectSistemaExist($idSisistema,$strNombreSistema,$strAbreviacion,$intEstatus,$this->nomConexion,$this->idUSer);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
+        public function delSistema(int $idSistema)
+        {
+            if($idSistema == ''){
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo eliminar el registro');
+                die();
+            }
+            $arrData = $this->model->delSistema($idSistema,$this->idUSer,$this->nomConexion);
+            if($arrData){
+                $arrResponse = array('estatus' => true, 'msg' => 'Registro eliminado correctamente');
+            }else{
+                $arrResponse = array('estatus' => false, 'msg' => 'No se pudo eliminar el registro');
+            }
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
             die();
         }
     }

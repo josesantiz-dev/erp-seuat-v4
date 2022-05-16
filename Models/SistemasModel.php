@@ -52,5 +52,32 @@
             $this->idUser = $idUser;
             return "jose";
         }
+        
+        public function updateSistema(int $idSistema,string $strNombreSistema,string $strAbreviacion,int $intEstatus,$nombreImagenSistema,int $idUSer,string $nomConexion)
+        {
+            $this->nomSistema = $strNombreSistema;
+            $this->abreviacionSistema = $strAbreviacion;
+            $this->estatus = $intEstatus;
+            $this->logoSistema = $nombreImagenSistema;
+            $this->idUser = $idUSer;
+            $this->nomConexion = $nomConexion;
+            if($this->logoSistema == null){
+                $sql = "UPDATE t_sistemas_educativos SET nombre_sistema = ?,abreviacion_sistema = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idSistema";
+                $request = $this->update($sql,$this->nomConexion,array($this->nomSistema,$this->abreviacionSistema,$this->estatus,$this->idUser)); 
+            }else{
+                $sql = "UPDATE t_sistemas_educativos SET nombre_sistema = ?,abreviacion_sistema = ?,logo_sistema = ?,estatus = ?,fecha_actualizacion = NOW(),id_usuario_actualizacion = ? WHERE id = $idSistema";
+                $request = $this->update($sql,$this->nomConexion,array($this->nomSistema,$this->abreviacionSistema,$this->logoSistema,$this->estatus,$this->idUser));
+            }
+            return $request;
+        }
+
+        public function delSistema(int $idSistema,int $idUSer,string $nomConexion)
+        {
+            $this->idUser = $idUSer;
+            $this->nomConexion = $nomConexion;
+            $sql = "UPDATE t_sistemas_educativos SET estatus = ? WHERE id = $idSistema";
+            $request = $this->update($sql,$this->nomConexion,array(0));
+            return $request;
+        }
     }
 ?>

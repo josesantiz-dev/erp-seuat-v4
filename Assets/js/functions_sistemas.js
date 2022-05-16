@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{"data": "numeracion"},
 			{"data": "nombre_sistema"},
 			{"data": "abreviacion_sistema"},
+			{"data": "estatus"},
 			{"data": "options"}
         ],
         "responsive": true,
@@ -118,7 +119,6 @@ function fnEditSistema(idSistema)
                 document.querySelector('#id_sistema_edit').value = resultado.data.id;
                 document.querySelector('#txt_nombre_sistema_edit').value = resultado.data.nombre_sistema;
                 document.querySelector('#txt_abreviacion_edit').value = resultado.data.abreviacion_sistema;
-                console.log(base_url+"/Assets/images/logos/"+resultado.data.logo_sistema)
                 document.querySelector("#profileDisplaySistemaEdit").src = base_url+"/Assets/images/logos/"+resultado.data.logo_sistema;
                 document.querySelector('#listEstatusEdit').querySelector('option[value="' + resultado.data.estatus + '"]').selected = true;
                 document.querySelector('#name_file_edit').value = resultado.data.logo_sistema;
@@ -149,21 +149,51 @@ formEditSistema.addEventListener('submit',(e) =>{
     request.onreadystatechange = function() {
         if(request.readyState == 4 && request.status == 200) {
             var objData = JSON.parse(request.responseText);
-            console.log(objData)
-            /* if(objData.estatus){
-                $('#modal_nuevo_sistema').modal("hide");
-                formNuevoSistema.reset();
+            if(objData.estatus){
+                $('#modal_edit_sistema').modal("hide");
+                formEditSistema.reset();
                 swal.fire("Sistemas", objData.msg, "success").then((result) =>{
                     $('.close').click();
                 });
                 tableSistemas.api().ajax.reload();  
             }else{
                 swal.fire("Error", objData.msg, "error");
-            } */
+            } 
         }else{
-            //  swal.fire("Error", "No se pudo actualizar los datos", "error");
+            swal.fire("Error", "No se pudo actualizar los datos", "error");
         }
         divLoading.style.display = "none";
         return false;
     } 
 });
+
+function fnDelSistema(idSistema)
+{
+    if(idSistema != null || idSistema != ''){
+        swal.fire({
+            icon: "question",
+            title: "Eliminar sistema educativo",
+            text: "¿Quiere eliminar el sistema educativo?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6', //add
+            cancelButtonColor: '#d33', //add
+            confirmButtonText: "¡Si, eliminar!",
+            cancelButtonText: "¡No, cancelar!"
+        }). then ((result) =>{
+            if(result.isConfirmed){
+                let url = `${base_url}/Sistemas/delSistema/${idSistema}`;
+                fetch(url)
+                .then((res) => res.json())
+                .then(resultado =>{
+                    if(resultado.estatus){
+                        swal.fire("Sistemas educativos", resultado.msg, "success");
+                        tableSistemas.api().ajax.reload();  
+                    }else{
+                        swal.fire("Error", resultado.msg, "error");
+                    }   
+                }).catch(err =>{throw err}); 
+            }
+        })
+    }
+}

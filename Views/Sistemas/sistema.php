@@ -35,6 +35,7 @@
                                                 <th width="7%">#</th>
                                                 <th>Nombre</th>
                                                 <th>Abreviacion</th>
+                                                <th>Estatus</th>
                                                 <th width="10%">Acciones</th>
                                             </tr>
                                         </thead>

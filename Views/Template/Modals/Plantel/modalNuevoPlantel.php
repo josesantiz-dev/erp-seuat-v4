@@ -13,10 +13,10 @@
                     <nav>
                         <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-link tab-nav" id="step1-tab" data-toggle="tab" href="" onclick="fnNavTab(0)">Plantel</a>
-                            <a class="nav-link tab-nav" id="step2-tab" data-toggle="tab" href="" onclick="fnNavTab(1)">Sistema</a>
-                            <a class="nav-link tab-nav" id="step3-tab" data-toggle="tab" href="" onclick="fnNavTab(2)">Legal</a>
-                            <a class="nav-link tab-nav" id="step4-tab" data-toggle="tab" href="" onclick="fnNavTab(3)">Ubicación</a>
-                            <a class="nav-link tab-nav" id="step5-tab" data-toggle="tab" href="" onclick="fnNavTab(4)">Logos</a>
+<!--                             <a class="nav-link tab-nav" id="step2-tab" data-toggle="tab" href="" onclick="fnNavTab(1)">Sistema</a>
+ -->                            <a class="nav-link tab-nav" id="step3-tab" data-toggle="tab" href="" onclick="fnNavTab(1)">Legal</a>
+                            <a class="nav-link tab-nav" id="step4-tab" data-toggle="tab" href="" onclick="fnNavTab(2)">Ubicación</a>
+                            <a class="nav-link tab-nav" id="step5-tab" data-toggle="tab" href="" onclick="fnNavTab(3)">Logos</a>
                         </div>
                     </nav>
                     <form id="formNuevoPlantel" method = "POST" name="formNuevoPlantel" enctype="multipart/form-data">
@@ -24,6 +24,15 @@
                         <div class="card-body"> 
                                 <div class="tab">
                                     <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label>Sistema educativo</label>
+                                            <select class="form-control form-control-sm" id="select_sistema_educativo" name="select_sistema_educativo">
+                                                <option value="" selected>Seleccionar ...</option>
+                                                <?php foreach ($data['sistemas_educativos'] as $key => $value) { ?>
+                                                    <option value="<?php echo $value['id'] ?>"><?php echo($value['nombre_sistema']) ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                         <div class="form-group col-md-12">
                                             <label>Nombre del plantel</label>
                                             <input type="text" id="txtNombrePlantelNuevo" name="txtNombrePlantelNuevo" class="form-control form-control-sm" placeholder="EJ: Instituto de Estudios Superiores Azteca" maxlength="100">
@@ -34,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab">
+                                <!-- <div class="tab">
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label>Nombre del sistema</label>
@@ -45,7 +54,7 @@
                                             <input type="text" id="txtAbreviacionSistemaNuevo" name="txtAbreviacionSistemaNuevo" class="form-control form-control-sm" placeholder="EJ: UPAO" maxlength="10">
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="tab">
                                     <div class="row">
                                         <div class="form-group col-md-4">
@@ -157,7 +166,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <!-- <div class="form-group col-md-6">
                                             <div class="card">
                                                 <div class="card-header row d-flex justify-content-between">
                                                     <div class="col-md-6">
@@ -175,7 +184,7 @@
                                                     accept=".png,.jpg,.jpeg,.svg">
                                                 </div>
                                             </div> 
-                                        </div>
+                                        </div> -->
                                     </div>               
                                 </div>    
                         </div>
@@ -191,8 +200,8 @@
                             <span class="step"></span>
                             <span class="step"></span>
                             <span class="step"></span>
-                            <span class="step"></span>
-                        </div>
+<!--                             <span class="step"></span>
+ -->                        </div>
                         <div class="col-5">
                             <div class="float-right">
                                 <div class="row">

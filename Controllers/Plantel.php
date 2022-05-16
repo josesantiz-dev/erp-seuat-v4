@@ -29,6 +29,7 @@
 			$data['page_functions_js'] = "functions_planteles.js";
 			$data['lista_categorias'] = $this->model->selectCategorias($this->nomConexion); //Traer lista de Categorias
 			$data['lista_estados'] = $this->model->selectEstados($this->nomConexion); //Traer lista de Estados
+			$data['sistemas_educativos'] = $this->model->selectSistemasEducativos($this->nomConexion);
 			$this->views->getView($this,"plantel",$data);
 		}
 
@@ -59,6 +60,9 @@
 		//Funcion para obtener Datos de un Plantel
 		public function getPlantel(int $idPlantel){
 			$arrData = $this->model->selectPlantel($idPlantel, $this->nomConexion);
+			$arrDataSistemaEducativo = $this->model->selectSistemaEducativo($arrData['id_sistema'],$this->nomConexion);
+			$arrData['nombre_sistema_educativo'] = $arrDataSistemaEducativo['nombre_sistema'];
+			$arrData['abreviacion_sistema_educativo'] = $arrDataSistemaEducativo['abreviacion_sistema'];
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die();
 		}
@@ -125,11 +129,11 @@
 							$existColumn = $this->model->selectColumn($nombreTabla, $this->nomConexion);
 							if($existColumn){
 								$requestEstatusRegistro = $this->model->estatusRegistroTabla($nombreTabla,$intIdPlantel, $this->nomConexion);
-								if($requestEstatusRegistro){
+								 if($requestEstatusRegistro){
 									$requestStatus += count($requestEstatusRegistro);
 								}else{
 									$requestStatus += 0;
-								}
+								} 
 							}
 						}
 						if($requestStatus == 0){
@@ -143,7 +147,7 @@
 							} 
 						}else{
 							$arrResponse = array('estatus' => false, 'msg' => 'No es posible eliminar porque hay plan de estudios activos relacionados a este plantel.');
-						}
+						} 
 					}else{
 						$requestDelete = $this->model->deletePlantel($intIdPlantel, $this->nomConexion);
 						if($requestDelete == 'ok'){

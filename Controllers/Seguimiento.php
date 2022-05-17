@@ -2,34 +2,32 @@
 class Seguimiento extends Controllers{
     private $idUser;
 	private $nomConexion;
+    private $idUserNvo;
+    private $nomConexNvo;
 	private $rol;
-    private $conexionesUsuarios = [];
+    private $arrUsuarios = [];
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-        // if($this->conexionesUsuarios <= 0){
-        //     header('Location: '.base_url().'/login');
-		// 	die();
-        // }
-        // else{
-        //     array_push($conexionesUsuarios, $requestUsers['id']);
-        // }
-        // else{
+        if($_SESSION['login'] <= 0)
+        {
+            header('Location: '.base_url().'/login');
+            die();
+        }
+        else
+        {
+            //Recupero las variables de sesión y las almaceno en variables privadas para manipulación
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexNvo = $_SESSION['nomConexion'];
 
-        //     $dataUser = array(
-        //         'id' => $this->conexiones['id'],
-        //         'estatus' => $this->conexiones['estatus']
-        //     );
-        // }
-        /*if(empty($_SESSION['login']))
-		{
-		
-		}*/
-		//$this->idUser = $_SESSION['idUser'];
-		$this->nomConexion = $_SESSION['nomConexion'];
-		//$this->rol = $_SESSION['claveRol'];
+            //Almacenar las dos variables en un array
+            $arrSesion = array('id' => $this->idUser, 'db' => $this->nomConexNvo);
 
+            //Agregar este array en otro array
+            array_push($this->arrUsuarios,$arrSesion);
+        }
+        
 	}
 
     public function addSesiones()
@@ -49,46 +47,17 @@ class Seguimiento extends Controllers{
         if(empty($arrData)){
             $arrResponse = array('estatus' => true, 'msg' => 'No existe el usuario o la contraseña es incorrecta');
         }
-        // if(empty($arrData)){
-        //     $arrResponse = array('estatus' => true, 'msg' => 'El usuario o la contraseña es incorrecta');
-        // }
-        // else
-        // {
-        //     if($arrData['estatus'] == 1)
-        //     {
-        //         foreach ($arrData['id'] as $key => $arrayConexiones) {
-        //             array_push($conexionesUsuarios,$arrayConexiones, $plantel);
-        //             $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado correctamente la sesión');
-        //         }
-        //     }
-        //     // if($arrData['estatus'] == 1)
-        //     // {
-        //     //     array_push($conexionesUsuarios,$arrData['id']);
-        //     //     $arrResponse = array('estatus' => true, 'msg' => 'OK');
-        //     // }
-        //     // else
-        //     // {
-        //     //     $arrResponse = array('msg' => 'El usuario está inactivo');
-        //     // }
-        // }
-
-        // if(empty($requestUsers)){
-        //     $arrResponse = array('estatus' => true, 'msg' => 'El usuario o contraseña es incorrectono existe');
-        // }
-        // else
-        // {
-        //     $this->requestUser = $requestUsers;
-        //     if($requestUsers['estatus'] == 1)
-        //     {
-        //         array_push($conexionesUsuarios,$requestUsers['id']);
-        //         $arrResponse = array('estatus' => true, 'msg' => 'OK');
-        //     }
-        //     else
-        //     {
-        //         $arrResponse = array('msg' => 'El usuario está inactivo');
-        //     }
-        // }
-        echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+        else{
+            if($arrData['estatus'] == 1)
+            {
+                $this->idUserNvo = $_SESSION['idUser'];
+                $this->nomConexNvo = $_SESSION['nomConexion'];
+                $arrSesionNuevo = array('id' => $this->idUserNvo, 'db' => $this->nomConexNvo);
+                array_push($this->arrUsuarios, $arrSesionNuevo);
+                $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado sesión correctamente');
+            }
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
         die();
     }
 

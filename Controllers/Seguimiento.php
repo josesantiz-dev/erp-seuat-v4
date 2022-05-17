@@ -62,7 +62,6 @@ class Seguimiento extends Controllers{
                 $arrNvoSesion = array('id' => $this->idUserNvo,'db' => $this->nomConexNvo);
                 array_push($this->arrSesiones, $arrNvoSesion);
                 $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado sesión correctamente');
-                var_dump($this->arrSesiones);
             }
         }
         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

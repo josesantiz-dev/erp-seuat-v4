@@ -59,25 +59,16 @@ formLoginNvo.addEventListener('submit', (e) =>{
 	.then(response => response.json())
 	.then(data => {
 		console.log(data)
+		if (data.estatus) {
+			$("#salirModalLoginNvo").click();
+			formLoginNvo.reset();
+			swal.fire("Atención", data.msg, "success");
+	    } else {
+			swal.fire("Error", err, "error");
+	    }
 	})
-	/* const datos = new FormData(document.querySelector('#formNuevaSesion'))
-	// fetch(url,{
-	// 	method: 'POST',
-	// 	body: datos
-	// })
-	// .then(response => response.json())
-	// .then(data => {
-	// 	console.log(data);
-	// 	/*if(data.estatus)
-	// 	{
-	// 		$('#salirModalLoginNvo').click();
-	// 		formLoginNvo.reset();
-	// 		swal.fire('Atención',data.msg,'success');
-	// 	}
-	// 	else
-	// 	{
-	// 		swal.fire('Error',err,'error')
-	// 	}*/
+	
+	
 })
 
 

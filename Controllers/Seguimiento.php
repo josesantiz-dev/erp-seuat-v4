@@ -5,7 +5,7 @@ class Seguimiento extends Controllers{
     private $idUserNvo;
     private $nomConexNvo;
 	private $rol;
-    private $arrUsuarios = [];
+    private $arrSesiones = array();
 	public function __construct()
 	{
 		parent::__construct();
@@ -17,17 +17,16 @@ class Seguimiento extends Controllers{
         }
         else
         {
-            //Recupero las variables de sesión y las almaceno en variables privadas para manipulación
+            //Recupero las variables de sesión inicial y las almaceno en variables privadas para manipulación
             $this->idUser = $_SESSION['idUser'];
-            $this->nomConexNvo = $_SESSION['nomConexion'];
+            $this->nomConexion = $_SESSION['nomConexion'];
 
             //Almacenar las dos variables en un array
-            $arrSesion = array('id' => $this->idUser, 'db' => $this->nomConexNvo);
+            $arrSesion = array('id' => $this->idUser, 'bd' => $this->nomConexion);
 
             //Agregar este array en otro array
-            array_push($this->arrUsuarios,$arrSesion);
+            array_push($this->arrSesiones,$arrSesion);
         }
-        
 	}
 
     public function addSesiones()
@@ -50,11 +49,20 @@ class Seguimiento extends Controllers{
         else{
             if($arrData['estatus'] == 1)
             {
-                $this->idUserNvo = $_SESSION['idUser'];
-                $this->nomConexNvo = $_SESSION['nomConexion'];
-                $arrSesionNuevo = array('id' => $this->idUserNvo, 'db' => $this->nomConexNvo);
-                array_push($this->arrUsuarios, $arrSesionNuevo);
+                
+                //establezco las variables de sesión del formulario de login
+                $_SESSION['userNvo'] = $arrData['id'];
+                $_SESSION['conxNvo'] = $plantel;
+                
+                //Establezco en las variables privadas las variables de sesión
+                $this->idUserNvo = $_SESSION['userNvo'];
+                $this->nomConexNvo = $_SESSION['conxNvo'];
+
+                //Agrego las variables privadas en un array
+                $arrNvoSesion = array('id' => $this->idUserNvo,'db' => $this->nomConexNvo);
+                array_push($this->arrSesiones, $arrNvoSesion);
                 $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado sesión correctamente');
+                var_dump($this->arrSesiones);
             }
         }
         echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

@@ -49,23 +49,35 @@ togglePassword.addEventListener('click',function(e){
 
 formLoginNvo.addEventListener('submit', (e) =>{
 	e.preventDefault();
-
-	let url = `${base_url}/Seguimiento/addSesiones`
-	const datos = new FormData(document.querySelector('#formNuevaSesion'))
+	//console.log('diste clic al boton de iniciar sesión')
+	let url = `${base_url}/Seguimiento/addSesiones`;
+	const datos = new FormData(document.querySelector('#formNuevaSesion'));
 	fetch(url,{
 		method: 'POST',
 		body: datos
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data);
-		if(data.estatus)
-		{
-			$('#salirModalLoginNvo').click();
-			formLoginNvo.reset();
-			swal.fire('Atención',data.msg,'success');
-		}
+		console.log(data)
 	})
+	/* const datos = new FormData(document.querySelector('#formNuevaSesion'))
+	// fetch(url,{
+	// 	method: 'POST',
+	// 	body: datos
+	// })
+	// .then(response => response.json())
+	// .then(data => {
+	// 	console.log(data);
+	// 	/*if(data.estatus)
+	// 	{
+	// 		$('#salirModalLoginNvo').click();
+	// 		formLoginNvo.reset();
+	// 		swal.fire('Atención',data.msg,'success');
+	// 	}
+	// 	else
+	// 	{
+	// 		swal.fire('Error',err,'error')
+	// 	}*/
 })
 
 

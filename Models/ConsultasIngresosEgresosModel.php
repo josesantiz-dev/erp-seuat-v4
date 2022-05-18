@@ -57,13 +57,14 @@
 			return $request;
 		}
 		public function selectDatosAlumnoById(int $idAlumno, string $nomConexion){
-			$sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,h.matricula_interna,pl.nombre_sistema,
+			$sql = "SELECT p.id,p.nombre_persona,p.ap_paterno,p.ap_materno,h.matricula_interna,sis.nombre_sistema ,
 			pl.nombre_plantel,pe.nombre_carrera,pl.categoria,pl.cve_centro_trabajo,pl.domicilio,pl.cod_postal,pl.colonia,
 			pl.localidad,pl.municipio,pl.estado,pr.nombre_periodo,p.tel_celular,p.email,sa.nombre_salon FROM t_inscripciones AS i
 			INNER JOIN t_historiales AS h ON i.id_historial = h.id
 			INNER JOIN t_personas AS p ON i.id_personas = p.id
 			INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
 			INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
+			LEFT JOIN t_sistemas_educativos AS sis ON pl.id_sistema = sis.id 
 			LEFT JOIN t_salones_compuesto AS sc ON i.id_salon_compuesto = sc.id
 			LEFT JOIN t_salones AS sa ON sc.id_salon = sa.id
 			LEFT JOIN t_periodos AS pr ON sc.id_periodo = pr.id

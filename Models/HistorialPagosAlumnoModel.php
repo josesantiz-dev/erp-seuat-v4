@@ -8,10 +8,11 @@
 		//Funcion para consultar lista de Estudiantes
         public function selectEstudiantes(string $nomConexion){
             $sql = "SELECT p.id,p.nombre_persona,CONCAT(p.ap_paterno,' ',p.ap_materno) AS apellidos,pe.nombre_carrera,
-			CONCAT(pl.abreviacion_sistema,' (',pl.abreviacion_plantel,'/',pl.municipio,')') AS nombre_plantel,
+			CONCAT(sis.abreviacion_sistema,' (',pl.abreviacion_plantel,'/',pl.municipio,')') AS nombre_plantel,
 			CONCAT(i.grado,' (',sa.nombre_salon,')') AS grado_grupo FROM t_inscripciones AS i
 			INNER JOIN t_plan_estudios AS pe ON i.id_plan_estudios = pe.id
 			INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
+			LEFT JOIN t_sistemas_educativos AS sis ON pl.id_sistema = sis.id 
 			LEFT JOIN t_salones_compuesto AS sc ON i.id_salon_compuesto = sc.id
 			LEFT JOIN t_salones AS sa ON sc.id_salon = sa.id
 			INNER JOIN t_personas AS p ON i.id_personas = p.id";

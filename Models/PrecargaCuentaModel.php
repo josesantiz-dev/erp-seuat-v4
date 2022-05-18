@@ -26,7 +26,7 @@ class PrecargaCuentaModel extends Mysql
     }
     public function selectPlanEstudiosByNivel(int $idNivel, string $nomConexion){
         $this->strNomConexion = $nomConexion;
-        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id,pe.id_nivel_educativo,ne.nombre_nivel_educativo  AS id_plantel FROM t_plan_estudios AS pe 
+        $sql = "SELECT pe.id,pl.nombre_plantel,pe.nombre_carrera,pl.id  AS id_plantel,pe.id_nivel_educativo,ne.nombre_nivel_educativo FROM t_plan_estudios AS pe 
         INNER JOIN t_planteles AS pl ON pe.id_plantel = pl.id
         INNER JOIN t_nivel_educativos AS ne ON pe.id_nivel_educativo = ne.id
         WHERE  pe.estatus = 1 AND pe.id_nivel_educativo = $idNivel";
@@ -86,12 +86,42 @@ class PrecargaCuentaModel extends Mysql
         $request = $this->select_all($sql,$this->strNomConexion);
         return $request;
     }
+    //original
+    // public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
+    //     $this->strNomConexion = $nomConexion;
+    //     $this->intCobroTotsal = $precioNuevo;
+    //     // $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+    //     // $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+    //     $sql = "SELECT * FROM t_precarga WHERE cobro_total = '$this->intCobroTotsal' AND fecha_limite_cobro = '$fechaLimitePago' AND id_plan_estudios = '$idPlanEstudios' AND id_periodo = '$idPeriodo' AND id_grado = '$idGrado'";
+    //         $request = $this->select_all($sql,$this->strNomConexion);
+    //     if(empty($request)){
+    //         $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+    //         $request = $this->insert($sql,$this->strNomConexion,array($this->intCobroTotsal,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+    
+    //         $return = $request;
+    //     }else{
+    //         $return = "exist";
+    //     }
+    //     return $return;
+    // }
+
     public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
         $this->strNomConexion = $nomConexion;
         $this->intCobroTotsal = $precioNuevo;
         // $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
         // $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
-        $sql = "SELECT * FROM t_precarga WHERE cobro_total = '$this->intCobroTotsal' ";
+        $sql = "SELECT tPre.id, tPre.cobro_total, tPre.fecha_limite_cobro, tPlant.nombre_plantel, tNi.nombre_nivel_educativo, 
+                        tPla.nombre_carrera, tpe.nombre_periodo, tGra.nombre_grado, tSe.nombre_servicio
+                FROM t_precarga AS tPre
+                INNER JOIN t_servicios AS tSe ON tPre.id_servicio = tSe.id
+                INNER  JOIN t_plan_estudios AS tPla ON tPre.id_plan_estudios = tPla.id 
+                INNER JOIN t_periodos AS tpe ON tPre.id_periodo = tpe.id
+                INNER JOIN t_grados AS tGra ON tPre.id_grado = tGra.id 
+                INNER JOIN t_planteles AS tPlant ON tPla.id_plantel = tPlant.id
+                INNER JOIN t_nivel_educativos AS tNi ON tPla.id_nivel_educativo = tNi.id
+                WHERE tPre.cobro_total = '$this->intCobroTotsal' AND tPre.fecha_limite_cobro = '$fechaLimitePago' AND tPla.id_plantel = '$idPlantel' AND tPla.id_nivel_educativo = '$idNivel'
+                AND tPre.id_plan_estudios = '$idPlanEstudios' AND tPre.id_periodo = '$idPeriodo' 
+                AND tPre.id_grado = '$idGrado'";
             $request = $this->select_all($sql,$this->strNomConexion);
         if(empty($request)){
             $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
@@ -103,6 +133,59 @@ class PrecargaCuentaModel extends Mysql
         }
         return $return;
     }
+
+    //copia
+    // public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
+    //     //idplantel y idnivel estaba oculto
+    //     $return = "";
+    //     $this->intIdPlantel = $idPlantel;
+    //     $this->intIdPlanEstudios = $idPlanEstudios;
+    //     $this->intIdNivel = $idNivel;
+    //     $this->intIdPeriodo = $idPeriodo;
+    //     $this->intIdGrado = $idGrado;
+    //     $this->intIdServicio = $idServicio;
+    //     $this->intCobroTotsal = $precioNuevo;
+    //     $this->intFechaLimitePago = $fechaLimitePago;
+    //     $this->strNomConexion = $nomConexion;
+        
+    //     // $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+    //     // $request = $this->insert($sql,$this->strNomConexion,array($precioNuevo,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+    //     $sql = "SELECT * FROM t_precarga WHERE cobro_total = '$this->intCobroTotsal' ";
+    //         $request = $this->select_all($sql,$this->strNomConexion);
+    //     if(empty($request)){
+    //         $sql = "INSERT INTO t_precarga(cobro_total,fecha_limite_cobro,estatus,id_usuario_creacion,fecha_creacion,id_servicio,id_plan_estudios,id_periodo,id_grado) VALUES(?,?,?,?,NOW(),?,?,?,?)";
+    //         $arrData = array($this->intIdPlantel, $this->intIdPlanEstudios, $this->intIdNivel, $this->intIdPeriodo, $this->intIdGrado, $this->intIdServicio, $this->intCobroTotsal, $this->intFechaLimitePago);
+    //         $request_insert = $this->insert($sql,$this->strNomConexion,$arrData);
+    //         // $request = $this->insert($sql,$this->strNomConexion,array($this->intCobroTotsal,$fechaLimitePago,1,$idUser,$idServicio,$idPlanEstudios,$idPeriodo,$idGrado));
+    
+    //         $return = $request_insert;
+    //     }else{
+    //         $return = "exist";
+    //     }
+    //     return $return;
+    // }
+
+    // public function insertSalonCompuesto(string $Nombre_SalonCompuesto, string $Fecha_Creacion, string $Fecha_Actualizacion, 
+    //                                         int $Id_usuario_creacion, int $Id_Usuario_Actualizacion, int $Id_Periodos, int $Id_Grados, 
+    //                                         int $Id_Grupos, int $Id_Planteles, int $Id_Turnos, int $Id_Salones, int $Estatus, string $nomConexion){
+
+    //         $return = "";
+    //         $this->strNombre_SalonCompuesto = $Nombre_SalonCompuesto;
+    //         $this->strNomConexion = $nomConexion;
+
+    //         $sql = "SELECT * FROM t_salones_compuesto WHERE nombre_salon_compuesto = '$this->strNombre_SalonCompuesto' ";
+    //         $request = $this->select_all($sql,$this->strNomConexion);
+
+    //         if(empty($request)){
+    //             $query_insert = "INSERT INTO t_salones_compuesto(nombre_salon_compuesto, fecha_creacion, fecha_actualizacion, id_usuario_creacion, id_usuario_actualizacion, id_periodo, id_grado, id_grupo, id_plantel, id_turnos, id_salon, estatus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    //             $arrData = array($this->strNombre_SalonCompuesto, $this->strFecha_Creacion, $this->strFecha_Actualizacion, $this->intId_usuario_creacion, $this->intId_Usuario_Actualizacion, $this->intId_Periodos, $this->intId_Grados, $this->intId_Grupos, $this->intId_Planteles, $this->intId_Turnos, $this->intId_Salones, $this->intEstatus);
+    //             $request_insert = $this->insert($query_insert,$this->strNomConexion,$arrData);
+    //             $return = $request_insert;
+    //         }else{
+    //             $return = "exist";
+    //         }
+    //         return $return;
+    //     }
 
     // public function insertPrecargaCuenta(int $idPlantel,int $idPlanEstudios,int $idNivel,int $idPeriodo,int $idGrado,int $idServicio,$precioNuevo,$fechaLimitePago,$idUser, string $nomConexion){
     //     $this->strNomConexion = $nomConexion;

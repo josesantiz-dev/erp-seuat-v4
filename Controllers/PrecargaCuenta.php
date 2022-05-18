@@ -35,7 +35,8 @@
         public function getPlanEstudios($arrgs){
 			$args = explode(",",$arrgs);
 			$idPlantel = $args[0];
-			$idNivel = $args[1];
+			// $idNivel = $args[1];
+            $idNivel = intval($args[1]);
             if($idPlantel == 'Todos'){
 				if($idNivel == 'null'){
 					$arrData = $this->model->selectPlanEstudios($this->nomConexion);

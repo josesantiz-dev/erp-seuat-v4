@@ -60,13 +60,18 @@ function fnPlantelSeleccionadoDatatable(value,nivel){
     fnListNiveles(idPlantel,nivel);
 }
 function fnSeleccionarPlanEstudios(plantel,planestudios){
-    idPlanEstudios = planestudios;
-    idPlantel = plantel;
-    $('html,body').animate({scrollTop: $(".div_precarga").offset().top},'slow');
+    if(idPlantel == 'Todos' || idPlantel == "" || idPlantel == undefined){
+        swal.fire("Atención", "Selecciona un plantel", "warning");
+        return false;
+    }
     if(nivel == 'Todos' || nivel == "" || nivel == undefined){
         swal.fire("Atención", "Selecciona un nivel", "warning");
         return false;
     }
+    idPlanEstudios = planestudios;
+    idPlantel = plantel;
+    $('html,body').animate({scrollTop: $(".div_precarga").offset().top},'slow');
+    
     if(idPlantel > 0){
         document.querySelector('.div_datos_precarga').style.display = "flex";
         //console.log(arrDatosNew);
@@ -142,8 +147,6 @@ formEditServicio.onsubmit = function(e){
 
 //ELIMINAR SERVICIOS AGREGADOS
 function fnDelServicio(value, id) {
-    document.querySelector('#tableServicioss').innerHTML = "";
-    let nuevoArr = [];
     Swal.fire({
         title: 'Eliminar?',
         text: "seguro que desea eliminar el servicio?",
@@ -155,6 +158,8 @@ function fnDelServicio(value, id) {
         cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
+            document.querySelector('#tableServicioss').innerHTML = "";
+            let nuevoArr = [];
             arrDatosNew.forEach(element => {
                 let arrValue;
                 if (element.id_servicio != id) {
@@ -204,6 +209,7 @@ function fnVerServicio(value,id_servicio){
     });
 }
 
+//ORIGINAL
 function fnGuardarPrecarga(){
     let grado = document.querySelector('#selectGrado').value;
     let periodo = document.querySelector('#selectPeriodo').value;
@@ -217,10 +223,6 @@ function fnGuardarPrecarga(){
         swal.fire("Atención", "Selecciona un nivel", "warning");
         return false;
     }
-    if(arrDatosNew.length == 0){
-        swal.fire("Atención", "No ha seleccionado servicios, selecciona una carrera para ver los servicios", "warning");
-        return false; 
-    }
     if(periodo == 0){
         swal.fire("Atención", "Selecciona un periodo", "warning");
         return false;
@@ -229,6 +231,11 @@ function fnGuardarPrecarga(){
         swal.fire("Atención", "Selecciona un grado", "warning");
         return false;
     }
+    if(arrDatosNew.length == 0){
+        swal.fire("Atención", "No ha seleccionado servicios, selecciona una carrera para ver los servicios", "warning");
+        return false; 
+    }
+    
     let estatus = false;
     let num = 0;
     let newArrDatos = [];
@@ -249,15 +256,16 @@ function fnGuardarPrecarga(){
                     if(resultado.estatus == true){
                         swal.fire("Atención", "Datos guardados correctamente", "success");
                     }else if (resultado.estatus == false){
-                        swal.fire("Atención", resultado.msg, "warning")
+                        swal.fire("Atención", resultado.msg, "warning");
                         return false;
                     }else{
                         swal.fire("Atención", resultado.msg, "warning")
                         return false;
                     }
                     fnMostrarData();
+                    
                     // location.reload(true);
-                    setTimeout(function () { location.reload(1); }, 1600);
+                    setTimeout(function () { location.reload(1); }, 2000);
                 }).catch(err => {throw err});
             }else{
                 swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
@@ -268,12 +276,81 @@ function fnGuardarPrecarga(){
 
 }
 
+
+//COPIA
+// function fnGuardarPrecarga(){
+//     let grado = document.querySelector('#selectGrado').value;
+//     let periodo = document.querySelector('#selectPeriodo').value;
+//     let datos = convStrToBase64(JSON.stringify(arrDatosNew));
+//     let data = {'id_plantel':idPlantel,'datos':datos};
+//     if(idPlantel == 'Todos' || idPlantel == "" || idPlantel == undefined){
+//         swal.fire("Atención", "Selecciona un plantel", "warning");
+//         return false;
+//     }
+//     if(nivel == 'Todos' || nivel == "" || nivel == undefined){
+//         swal.fire("Atención", "Selecciona un nivel", "warning");
+//         return false;
+//     }
+//     if(periodo == 0){
+//         swal.fire("Atención", "Selecciona un periodo", "warning");
+//         return false;
+//     }
+//     if(grado == 0){
+//         swal.fire("Atención", "Selecciona un grado", "warning");
+//         return false;
+//     }
+//     if(arrDatosNew.length == 0){
+//         swal.fire("Atención", "No ha seleccionado servicios, selecciona una carrera para ver los servicios", "warning");
+//         return false; 
+//     }
+
+//     let estatus = false;
+//     let num = 0;
+//     let newArrDatos = [];
+//     arrDatosNew.forEach(element => {
+//         if(element.hasOwnProperty('nuevo_precio') || element.hasOwnProperty('fecha_limite_pago')){
+//             let arr = {'id_servicio':element.id_servicio,'nuevo_precio':element.nuevo_precio,'fecha_limite_pago':element.fecha_limite_pago};
+//             newArrDatos.push(arr);
+//             // console.log(arr);
+//             num += 1;
+//         }
+//     });
+
+//     if(arrDatosNew.length == num){
+//         arrDatosNew.forEach(element => {
+//             if(element.nuevo_precio != null && element.fecha_limite_pago){
+//                 let url = `${base_url}/PrecargaCuenta/setPrecarga/${idPlantel}/${idPlanEstudios}/${nivel}/${periodo}/${grado}/${element.id_servicio}/${element.nuevo_precio}/${element.fecha_limite_pago}`;
+//                 fetch(url).then((res) => res.json()).then(resultado =>{
+//                     if(resultado.estatus == true){
+//                         swal.fire("Atención", "Datos guardados correctamente", "success");
+//                     }else if (resultado.estatus == false){
+//                         swal.fire("Atención", resultado.msg, "warning")
+//                         return false;
+//                     }else{
+//                         swal.fire("Atención", resultado.msg, "warning")
+//                         return false;
+//                     }
+//                     fnMostrarData();
+//                     // location.reload(true);
+//                     setTimeout(function () { location.reload(1); }, 2000);
+//                 }).catch(err => {throw err});
+//             }else{
+//                 swal.fire("Atención", "Falta completar la edicion de servicios", "warning");
+//                 return false;
+//             }
+//         });
+//     }
+
+// }
+
+
 function mostrarServiciosTabla(){
-    let contador = 0;
     document.querySelector('#tableServicioss').innerHTML = "";
+    let contador = 0;
     arrDatosNew.forEach(element => {
         contador += 1;
         document.querySelector('#tableServicioss').innerHTML += '<tr><th><input type="checkbox" aria-label="Checkbox for following text input"></th><th scope="row">'+contador+'</th><td>'+element.codigo+'</td><td>'+element.nombre_servicio+'</td><td>'+formatoMoneda(element.precio_unitario)+'</td><td id="np-'+element.id_servicio+'">$0.00</td><td><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnEditServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_editar_servicio"><i class="fas fa-pencil-alt"></i></a><a type="button" n="'+element.nombre_servicio+'" p="'+element.precio_unitario+'" onclick="fnVerServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#modal_ver_servicio"><i class="far fa-eye ml-3"></i></a><a type="button" onclick="fnDelServicio(this,'+element.id_servicio+')" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt ml-3"></i></a></td></tr>';
+        console.log(element)
     });
     // console.log(arrDatosNew);
 }
@@ -326,7 +403,7 @@ function fnSeleccionarServicio(value,id,precio){
     let codigoServicio = value.getAttribute('c');
     let idServicio = id;
     let precioUnitario = precio;
-    // let periodo = document.querySelector('#selectPeriodo').value;
+    let periodo = document.querySelector('#selectPeriodo').value;
     document.querySelector('#txtNombre_servicio').value = nombreServicio;
     if(idServicio == idServicio){
         let arrValue = {'id_servicio':idServicio,'codigo':codigoServicio,'nombre_servicio':nombreServicio,'precio_unitario':precioUnitario,'nuevo_precio':null,'fecha_limite_pago':null};
@@ -335,10 +412,10 @@ function fnSeleccionarServicio(value,id,precio){
         //     swal.fire("Atención", "Selecciona un periodo", "warning");
         //     return false;
         // }
-        if(nivel == 'Todos' || nivel == "" || nivel == undefined){
-            swal.fire("Atención", "Selecciona un nivel", "warning");
-            return false;
-        }
+        // if(nivel == 'Todos' || nivel == "" || nivel == undefined){
+        //     swal.fire("Atención", "Selecciona un nivel", "warning");
+        //     return false;
+        // }
         arrDatosNew.forEach(element => {
             if(element.id_servicio == idServicio){
                 v = true;
@@ -354,6 +431,7 @@ function fnSeleccionarServicio(value,id,precio){
         // fnVerServicio(idServicio);
     }
 }
+
 //Function para dar formato un numero a Moneda
 function formatoMoneda(numero){
     let str = numero.toString().split(".");

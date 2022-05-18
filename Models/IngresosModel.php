@@ -126,10 +126,11 @@
         }
         //Obtener el siguiente Folio
         public function selectFolioSig(int $idAlumno, string $nomConexion){
-            $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,pl.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
+            $sqlPlantel = "SELECT pl.id AS id_plantel,pl.abreviacion_plantel,sis.abreviacion_sistema,pl.codigo_plantel  FROM t_personas AS p
             INNER JOIN t_inscripciones AS i ON i.id_personas = p.id
             INNER JOIN t_plan_estudios AS ple ON i.id_plan_estudios = ple.id
             INNER JOIN t_planteles AS pl ON ple.id_plantel = pl.id
+            LEFT JOIN t_sistemas_educativos AS sis ON pl.id_sistema = sis.id
             WHERE p.id = $idAlumno LIMIT 1";
             $requestPlantel = $this->select($sqlPlantel, $nomConexion);
             $codigoPlantel = $requestPlantel['codigo_plantel'];

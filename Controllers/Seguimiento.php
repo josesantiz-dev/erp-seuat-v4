@@ -2,20 +2,71 @@
 class Seguimiento extends Controllers{
     private $idUser;
 	private $nomConexion;
+    private $idUserNvo;
+    private $nomConexNvo;
 	private $rol;
+    private $arrSesiones = array();
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
-        if(empty($_SESSION['login']))
-            {
-                header('Location: '.base_url().'/login');
-			die();
-		}
-		$this->idUser = $_SESSION['idUser'];
-		$this->nomConexion = $_SESSION['nomConexion'];
-		$this->rol = $_SESSION['claveRol'];
+        if($_SESSION['login'] <= 0)
+        {
+            header('Location: '.base_url().'/login');
+            die();
+        }
+        else
+        {
+            //Recupero las variables de sesión inicial y las almaceno en variables privadas para manipulación
+            $this->idUser = $_SESSION['idUser'];
+            $this->nomConexion = $_SESSION['nomConexion'];
+
+            //Almacenar las dos variables en un array
+            $arrSesion = array('id' => $this->idUser, 'bd' => $this->nomConexion);
+
+            //Agregar este array en otro array
+            array_push($this->arrSesiones,$arrSesion);
+        }
 	}
+
+    public function addSesiones()
+    {
+        
+        $usuario = $_POST['txtNicknameNvaSesion'];
+        $contrasena = $_POST['txtPasswordNvaSesion'];
+        $plantel = $_POST['selectPlantelNvo'];
+        if(empty($usuario) || empty($contrasena) || empty($plantel)){
+            $arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
+        }
+        else{
+            $usuario = strtolower(strClean($_POST['txtNicknameNvaSesion']));
+            $contrasena = hash("SHA256", $_POST['txtPasswordNvaSesion']);
+        }
+        $arrData = $this->model->loginSesion($usuario, $contrasena, $plantel);
+        if(empty($arrData)){
+            $arrResponse = array('estatus' => true, 'msg' => 'No existe el usuario o la contraseña es incorrecta');
+        }
+        else{
+            if($arrData['estatus'] == 1)
+            {
+                
+                //establezco las variables de sesión del formulario de login
+                $_SESSION['userNvo'] = $arrData['id'];
+                $_SESSION['conxNvo'] = $plantel;
+                
+                //Establezco en las variables privadas las variables de sesión
+                $this->idUserNvo = $_SESSION['userNvo'];
+                $this->nomConexNvo = $_SESSION['conxNvo'];
+
+                //Agrego las variables privadas en un array
+                $arrNvoSesion = array('id' => $this->idUserNvo,'db' => $this->nomConexNvo);
+                array_push($this->arrSesiones, $arrNvoSesion);
+                $arrResponse = array('estatus' => true, 'msg' => 'Ha iniciado sesión correctamente');
+            }
+        }
+        echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        die();
+    }
 
     public function seguimiento_prospectos()
     {

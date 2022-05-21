@@ -5,6 +5,7 @@
     getModal("Seguimiento/modalEditarDatos",$data);
     getModal("Seguimiento/modalSeguimiento",$data);
     getModal("Seguimiento/modalSeguimientoIndividual",$data);
+    getModal("Seguimiento/modalLoginConexion",$data);
 ?>
 
 <div class="wrapper">
